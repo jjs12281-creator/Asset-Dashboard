@@ -35,6 +35,8 @@ a{color:var(--ac)}
   <h2>자산 목록</h2>
   <div class="mu" id="pinfo">시세 불러오는 중...</div>
   <div id="list"></div>
+  <div class="mu" style="margin-top:10px">자주 쓰는 종목 (누르면 자동 입력)</div>
+  <div id="chips" class="row" style="margin-top:6px"></div>
   <div class="add">
     <select id="cat"><option value="stock">주식·ETF</option><option value="cash">예금·현금</option><option value="re">부동산</option><option value="etc">기타자산</option><option value="debt">부채</option></select>
     <input id="tk" list="syms" placeholder="종목 선택(주식)">
@@ -63,12 +65,16 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
 const info=i=>{const q=P.items[i.tk];return q?{p:q.price,prev:q.prev,cur:q.cur,f:q.cur==="USD"?P.fx:1,auto:1}:{p:i.val||0,cur:"KRW",f:1}};
 const val=i=>{if(i.cat!=="stock")return i.val||0;const x=info(i);return (i.qty||0)*x.p*x.f};
 $("today").textContent=new Date().toLocaleDateString("ko-KR",{year:"numeric",month:"long",day:"numeric",weekday:"short"});
+const resolve=t=>{if(!t)return"";if(P.items[t])return t;const u=t.toUpperCase();if(P.items[u])return u;
+  const e=Object.entries(P.items),f=e.find(([k,v])=>v.name===t)||e.find(([k,v])=>v.name.replace(/\s/g,"").includes(t.replace(/\s/g,"")));return f?f[0]:""};
+const pick=k=>{$("cat").value="stock";$("tk").value=P.items[k]?P.items[k].name:k;$("qty").focus();$("qty").scrollIntoView({block:"center",behavior:"smooth"})};
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
 
 async function init(){
   try{const l=localStorage.getItem(KEY);if(l)S=Object.assign({items:[],hist:{}},JSON.parse(l))}catch(e){}
   try{P=await (await fetch("prices.json?"+Date.now())).json()}catch(e){}
-  $("syms").innerHTML=Object.entries(P.items).map(([k,v])=>`<option value="${k}">${esc(v.name)}</option>`).join("");
+  $("syms").innerHTML=Object.entries(P.items).map(([k,v])=>`<option value="${esc(v.name)}">${k}</option>`).join("");
+  $("chips").innerHTML=Object.entries(P.items).map(([k,v])=>`<button class="s" data-k="${k}">${esc(v.name)}</button>`).join("")||'<span class="mu">symbols.txt에 종목을 추가하면 여기에 나타나요.</span>';
   $("pinfo").textContent=P.updated?`시세 기준일 ${P.updated} · 환율 ${P.fx}원/$ (매일 자동 갱신)`:"시세 파일(prices.json)이 아직 없어요. Actions 탭에서 먼저 한 번 실행하세요.";
   const n=totals().net;if(S.items.length&&P.updated){S.hist[P.updated]=n;save()}
   render();
@@ -90,7 +96,7 @@ function render(){
         extra=`<div class="${g>=0?"up":"dn"}" style="font-size:13px">${g>=0?"+":""}${fmt(g)} (${pc.toFixed(1)}%)</div>`}}
     return `<div class="it"><div><b>${esc(i.name)}</b> <span class="mu">${CAT[i.cat][0]}${sub}</span></div>
     <div class="row"><div class="num">${fmt(val(i))}${extra}</div>
-    <button class="s" data-e="${i.id}">수정</button><button class="s" data-d="${i.id}">삭제</button></div></div>`}).join(""):'<div class="mu" style="padding:10px 0">아직 자산이 없어요. 아래에서 추가해 보세요.</div>';
+    ${i.cat==="stock"?`<button class="s" data-b="${i.id}">+매수</button>`:""}<button class="s" data-e="${i.id}">수정</button><button class="s" data-d="${i.id}">삭제</button></div></div>`}).join(""):'<div class="mu" style="padding:10px 0">아직 자산이 없어요. 아래에서 추가해 보세요.</div>';
   const ks=Object.keys(S.hist).sort().slice(-60),vs=ks.map(k=>S.hist[k]);
   if(vs.length>1){const mn=Math.min(...vs),mx=Math.max(...vs),r=mx-mn||1;
     $("spark").innerHTML=`<polyline fill="none" stroke="#2f6fed" stroke-width="2.5" points="${vs.map((v,i)=>`${i/(vs.length-1)*396+2},${54-(v-mn)/r*48}`).join(" ")}"/>`;
@@ -111,8 +117,8 @@ function news(){const st=S.items.filter(i=>i.cat==="stock");if(!st.length)return
   $("news").innerHTML=st.map(i=>{const q=encodeURIComponent(i.name+" 주가");
     return `<div class="it"><b>${esc(i.name)}</b><span class="row"><a target="_blank" rel="noopener" href="https://search.naver.com/search.naver?where=news&sort=1&query=${q}">네이버 뉴스</a><a target="_blank" rel="noopener" href="https://news.google.com/search?hl=ko&gl=KR&ceid=KR:ko&q=${encodeURIComponent(i.name)}">구글 뉴스</a></span></div>`}).join("")}
 $("addb").onclick=()=>{
-  const cat=$("cat").value,tk=$("tk").value.trim(),q=+$("qty").value||0,b=+$("buy").value||0,vv=$("val").value;
-  const known=cat==="stock"&&P.items[tk],name=$("nm").value.trim()||(known?P.items[tk].name:tk);
+  const cat=$("cat").value,raw=$("tk").value.trim(),tk=resolve(raw)||raw,q=+$("qty").value||0,b=+$("buy").value||0,vv=$("val").value;
+  const known=cat==="stock"&&P.items[tk],name=$("nm").value.trim()||(known?P.items[tk].name:raw);
   if(!name)return;
   if(cat!=="stock"&&vv==="")return;
   if(cat==="stock"&&!q)return;
@@ -130,7 +136,9 @@ $("addb").onclick=()=>{
   }else S.items.push({id:Date.now().toString(36),cat,name,tk,qty:q,buy:b,val:+vv||0});
   ["nm","tk","qty","buy","val"].forEach(x=>$(x).value="");save();render();
 };
-$("list").onclick=e=>{const d=e.target.dataset.d,ed=e.target.dataset.e;
+$("chips").onclick=e=>{if(e.target.dataset.k)pick(e.target.dataset.k)};
+$("list").onclick=e=>{const d=e.target.dataset.d,ed=e.target.dataset.e,bb=e.target.dataset.b;
+  if(bb){const i=S.items.find(x=>x.id===bb);pick(i.tk&&P.items[i.tk]?i.tk:i.name)}
   if(d){S.items=S.items.filter(i=>i.id!==d);save();render()}
   if(ed){const i=S.items.find(x=>x.id===ed);
     if(i.cat==="stock"){const q=prompt(`${i.name} 수량`,i.qty);if(q!==null&&q!==""&&!isNaN(+q))i.qty=+q;
