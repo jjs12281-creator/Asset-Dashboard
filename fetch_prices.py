@@ -1,13 +1,13 @@
-"""매일 시세를 받아 prices.json 으로 저장합니다. 종목 추가는 아래 SYMBOLS 에 한 줄만 추가하세요."""
+"""매일 시세를 받아 prices.json 으로 저장합니다. 종목은 symbols.txt 에서 관리합니다."""
 import json, os, datetime
 import yfinance as yf
 
-# 코드: 표시 이름   (코스피 .KS / 코스닥 .KQ / 미국은 티커 그대로)
-SYMBOLS = {
-    "000660.KS": "SK하이닉스",
-    "005930.KS": "삼성전자",
-    "NVDA": "엔비디아",
-}
+SYMBOLS = {}
+for line in open("symbols.txt", encoding="utf-8"):
+    line = line.strip()
+    if line and not line.startswith("#"):
+        code, _, name = line.partition(" ")
+        SYMBOLS[code.strip()] = name.strip() or code.strip()
 
 old = {}
 if os.path.exists("prices.json"):

@@ -45,6 +45,7 @@ a{color:var(--ac)}
     <input id="val" type="number" step="any" placeholder="금액(원) / 현재가 수동">
     <button class="p" id="addb">추가</button>
   </div>
+  <div id="helper" class="mu" style="display:none;margin-top:8px;padding:10px;border:1px dashed var(--ac);border-radius:8px"></div>
   <div class="mu" style="margin-top:6px">같은 종목을 다시 추가하면 수량이 합산되고 평균 매수가가 자동 재계산돼요. 해외주식 매수가는 달러로 입력하세요.</div>
 </div>
 
@@ -115,7 +116,13 @@ $("addb").onclick=()=>{
   if(!name)return;
   if(cat!=="stock"&&vv==="")return;
   if(cat==="stock"&&!q)return;
-  if(cat==="stock"&&!known&&vv===""){alert("자동 시세가 없는 종목이에요. 현재가를 직접 입력하거나, fetch_prices.py에 종목을 추가하세요.");return}
+  if(cat==="stock"&&!known&&vv===""){
+    const code=/^\d{6}$/.test(tk)?tk+".KS":tk.toUpperCase(),line=code+" "+($("nm").value.trim()||"종목이름"),m=location.hostname.match(/^(.+)\.github\.io$/),repo=location.pathname.split("/")[1];
+    const link=m&&repo?`https://github.com/${m[1]}/${repo}/edit/main/symbols.txt`:"";
+    $("helper").style.display="block";
+    $("helper").innerHTML=`아직 자동 시세가 없는 종목이에요. <b>symbols.txt</b>에 아래 한 줄을 추가하면 1~2분 뒤 자동 연결돼요.<br><code id="ln">${esc(line)}</code> <button class="s" onclick="navigator.clipboard.writeText($('ln').textContent);this.textContent='복사됨'">복사</button> ${link?`<a target="_blank" rel="noopener" href="${link}">symbols.txt 열기</a>`:""}<br><span class="mu">코스닥 종목은 .KQ로 바꾸세요. 그동안 쓰려면 맨 오른쪽 칸에 현재가를 직접 입력해도 돼요.</span>`;
+    return}
+  $("helper").style.display="none";
   const ex=cat==="stock"&&S.items.find(i=>i.cat==="stock"&&(i.name===name||(tk&&i.tk===tk)));
   if(ex){const nq=(ex.qty||0)+q;
     if(q>0&&b)ex.buy=((ex.qty||0)*(ex.buy||0)+q*b)/nq;
