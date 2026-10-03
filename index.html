@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="utf-8"><title>내 자산 대시보드</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--tx:#1b1f24;--mu:#6b7480;--bd:#e4e7ec;--ac:#2f6fed;--up:#e5484d;--dn:#2f6fed}
+@media(prefers-color-scheme:dark){:root{--bg:#111418;--card:#1b2026;--tx:#eef0f3;--mu:#9aa4b0;--bd:#2b323b}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.5 -apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif}
+main{max-width:860px;margin:0 auto;padding:16px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:16px;margin-bottom:14px}
+h1{font-size:20px;margin:4px 0 12px}h2{font-size:16px;margin:0 0 10px}
+.mu{color:var(--mu);font-size:13px}.big{font-size:32px;font-weight:700;letter-spacing:-.5px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.sp{justify-content:space-between}
+.bar{display:flex;height:12px;border-radius:6px;overflow:hidden;margin:12px 0 8px;background:var(--bd)}
+.lg{display:flex;gap:12px;flex-wrap:wrap;font-size:13px}.lg i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:4px}
+input,select,button{font:inherit;color:var(--tx);background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:7px 9px;min-width:0}
+button{cursor:pointer}button.p{background:var(--ac);color:#fff;border-color:var(--ac)}button.s{padding:3px 8px;font-size:12px}
+.add{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:6px;margin-top:10px}
+.it{display:flex;justify-content:space-between;gap:8px;padding:9px 0;border-top:1px solid var(--bd);align-items:center}
+.it:first-child{border-top:0}.num{text-align:right;font-variant-numeric:tabular-nums}
+.up{color:var(--up)}.dn{color:var(--dn)}.tip{padding:8px 0;border-top:1px solid var(--bd)}.tip:first-child{border-top:0}
+a{color:var(--ac)}
+</style></head><body><main>
+<div class="row sp"><h1>💰 내 자산 대시보드</h1><span class="mu" id="today"></span></div>
+
+<div class="card">
+  <div class="mu">순자산 (자산 − 부채)</div>
+  <div class="big" id="net">0원</div>
+  <div class="mu" id="sub"></div>
+  <div class="bar" id="bar"></div><div class="lg" id="lg"></div>
+  <svg id="spark" viewBox="0 0 400 60" width="100%" height="60" style="margin-top:10px"></svg>
+  <div class="mu" id="sparkcap"></div>
+</div>
+
+<div class="card">
+  <h2>자산 목록</h2>
+  <div class="mu" id="pinfo">시세 불러오는 중...</div>
+  <div id="list"></div>
+  <div class="add">
+    <select id="cat"><option value="stock">주식·ETF</option><option value="cash">예금·현금</option><option value="re">부동산</option><option value="etc">기타자산</option><option value="debt">부채</option></select>
+    <input id="tk" list="syms" placeholder="종목 선택(주식)">
+    <datalist id="syms"></datalist>
+    <input id="nm" placeholder="이름 (주식은 자동)">
+    <input id="qty" type="number" step="any" placeholder="수량 (매도는 -)">
+    <input id="buy" type="number" step="any" placeholder="매수가(종목 통화)">
+    <input id="val" type="number" step="any" placeholder="금액(원) / 현재가 수동">
+    <button class="p" id="addb">추가</button>
+  </div>
+  <div class="mu" style="margin-top:6px">같은 종목을 다시 추가하면 수량이 합산되고 평균 매수가가 자동 재계산돼요. 해외주식 매수가는 달러로 입력하세요.</div>
+</div>
+
+<div class="card"><h2>💡 재무설계 팁</h2><div id="tips"></div></div>
+<div class="card"><h2>📰 보유 종목 뉴스</h2><div id="news"><span class="mu">주식을 추가하면 뉴스 링크가 나타나요.</span></div></div>
+<div class="mu" style="text-align:center">내 보유 정보는 이 기기의 브라우저에만 저장됩니다. 참고용이며 투자 권유가 아닙니다.</div>
+</main>
+<script>
+const CAT={cash:["예금·현금","#4cae7a"],stock:["주식·ETF","#2f6fed"],re:["부동산","#e0a030"],etc:["기타자산","#9b6be0"],debt:["부채","#e5484d"]};
+const $=id=>document.getElementById(id),KEY="asset-dash-gh-v1";
+let S={items:[],hist:{}},P={items:{},fx:1400,updated:""};
+const won=n=>Math.round(n).toLocaleString("ko-KR")+"원";
+const fmt=n=>{const a=Math.abs(n);return (n<0?"-":"")+(a>=1e8?(a/1e8).toFixed(2)+"억원":a>=1e4?Math.round(a/1e4).toLocaleString("ko-KR")+"만원":Math.round(a)+"원")};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const info=i=>{const q=P.items[i.tk];return q?{p:q.price,prev:q.prev,cur:q.cur,f:q.cur==="USD"?P.fx:1,auto:1}:{p:i.val||0,cur:"KRW",f:1}};
+const val=i=>{if(i.cat!=="stock")return i.val||0;const x=info(i);return (i.qty||0)*x.p*x.f};
+$("today").textContent=new Date().toLocaleDateString("ko-KR",{year:"numeric",month:"long",day:"numeric",weekday:"short"});
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+
+async function init(){
+  try{const l=localStorage.getItem(KEY);if(l)S=Object.assign({items:[],hist:{}},JSON.parse(l))}catch(e){}
+  try{P=await (await fetch("prices.json?"+Date.now())).json()}catch(e){}
+  $("syms").innerHTML=Object.entries(P.items).map(([k,v])=>`<option value="${k}">${esc(v.name)}</option>`).join("");
+  $("pinfo").textContent=P.updated?`시세 기준일 ${P.updated} · 환율 ${P.fx}원/$ (매일 자동 갱신)`:"시세 파일(prices.json)이 아직 없어요. Actions 탭에서 먼저 한 번 실행하세요.";
+  const n=totals().net;if(S.items.length&&P.updated){S.hist[P.updated]=n;save()}
+  render();
+}
+function totals(){const t={cash:0,stock:0,re:0,etc:0,debt:0};S.items.forEach(i=>t[i.cat]+=val(i));
+  const a=t.cash+t.stock+t.re+t.etc;return{t,a,net:a-t.debt}}
+function render(){
+  const{t,a,net}=totals();
+  $("net").textContent=won(net);$("sub").textContent=`총자산 ${fmt(a)} · 부채 ${fmt(t.debt)}`;
+  const ks4=["cash","stock","re","etc"];
+  $("bar").innerHTML=ks4.map(k=>a?`<div style="width:${t[k]/a*100}%;background:${CAT[k][1]}"></div>`:"").join("");
+  $("lg").innerHTML=ks4.map(k=>`<span><i style="background:${CAT[k][1]}"></i>${CAT[k][0]} ${a?(t[k]/a*100).toFixed(1):0}% (${fmt(t[k])})</span>`).join("");
+  $("list").innerHTML=S.items.length?S.items.map(i=>{
+    let sub="",extra="";
+    if(i.cat==="stock"){const x=info(i),u=x.cur==="USD"?"$":"원";
+      sub=` · ${i.qty||0}주 · 현재가 ${x.p.toLocaleString()}${u}`;
+      if(x.prev){const d=(x.p-x.prev)/x.prev*100;sub+=` <span class="${d>=0?"up":"dn"}">(${d>=0?"+":""}${d.toFixed(1)}%)</span>`}
+      if(i.buy){const g=(x.p-i.buy)*i.qty*x.f,pc=(x.p-i.buy)/i.buy*100;
+        extra=`<div class="${g>=0?"up":"dn"}" style="font-size:13px">${g>=0?"+":""}${fmt(g)} (${pc.toFixed(1)}%)</div>`}}
+    return `<div class="it"><div><b>${esc(i.name)}</b> <span class="mu">${CAT[i.cat][0]}${sub}</span></div>
+    <div class="row"><div class="num">${fmt(val(i))}${extra}</div>
+    <button class="s" data-e="${i.id}">수정</button><button class="s" data-d="${i.id}">삭제</button></div></div>`}).join(""):'<div class="mu" style="padding:10px 0">아직 자산이 없어요. 아래에서 추가해 보세요.</div>';
+  const ks=Object.keys(S.hist).sort().slice(-60),vs=ks.map(k=>S.hist[k]);
+  if(vs.length>1){const mn=Math.min(...vs),mx=Math.max(...vs),r=mx-mn||1;
+    $("spark").innerHTML=`<polyline fill="none" stroke="#2f6fed" stroke-width="2.5" points="${vs.map((v,i)=>`${i/(vs.length-1)*396+2},${54-(v-mn)/r*48}`).join(" ")}"/>`;
+    const d=vs[vs.length-1]-vs[0];$("sparkcap").textContent=`${ks[0]} 이후 ${d>=0?"+":""}${fmt(d)}`}
+  else{$("spark").innerHTML="";$("sparkcap").textContent="매일 열어볼수록 순자산 추이가 쌓여요."}
+  tips(t,a);news();
+}
+function tips(t,a){const L=[];
+  if(a){
+    if(t.re/a>.7)L.push("🏠 자산의 70% 이상이 부동산이에요. 급할 때 현금화가 어려우니 유동성 자산 비중을 늘리는 걸 고려해 보세요.");
+    if(t.stock/a>.6)L.push("📈 주식 비중이 높아요. 종목·섹터·지역을 분산하고 인덱스 ETF 비중을 검토해 보세요.");
+    if(S.items.some(i=>i.cat==="stock"&&val(i)/a>.3))L.push("⚠️ 한 종목이 총자산의 30%를 넘어요. 단일 종목 쏠림 위험을 점검하세요.");
+    if(t.cash/a<.1)L.push("🛟 비상자금(생활비 3~6개월분)을 현금성 자산으로 별도 확보해 두세요.");
+    if(t.debt/a>.4)L.push("💳 부채비율이 40%를 넘어요. 고금리 대출부터 상환 우선순위를 정해 보세요.");}
+  L.push("🧾 연금저축·IRP·ISA 등 세제혜택 계좌를 먼저 채우면 같은 수익도 세후로 더 남아요.","🔁 매월 일정 금액을 자동이체로 투자하는 적립식이 타이밍 부담을 줄여줘요.","📅 분기에 한 번 목표 비중으로 리밸런싱하세요.");
+  $("tips").innerHTML=L.slice(0,6).map(x=>`<div class="tip">${x}</div>`).join("")}
+function news(){const st=S.items.filter(i=>i.cat==="stock");if(!st.length)return;
+  $("news").innerHTML=st.map(i=>{const q=encodeURIComponent(i.name+" 주가");
+    return `<div class="it"><b>${esc(i.name)}</b><span class="row"><a target="_blank" rel="noopener" href="https://search.naver.com/search.naver?where=news&sort=1&query=${q}">네이버 뉴스</a><a target="_blank" rel="noopener" href="https://news.google.com/search?hl=ko&gl=KR&ceid=KR:ko&q=${encodeURIComponent(i.name)}">구글 뉴스</a></span></div>`}).join("")}
+$("addb").onclick=()=>{
+  const cat=$("cat").value,tk=$("tk").value.trim(),q=+$("qty").value||0,b=+$("buy").value||0,vv=$("val").value;
+  const known=cat==="stock"&&P.items[tk],name=$("nm").value.trim()||(known?P.items[tk].name:tk);
+  if(!name)return;
+  if(cat!=="stock"&&vv==="")return;
+  if(cat==="stock"&&!q)return;
+  if(cat==="stock"&&!known&&vv===""){alert("자동 시세가 없는 종목이에요. 현재가를 직접 입력하거나, fetch_prices.py에 종목을 추가하세요.");return}
+  const ex=cat==="stock"&&S.items.find(i=>i.cat==="stock"&&(i.name===name||(tk&&i.tk===tk)));
+  if(ex){const nq=(ex.qty||0)+q;
+    if(q>0&&b)ex.buy=((ex.qty||0)*(ex.buy||0)+q*b)/nq;
+    ex.qty=nq;if(vv!=="")ex.val=+vv;if(nq<=0)S.items=S.items.filter(i=>i!==ex);
+  }else S.items.push({id:Date.now().toString(36),cat,name,tk,qty:q,buy:b,val:+vv||0});
+  ["nm","tk","qty","buy","val"].forEach(x=>$(x).value="");save();render();
+};
+$("list").onclick=e=>{const d=e.target.dataset.d,ed=e.target.dataset.e;
+  if(d){S.items=S.items.filter(i=>i.id!==d);save();render()}
+  if(ed){const i=S.items.find(x=>x.id===ed);
+    if(i.cat==="stock"){const q=prompt(`${i.name} 수량`,i.qty);if(q!==null&&q!==""&&!isNaN(+q))i.qty=+q;
+      const b=prompt(`${i.name} 평균 매수가`,i.buy);if(b!==null&&b!==""&&!isNaN(+b))i.buy=+b;
+      if(!P.items[i.tk]){const n=prompt("현재가(수동)",i.val);if(n!==null&&n!==""&&!isNaN(+n))i.val=+n}}
+    else{const n=prompt(`${i.name} 금액(원)`,i.val);if(n!==null&&n!==""&&!isNaN(+n))i.val=+n}
+    save();render()}};
+init();
+</script></body></html>
