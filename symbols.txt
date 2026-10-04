@@ -3,3 +3,11 @@
 000660.KS SK하이닉스
 005930.KS 삼성전자
 NVDA 엔비디아
+TSLA 테슬라
+GOOGL 알파벳 Class A
+MSFT 마이크로소프트
+APPL 애플
+AMZN 아마존닷컴
+BA 보잉
+META 메타
+ORCL 오라클
