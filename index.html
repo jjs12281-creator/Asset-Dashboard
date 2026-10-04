@@ -265,11 +265,11 @@ function pension(t){
   if(p.end<=p.start){el.innerHTML=head+'<div class="mu">수령 종료 나이가 개시 나이보다 커야 해요.</div>';return}
   const r=calc(p.start),nps=(p.nps||0)*1e4,need=(p.need||0)*1e4,a1=Math.min(p.start,p.npsAge),a2=Math.max(p.start,p.npsAge);
   const seg=[];
-  if(nps&&a1<a2)seg.push([a1,a2-1,p.start<p.npsAge?r.m:nps]);
-  seg.push([nps?a2:p.start,p.end,r.m+nps]);
+  if(nps&&a1<a2)seg.push([a1,a2-1,p.start<p.npsAge?r.m:nps,p.start<p.npsAge?"개인연금만":"국민연금만"]);
+  seg.push([nps?a2:p.start,p.end,r.m+nps,nps?"개인연금 + 국민연금":"개인연금"]);
   let o=head+`<div class="tip"><b>${p.start}세 개시 기준 (오늘 가치, 세전)</b>
     <div class="mu">${p.start}세 시점 예상 적립액 ${fmt(r.fv)} → ${p.end}세까지 개인연금 월 약 <b>${fmt(r.m)}</b></div>`
-    +seg.map(([x,y,m])=>`<div style="margin-top:4px">${x}세 ~ ${y}세: 월 <b>${fmt(m)}</b>${nps&&m>=r.m+nps-1?" (개인연금 + 국민연금)":nps&&x<a2?" (국민연금만)":x<a2?"":""}</div>`).join("");
+    +seg.map(([x,y,m,l])=>`<div style="margin-top:4px">${x}세 ~ ${y}세: 월 <b>${fmt(m)}</b> <span class="mu">(${l})</span></div>`).join("");
   const tot=r.m+nps;
   if(need){const ok=tot>=need;
     o+=`<div style="margin-top:6px;color:${ok?"#2e9e5b":"#e5484d"}">희망 생활비 ${fmt(need)} 대비 충족률 ${(tot/need*100).toFixed(0)}% (${ok?"충족":`월 ${fmt(need-tot)} 부족`})</div>`;
