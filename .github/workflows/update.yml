@@ -20,6 +20,12 @@ jobs:
         with: { python-version: "3.12" }
       - run: pip install yfinance
       - run: python fetch_prices.py
+        env:
+          MOLIT_KEY: ${{ secrets.MOLIT_KEY }}
+          APT_LAWD: ${{ secrets.APT_LAWD }}
+          APT_NAME: ${{ secrets.APT_NAME }}
+          APT_AREA: ${{ secrets.APT_AREA }}
+          APT_DONG: ${{ secrets.APT_DONG }}
       - run: |
           git config user.name "price-bot"
           git config user.email "bot@users.noreply.github.com"
