@@ -104,7 +104,7 @@ details[open]>.gh::before,details[open]>.ah::before{content:"▾"}
 <script>
 const CAT={cash:["현금성","#4cae7a"],inv:["투자자산","#2f6fed"],pen:["연금·보험","#14a3a3"],re:["부동산","#e0a030"],etc:["기타자산","#9b6be0"],debt:["부채","#e5484d"]};
 const ACC={cash:[["입출금통장","amt"],["예·적금","amt"],["CMA·MMF","amt"],["외화·기타 현금","amt"]],
-inv:[["일반 증권계좌","stock"],["ISA","stock"],["펀드","amt"],["가상자산","amt"],["금·원자재","amt"]],
+inv:[["일반 증권계좌","stock"],["ISA","stock"],["펀드","amt"],["가상자산","stock"],["금·원자재","amt"]],
 pen:[["연금저축","stock"],["IRP","stock"],["퇴직연금(DC)","stock"],["퇴직연금(DB)","amt"],["변액보험","amt"],["연금보험","amt"]],
 re:[["거주용 부동산","amt"],["투자용 부동산","amt"],["임차보증금","amt"],["토지·기타","amt"]],
 etc:[["자동차","amt"],["귀금속·기타","amt"]],
@@ -162,7 +162,7 @@ function render(){
 }
 function rowH(i){let sub="",extra="";
   if(isS(i)){const x=info(i),u=x.cur==="USD"?"$":"원";
-    sub=` · ${i.qty||0}주 · 현재가 ${x.p.toLocaleString()}${u}`;
+    sub=` · ${i.qty||0}${/^KRW-/.test(kOf(i)||i.tk||"")?"개":"주"} · 현재가 ${x.p.toLocaleString()}${u}`;
     if(x.prev){const d=(x.p-x.prev)/x.prev*100;sub+=` <span class="${d>=0?"up":"dn"}">(${d>=0?"+":""}${d.toFixed(1)}%)</span>`}
     if(i.buy){const g=(x.p-i.buy)*i.qty*x.f,pc=(x.p-i.buy)/i.buy*100;
       extra=`<div class="${g>=0?"up":"dn"}" style="font-size:13px">${g>=0?"+":""}${fmt(g)} (${pc.toFixed(1)}%)</div>`}}
@@ -490,7 +490,12 @@ ARKK|ARKK 아크 이노베이션
 TLT|TLT 미국 장기국채 20년+
 BND|BND 미국 종합채권
 GLD|GLD 금
-SLV|SLV 은`.split("\n").map(l=>{const [c,n,a]=l.split("|");return{c,n,a:a||"",cur:/\.K[SQ]$/.test(c)?"KRW":"USD"}});
+KRW-BTC|비트코인(업비트)|bitcoin btc 업비트
+KRW-ETH|이더리움(업비트)|ethereum eth 업비트
+KRW-XRP|리플(업비트)|ripple xrp 업비트
+KRW-SOL|솔라나(업비트)|solana sol 업비트
+KRW-DOGE|도지코인(업비트)|dogecoin doge 업비트
+SLV|SLV 은`.split("\n").map(l=>{const [c,n,a]=l.split("|");return{c,n,a:a||"",cur:/(\.K[SQ]$|^KRW-)/.test(c)?"KRW":"USD"}});
 let nmAuto=false,SGL=[];
 const nz=s=>String(s).toLowerCase().replace(/\s/g,"");
 function pool(){const reg=Object.entries(P.items).map(([c,v])=>({c,n:v.name,a:"",cur:v.cur,reg:1})),rs=new Set(reg.map(x=>x.c));return reg.concat(CT.filter(x=>!rs.has(x.c)))}
