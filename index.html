@@ -61,6 +61,7 @@ details[open]>.gh::before,details[open]>.ah::before{content:"▾"}
   <div class="add">
     <select id="cat"><option value="cash">현금성</option><option value="inv" selected>투자자산</option><option value="pen">연금·보험</option><option value="re">부동산</option><option value="etc">기타자산</option><option value="debt">부채</option></select>
     <input id="ac" list="acl" placeholder="중분류 (예: ISA)"><datalist id="acl"></datalist>
+    <select id="rl" style="display:none"><option value="">금액 직접 입력</option><option value="home">실거래가 자동(내 집)</option></select>
     <select id="kd"><option value="stock">종목(수량)</option><option value="amt">금액</option></select>
     <select id="mk"><option value="KR">국내(원)</option><option value="US">해외(달러)</option></select>
     <div class="sw" id="tkw"><input id="tk" autocomplete="off" placeholder="종목명 또는 코드 검색"><div class="sg" id="sg"></div></div>
@@ -99,6 +100,13 @@ details[open]>.gh::before,details[open]>.ah::before{content:"▾"}
 </div>
 <div class="card"><h2>💡 재무설계 팁</h2><div id="tips"></div></div>
 <div class="card"><h2>📰 보유 종목 뉴스</h2><div id="news"><span class="mu">주식을 추가하면 뉴스 링크가 나타나요.</span></div></div>
+<div class="card"><h2>🤖 AI 재무상담</h2>
+  <div class="mu">내 자산 요약(종목명·계좌명·대출명 제외)을 복사해서 Claude나 Gemini 대화창에 붙여넣으면 맞춤 상담을 받을 수 있어요.</div>
+  <div class="add"><input id="aiQ" placeholder="물어볼 내용 (예: 3년 내 내집마련 가능할까?)" style="grid-column:1/-1"></div>
+  <div class="row" style="margin-top:8px"><button class="p" id="aiCopy">📋 요약 복사</button><button id="aiClaude">Claude 열기</button><button id="aiGem">Gemini 열기</button></div>
+  <textarea id="aiTxt" rows="7" style="width:100%;margin-top:8px;font:13px/1.5 inherit;background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:8px;padding:8px" placeholder="복사 버튼을 누르면 여기에 요약이 만들어져요. 필요하면 수정해서 사용하세요."></textarea>
+  <div class="mu">복사한 내용에는 금액이 들어가요. 공유 화면에서 붙여넣기 전에 한 번 확인하세요.</div>
+</div>
 <div class="mu" style="text-align:center">내 보유 정보는 이 기기의 브라우저에만 저장됩니다. 참고용이며 투자 권유가 아닙니다.</div>
 </main>
 <script>
@@ -119,16 +127,16 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
 const kOf=i=>P.items[i.tk]?i.tk:(resolve(i.tk)||resolve(i.name));
 const info=i=>{const q=P.items[kOf(i)];return q?{p:q.price,prev:q.prev,cur:q.cur,f:q.cur==="USD"?P.fx:1,auto:1}:{p:i.val||0,cur:mkOf(i)==="US"?"USD":"KRW",f:mkOf(i)==="US"?P.fx:1}};
 const mkOf=i=>i.mk||(/^\d{6}(\.K[SQ])?$/.test(i.tk||"")?"KR":/^[A-Za-z][A-Za-z.\-]*$/.test(i.tk||"")?"US":"KR");
-const val=i=>{if(!isS(i))return i.val||0;const x=info(i);return (i.qty||0)*x.p*x.f};
+const val=i=>{if(!isS(i))return (i.link&&P.re&&P.re[i.link])?P.re[i.link].price:(i.val||0);const x=info(i);return (i.qty||0)*x.p*x.f};
 $("today").textContent=new Date().toLocaleDateString("ko-KR",{year:"numeric",month:"long",day:"numeric",weekday:"short"});
 const resolve=t=>{if(!t)return"";if(P.items[t])return t;const u=t.toUpperCase();if(P.items[u])return u;
   const e=Object.entries(P.items),f=e.find(([k,v])=>v.name===t)||e.find(([k,v])=>v.name.replace(/\s/g,"").includes(t.replace(/\s/g,"")));return f?f[0]:""};
 const pick=(k,keep)=>{if(!keep&&!canS($("cat").value))$("cat").value="inv";$("kd").value="stock";sync();if(P.items[k])$("mk").value=P.items[k].cur==="USD"?"US":"KR";if(P.items[k])chose({c:k,n:P.items[k].name,cur:P.items[k].cur,reg:1});else $("tk").value=k;$("qty").focus();$("qty").scrollIntoView({block:"center",behavior:"smooth"})};
 function sync(){const c=$("cat").value,s=canS(c),sm=s&&$("kd").value==="stock";
   $("acl").innerHTML=ACC[c].map(a=>`<option value="${a[0]}">`).join("");
-  $("kd").style.display=s?"":"none";
+  $("kd").style.display=s?"":"none";$("rl").style.display=(c==="re"&&P.re&&P.re.home)?"":"none";
   ["tkw","qty","buy","mk","chips","chl","tkh"].forEach(x=>$(x).style.display=sm?"":"none");
-  const am=s&&!sm;$("buy").style.display=(sm||am)?"":"none";$("buy").placeholder=am?"투자원금(선택)":"매수가(국내 원/해외 달러)";
+  const am=s&&!sm,rr=c==="re",dt=c==="debt";$("buy").style.display=(sm||am||rr||dt)?"":"none";$("buy").placeholder=dt?"금리 연 %(선택)":rr?"매수가(선택)":am?"투자원금(선택)":"매수가(국내 원/해외 달러)";$("qty").style.display=(sm||dt)?"":"none";$("qty").placeholder=dt?"월 상환액(원, 선택)":"수량 (매도는 -)";
   $("val").placeholder=sm?"현재가(자동시세 없을 때)":(am?"현재 평가금액(원)":"금액(원)")}
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
 
@@ -166,7 +174,11 @@ function rowH(i){let sub="",extra="";
     if(x.prev){const d=(x.p-x.prev)/x.prev*100;sub+=` <span class="${d>=0?"up":"dn"}">(${d>=0?"+":""}${d.toFixed(1)}%)</span>`}
     if(i.buy){const g=(x.p-i.buy)*i.qty*x.f,pc=(x.p-i.buy)/i.buy*100;
       extra=`<div class="${g>=0?"up":"dn"}" style="font-size:13px">${g>=0?"+":""}${fmt(g)} (${pc.toFixed(1)}%)</div>`}}
-  if(!isS(i)&&i.cost){const g=val(i)-i.cost;sub=` · 원금 ${fmt(i.cost)}`;extra=`<div class="${g>=0?"up":"dn"}" style="font-size:13px">${g>=0?"+":""}${fmt(g)} (${(g/i.cost*100).toFixed(1)}%)</div>`}
+  if(!isS(i)&&i.cost){const g=val(i)-i.cost;sub=` · ${i.cat==="re"?"매수가":"원금"} ${fmt(i.cost)}`;extra=`<div class="${g>=0?"up":"dn"}" style="font-size:13px">${g>=0?"+":""}${fmt(g)} (${(g/i.cost*100).toFixed(1)}%)</div>`}
+  if(i.cat==="debt"&&(i.rate||i.pay)){const bal=val(i),r=(i.rate||0)/1200,mi=bal*r;let tx="";
+    if(i.pay>0){if(r>0){if(i.pay>mi){const n=Math.ceil(-Math.log(1-bal*r/i.pay)/Math.log(1+r));tx=` · 완납 약 ${Math.floor(n/12)}년 ${n%12}개월 후`}else tx=" · 월 상환액이 이자보다 적어요"}else tx=` · 완납 약 ${Math.ceil(bal/i.pay)}개월 후`}
+    sub=` · 금리 ${i.rate||0}% · 월 이자 ${fmt(mi)}${i.pay?" · 월 상환 "+fmt(i.pay):""}${tx}`}
+  if(i.link&&P.re&&P.re[i.link]){const r=P.re[i.link];sub=` · 실거래가 자동(최근 ${r.n}건 평균) · 마지막 거래 ${r.date} ${fmt(r.last)}${i.cost?" · 매수가 "+fmt(i.cost):""}`}
   return `<div class="it"><div><b>${esc(i.name)}</b><span class="mu">${sub}</span></div>
   <div class="row"><div class="num">${fmt(val(i))}${extra}</div>
   ${isS(i)?`<button class="s" data-b="${i.id}">+매수</button>`:canS(i.cat)?`<button class="s" data-n="${i.id}">+납입</button>`:""}<button class="s" data-c="${i.id}">이름·분류</button><button class="s" data-e="${i.id}">수정</button><button class="s" data-d="${i.id}">삭제</button></div></div>`}
@@ -188,6 +200,9 @@ $("list").addEventListener("toggle",e=>{const d=e.target.dataset;if(!d||!d.k)ret
 $("colA").onclick=()=>{S.closed=Object.keys(CAT);S.openA=[];save();render()};
 $("expA").onclick=()=>{S.closed=[];S.openA=S.items.map(i=>i.cat+"|"+(i.acct||"기타"));save();render()};
 function tips(t,a){const L=[];
+  const di=S.items.filter(i=>i.cat==="debt"),mi=di.reduce((s,i)=>s+val(i)*(i.rate||0)/1200,0);
+  if(mi>0){L.push(`🏦 대출 월 이자는 약 ${fmt(mi)}이에요. 연 ${fmt(mi*12)} 정도가 이자로 나가고 있어요.`);
+    const hi=di.filter(i=>i.rate>0).sort((x,y)=>y.rate-x.rate);if(hi.length>1)L.push(`📉 금리가 가장 높은 대출은 ${esc(hi[0].name)}(${hi[0].rate}%)예요. 여유 자금이 생기면 여기부터 상환하거나 대환을 검토해 보세요.`)}
   if(a){
     if(t.re/a>.7)L.push("🏠 자산의 70% 이상이 부동산이에요. 급할 때 현금화가 어려우니 유동성 자산 비중을 늘리는 걸 고려해 보세요.");
     if(t.stock/a>.6)L.push("📈 주식 비중이 높아요. 종목·섹터·지역을 분산하고 인덱스 ETF 비중을 검토해 보세요.");
@@ -204,7 +219,7 @@ $("addb").onclick=()=>{
   const raw=$("tk").value.trim(),tk=isSk?(resolve(raw)||raw):"",q=nv("qty")||0,b=nv("buy")||0,vv=$("val").value.replace(/,/g,""),mk0=$("mk").value;
   const known=isSk&&P.items[tk],name=$("nm").value.trim()||(known?P.items[tk].name:raw);
   if(!name)return;
-  if(!isSk&&vv==="")return;
+  if(!isSk&&vv===""&&!(cat==="re"&&$("rl").value))return;
   if(isSk&&!q)return;
   if(isSk&&!known){
     const code=mk0==="KR"?(/^\d{6}$/.test(tk)?tk+".KS":tk):tk.toUpperCase(),line=code+" "+($("nm").value.trim()||"종목이름"),m=location.hostname.match(/^(.+)\.github\.io$/),repo=location.pathname.split("/")[1];
@@ -218,7 +233,7 @@ $("addb").onclick=()=>{
   if(ex){const nq=(ex.qty||0)+q;
     if(q>0&&b)ex.buy=((ex.qty||0)*(ex.buy||0)+q*b)/nq;
     ex.qty=nq;if(!ex.mk)ex.mk=mk;if(vv!=="")ex.val=+vv;if(nq<=0)S.items=S.items.filter(i=>i!==ex);
-  }else S.items.push({id:Date.now().toString(36),cat,acct,kind:isSk?"stock":"amt",name,tk,qty:q,buy:isSk?b:0,cost:(!isSk&&canS(cat))?b:0,val:+vv||0,mk});
+  }else S.items.push({id:Date.now().toString(36),cat,acct,kind:isSk?"stock":"amt",name,tk,qty:isSk?q:0,buy:isSk?b:0,cost:(!isSk&&(canS(cat)||cat==="re"))?b:0,rate:cat==="debt"?b:0,pay:cat==="debt"?q:0,val:+vv||0,link:(cat==="re"&&$("rl").value)||"",mk});
   ["nm","tk","qty","buy","val"].forEach(x=>$(x).value="");$("tkh").textContent="";nmAuto=false;save();render();
 };
 $("chips").onclick=e=>{if(e.target.dataset.k)pick(e.target.dataset.k)};
@@ -235,8 +250,10 @@ $("list").onclick=e=>{const d=e.target.dataset.d,ed=e.target.dataset.e,bb=e.targ
     if(isS(i)){const q=prompt(`${i.name} 수량`,i.qty);if(q!==null&&q!==""&&!isNaN(+q))i.qty=+q;
       const b=prompt(`${i.name} 평균 매수가`,i.buy);if(b!==null&&b!==""&&!isNaN(+b))i.buy=+b;
       if(!P.items[kOf(i)]){const m=prompt("시장 (1=국내 원화, 2=해외 달러)",mkOf(i)==="US"?"2":"1");if(m==="1")i.mk="KR";if(m==="2")i.mk="US";const n=prompt("현재가(수동, "+(mkOf(i)==="US"?"달러":"원")+")",i.val);if(n!==null&&n!==""&&!isNaN(+n))i.val=+n}}
-    else{const n=prompt(`${i.name} ${canS(i.cat)?"평가":""}금액(원)`,i.val);if(n!==null&&n!==""&&!isNaN(+n.replace(/,/g,"")))i.val=+n.replace(/,/g,"");
-      if(canS(i.cat)){const c=prompt("투자원금(원, 모르면 비워두기)",i.cost||"");if(c!==null)i.cost=+c.replace(/,/g,"")||0}}
+    else{if(i.cat==="re"&&P.re&&P.re.home){const c=prompt("실거래가 자동 연결 (1=연결, 0=직접 입력)",i.link?"1":"0");if(c==="1"){i.link="home";const c2=prompt("매수가(원, 비우면 유지)",i.cost||"");if(c2!==null&&c2!=="")i.cost=+c2.replace(/,/g,"")||0;save();render();return}if(c==="0")i.link=""}
+      const n=prompt(`${i.name} ${canS(i.cat)?"평가":""}금액(원)`,i.val);if(n!==null&&n!==""&&!isNaN(+n.replace(/,/g,"")))i.val=+n.replace(/,/g,"");
+      if(canS(i.cat)||i.cat==="re"){const c=prompt(i.cat==="re"?"매수가(원, 모르면 비워두기)":"투자원금(원, 모르면 비워두기)",i.cost||"");if(c!==null)i.cost=+c.replace(/,/g,"")||0}
+      if(i.cat==="debt"){const r2=prompt("금리(연 %, 비우면 유지)",i.rate||"");if(r2!==null&&r2!=="")i.rate=+r2;const p2=prompt("월 상환액(원, 비우면 유지)",i.pay||"");if(p2!==null&&p2!=="")i.pay=+p2.replace(/,/g,"")||0}}
     save();render()}};
 const nv=id=>{const v=$(id).value.replace(/,/g,"");return v===""?NaN:+v};
 function fmtNum(el){const raw=el.value,pos=el.selectionStart==null?raw.length:el.selectionStart;
@@ -514,6 +531,19 @@ $("tk").onblur=()=>setTimeout(()=>$("sg").style.display="none",150);
 $("sg").onmousedown=e=>{const el=e.target.closest("[data-c]");if(el){e.preventDefault();const x=SGL.find(y=>y.c===el.dataset.c);if(x)chose(x)}};
 $("nm").oninput=()=>{nmAuto=false};
 $("nm").onchange=()=>{const v=$("nm").value.trim();if(v&&!$("tk").value.trim()&&canS($("cat").value)){const x=lookup(v);if(x)chose(x)}};
+
+function aiSummary(){const{t,a,net}=totals(),q=$("aiQ").value.trim()||"내 자산 구성과 목표를 바탕으로 개선점과 우선순위를 알려줘.";
+  const L=["[내 자산 현황 — "+td()+" 기준]",`순자산 ${won(net)} (총자산 ${won(a)}, 부채 ${won(t.debt)})`];
+  ["cash","inv","pen","re","etc"].forEach(c=>{if(!t[c])return;L.push(`- ${CAT[c][0]}: ${won(t[c])} (${a?(t[c]/a*100).toFixed(1):0}%)`);
+    [...new Set(S.items.filter(i=>i.cat===c).map(i=>i.acct||"기타"))].forEach(ac=>L.push(`    · ${ac}: ${won(S.items.filter(i=>i.cat===c&&(i.acct||"기타")===ac).reduce((s,i)=>s+val(i),0))}`))});
+  S.items.filter(i=>i.cat==="debt").forEach(i=>L.push(`- 대출(${i.acct||"기타"}): 잔액 ${won(val(i))}${i.rate?`, 금리 ${i.rate}%`:""}${i.pay?`, 월 상환 ${won(i.pay)}`:""}`));
+  if(S.set.m)L.push(`월 저축 가능액 ${won(S.set.m)}, 기대수익률 연 ${S.set.r}%`);
+  S.goals.forEach(g=>L.push(`목표: ${g.name} ${won(g.target)} (${g.date})`));
+  const p=S.pp;if(p.age)L.push(`연금 설정: 현재 ${p.age}세, 납입 종료 ${p.ret}세, 개인연금 개시 ${p.start}세, 월 납입 ${won((p.c||0)*1e4)}, 국민연금 월 ${won((p.nps||0)*1e4)}(${p.npsAge}세 개시), 희망 월 생활비 ${won((p.need||0)*1e4)}`);
+  L.push("","[질문]",q,"※ 투자 권유가 아닌 일반적인 조언으로, 전제와 한계를 함께 설명해줘.");return L.join("\n")}
+$("aiCopy").onclick=async()=>{const s=aiSummary();$("aiTxt").value=s;try{await navigator.clipboard.writeText(s);$("aiCopy").textContent="복사됨 ✓"}catch(e){$("aiTxt").select();$("aiCopy").textContent="아래 내용을 직접 복사하세요"}setTimeout(()=>$("aiCopy").textContent="📋 요약 복사",2000)};
+$("aiClaude").onclick=()=>{if(!$("aiTxt").value)$("aiTxt").value=aiSummary();window.open("https://claude.ai/new","_blank","noopener")};
+$("aiGem").onclick=()=>{if(!$("aiTxt").value)$("aiTxt").value=aiSummary();window.open("https://gemini.google.com/app","_blank","noopener")};
 
 $("cat").onchange=()=>{$("ac").value="";$("kd").value=canS($("cat").value)?"stock":"amt";sync()};
 $("kd").onchange=sync;
