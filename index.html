@@ -27,6 +27,9 @@ details .it{padding-left:10px}
 .fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-top:10px}
 .fg label{display:flex;flex-direction:column;font-size:12px;color:var(--mu);gap:3px}
 table.pt{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}table.pt td,table.pt th{padding:4px 6px;border-top:1px solid var(--bd);text-align:right}table.pt th:first-child,table.pt td:first-child{text-align:left}
+.gh::before,.ah::before{content:"▸";margin-right:6px;color:var(--mu);display:inline-block;width:12px}
+details[open]>.gh::before,details[open]>.ah::before{content:"▾"}
+.ah{cursor:pointer}
 </style></head><body><main>
 <div class="row sp"><h1>💰 내 자산 대시보드</h1><span class="mu" id="today"></span></div>
 
@@ -39,9 +42,17 @@ table.pt{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}table
   <div class="mu" id="sparkcap"></div>
 </div>
 
+<div class="card"><h2>📊 자산 변화</h2>
+  <div id="chg"></div>
+  <details style="margin-top:8px"><summary class="mu" style="cursor:pointer">과거 기록 직접 추가 (비교 기준용)</summary>
+    <div class="add"><input id="ph_d" type="date"><input id="ph_v" type="number" placeholder="그날 순자산(만원)"><button id="ph_b">추가</button></div>
+    <div class="mu">예: 지난달 말일의 순자산을 증권앱·통장 잔액으로 계산해 넣으면 바로 전월말 대비가 나와요.</div></details>
+  <div class="mu" style="margin-top:6px">기록은 대시보드를 열거나 수정할 때마다 오늘 값으로 저장돼요. 증감에는 새로 넣은 돈(저축·납입)과 평가손익이 함께 들어 있어요.</div>
+</div>
 <div class="card">
   <h2>자산 목록</h2>
   <div class="mu" id="pinfo">시세 불러오는 중...</div>
+  <div class="row" style="margin:8px 0 2px"><button class="s" id="colA">모두 접기</button><button class="s" id="expA">모두 펼치기</button><span class="mu">대분류·중분류를 눌러 접고 펼 수 있어요</span></div>
   <div id="list"></div>
   <div class="mu" id="chl" style="margin-top:10px">자주 쓰는 종목 (누르면 자동 입력)</div>
   <div id="chips" class="row" style="margin-top:6px"></div>
@@ -98,7 +109,7 @@ debt:[["주택담보대출","amt"],["전세대출","amt"],["신용대출","amt"]
 const canS=c=>c==="inv"||c==="pen",isS=i=>i.kind==="stock"||(!i.kind&&i.cat==="stock");
 const $=id=>document.getElementById(id),KEY="asset-dash-gh-v1";
 const DEFP={age:"",ret:60,start:60,end:90,c:0,r:4,pi:2.5,nps:0,npsAge:65,need:0};
-let S={items:[],hist:{},goals:[],set:{m:0,r:3},pp:{...DEFP}},P={items:{},fx:1400,updated:""};
+let S={items:[],hist:{},goals:[],set:{m:0,r:3},pp:{...DEFP},snap:{}},P={items:{},fx:1400,updated:""};
 const won=n=>Math.round(n).toLocaleString("ko-KR")+"원";
 const fmt=n=>{const a=Math.abs(n);return (n<0?"-":"")+(a>=1e8?(a/1e8).toFixed(2)+"억원":a>=1e4?Math.round(a/1e4).toLocaleString("ko-KR")+"만원":Math.round(a)+"원")};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -119,13 +130,12 @@ const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
 
 async function init(){
   try{const l=localStorage.getItem(KEY);if(l)S=Object.assign({items:[],hist:{},goals:[],set:{m:0,r:3}},JSON.parse(l))}catch(e){}
-  S.pp=Object.assign({...DEFP},S.pp||{});
+  S.pp=Object.assign({...DEFP},S.pp||{});S.snap=S.snap||{};
   S.items.forEach(i=>{if(!i.kind){i.kind=i.cat==="stock"?"stock":"amt";if(i.cat==="stock")i.cat="inv"}if(!i.acct)i.acct=ACC[i.cat]?ACC[i.cat][0][0]:"기타"});
   try{P=await (await fetch("prices.json?"+Date.now())).json()}catch(e){}
   $("syms").innerHTML=Object.entries(P.items).map(([k,v])=>`<option value="${esc(v.name)}">${k}</option>`).join("");
   $("chips").innerHTML=Object.entries(P.items).map(([k,v])=>`<button class="s" data-k="${k}">${esc(v.name)}</button>`).join("")||'<span class="mu">symbols.txt에 종목을 추가하면 여기에 나타나요.</span>';
   $("pinfo").textContent=P.updated?`시세 기준일 ${P.updated} · 환율 ${P.fx}원/$ (매일 자동 갱신)`:"시세 파일(prices.json)이 아직 없어요. Actions 탭에서 먼저 한 번 실행하세요.";
-  const n=totals().net;if(S.items.length&&P.updated){S.hist[P.updated]=n;save()}
   $("gm").value=S.set.m?S.set.m/1e4:"";$("gr").value=S.set.r;
   fillPP();sync();render();
 }
@@ -133,6 +143,7 @@ function totals(){const t={cash:0,inv:0,pen:0,re:0,etc:0,debt:0};S.items.forEach
   const a=t.cash+t.inv+t.pen+t.re+t.etc;return{t,a,net:a-t.debt}}
 function render(){
   const{t,a,net}=totals();
+  if(S.items.length)rec(t,a,net);
   $("net").textContent=won(net);$("sub").textContent=`총자산 ${fmt(a)} · 부채 ${fmt(t.debt)}`;
   const ks4=["cash","inv","pen","re","etc"];
   $("bar").innerHTML=ks4.map(k=>a?`<div style="width:${t[k]/a*100}%;background:${CAT[k][1]}"></div>`:"").join("");
@@ -143,7 +154,7 @@ function render(){
     $("spark").innerHTML=`<polyline fill="none" stroke="#2f6fed" stroke-width="2.5" points="${vs.map((v,i)=>`${i/(vs.length-1)*396+2},${54-(v-mn)/r*48}`).join(" ")}"/>`;
     const d=vs[vs.length-1]-vs[0];$("sparkcap").textContent=`${ks[0]} 이후 ${d>=0?"+":""}${fmt(d)}`}
   else{$("spark").innerHTML="";$("sparkcap").textContent="매일 열어볼수록 순자산 추이가 쌓여요."}
-  tips(t,a);news();goals(t);pension(t);
+  tips(t,a);news();goals(t);pension(t);change();
 }
 function rowH(i){let sub="",extra="";
   if(isS(i)){const x=info(i),u=x.cur==="USD"?"$":"원";
@@ -155,15 +166,22 @@ function rowH(i){let sub="",extra="";
   <div class="row"><div class="num">${fmt(val(i))}${extra}</div>
   ${isS(i)?`<button class="s" data-b="${i.id}">+매수</button>`:""}<button class="s" data-c="${i.id}">분류</button><button class="s" data-e="${i.id}">수정</button><button class="s" data-d="${i.id}">삭제</button></div></div>`}
 function renderList(t,a){
-  const closed=new Set(S.closed||[]);let o="";
+  const closed=new Set(S.closed||[]),opA=new Set(S.openA||[]);let o="";
   ["cash","inv","pen","re","etc","debt"].forEach(c=>{
     const its=S.items.filter(i=>i.cat===c);if(!its.length)return;
-    o+=`<details data-k="${c}" ${closed.has(c)?"":"open"}><summary class="gh"><span><i style="background:${CAT[c][1]}"></i><b>${CAT[c][0]}</b> <span class="mu">${c!=="debt"&&a?(t[c]/a*100).toFixed(1)+"%":""}</span></span><b>${c==="debt"?"-":""}${fmt(t[c])}</b></summary>`;
-    [...new Set(its.map(i=>i.acct||"기타"))].forEach(ac=>{const g=its.filter(i=>(i.acct||"기타")===ac);
-      o+=`<div class="ah"><span>${esc(ac)}</span><span class="mu">${fmt(g.reduce((s,i)=>s+val(i),0))}</span></div>`+g.map(rowH).join("")});
+    o+=`<details data-t="c" data-k="${c}" ${closed.has(c)?"":"open"}><summary class="gh"><span><i style="background:${CAT[c][1]}"></i><b>${CAT[c][0]}</b> <span class="mu">${c!=="debt"&&a?(t[c]/a*100).toFixed(1)+"%":""}</span></span><b>${c==="debt"?"-":""}${fmt(t[c])}</b></summary>`;
+    [...new Set(its.map(i=>i.acct||"기타"))].forEach(ac=>{
+      const g=its.filter(i=>(i.acct||"기타")===ac),k=c+"|"+ac;let cost=0,gain=0;
+      g.forEach(i=>{if(isS(i)&&i.buy){const x=info(i);cost+=i.buy*i.qty*x.f;gain+=(x.p-i.buy)*i.qty*x.f}});
+      const gt=cost?` <span class="${gain>=0?"up":"dn"}" style="font-weight:400">${gain>=0?"+":""}${fmt(gain)} (${(gain/cost*100).toFixed(1)}%)</span>`:"";
+      o+=`<details data-t="a" data-k="${esc(k)}" ${opA.has(k)?"open":""}><summary class="ah"><span>${esc(ac)} <span class="mu" style="font-weight:400">${g.length}개</span></span><span>${fmt(g.reduce((s,i)=>s+val(i),0))}${gt}</span></summary>${g.map(rowH).join("")}</details>`});
     o+="</details>"});
   $("list").innerHTML=o||'<div class="mu" style="padding:10px 0">아직 자산이 없어요. 아래에서 추가해 보세요.</div>'}
-$("list").addEventListener("toggle",e=>{const k=e.target.dataset&&e.target.dataset.k;if(!k)return;const s=new Set(S.closed||[]);e.target.open?s.delete(k):s.add(k);S.closed=[...s];save()},true);
+$("list").addEventListener("toggle",e=>{const d=e.target.dataset;if(!d||!d.k)return;
+  if(d.t==="c"){const s=new Set(S.closed||[]);e.target.open?s.delete(d.k):s.add(d.k);S.closed=[...s]}
+  else{const s=new Set(S.openA||[]);e.target.open?s.add(d.k):s.delete(d.k);S.openA=[...s]}save()},true);
+$("colA").onclick=()=>{S.closed=Object.keys(CAT);S.openA=[];save();render()};
+$("expA").onclick=()=>{S.closed=[];S.openA=S.items.map(i=>i.cat+"|"+(i.acct||"기타"));save();render()};
 function tips(t,a){const L=[];
   if(a){
     if(t.re/a>.7)L.push("🏠 자산의 70% 이상이 부동산이에요. 급할 때 현금화가 어려우니 유동성 자산 비중을 늘리는 걸 고려해 보세요.");
@@ -278,6 +296,29 @@ function pension(t){
   o+='</div><div class="tip"><b>개시 나이별 개인연금 월 수령액</b><table class="pt"><tr><th>개시 나이</th><th>적립액</th><th>월 수령</th></tr>'+[55,60,65,70].filter(x=>x<p.end).map(x=>{const q=calc(x);return `<tr><td>${x}세</td><td>${fmt(q.fv)}</td><td>${fmt(q.m)}</td></tr>`}).join("")+'</table></div>';
   o+='<div class="tip mu">ⓘ 모든 금액은 오늘 가치 기준(물가 반영)이고 세전이에요. 연금소득세·건강보험료, 퇴직연금 DB의 지급 방식, 변액보험·연금보험의 상품별 지급 조건은 반영되지 않았어요. 국민연금은 수령을 늦추면 금액이 늘어나는 연기연금 제도가 있고, 연금계좌 세제혜택·수령 요건은 바뀔 수 있으니 공단·금융당국의 최신 안내를 확인하세요.</div>';
   el.innerHTML=o}
+
+let CMP=1;
+const pad=n=>String(n).padStart(2,"0"),ds=d=>d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate()),td=()=>ds(new Date());
+function rec(t,a,net){S.snap[td()]={net,a,cash:t.cash,inv:t.inv,pen:t.pen,re:t.re,etc:t.etc,debt:t.debt};S.hist[td()]=net;save()}
+function before(d,strict){const k=Object.keys(S.snap).filter(x=>strict?x<d:x<=d).sort();return k.length?k[k.length-1]:null}
+function change(){
+  const cur=S.snap[td()],el=$("chg");
+  if(!cur){el.innerHTML='<div class="mu">자산을 입력하면 기록이 시작돼요.</div>';return}
+  const now=new Date(),P3=[["전일",before(td(),true)],["전월말",before(ds(new Date(now.getFullYear(),now.getMonth(),0)))],["연초",before((now.getFullYear()-1)+"-12-31")]];
+  const cl=(v)=>v>=0?"up":"dn",sg=v=>(v>=0?"+":"")+fmt(v);
+  let o='<table class="pt"><tr><th>비교</th><th>기준일</th><th>순자산 증감</th></tr>'+P3.map(([n,k],ix)=>{
+    if(!k)return `<tr><td>${n}</td><td class="mu" colspan="2">기록 없음</td></tr>`;
+    const b=S.snap[k],d=cur.net-b.net,p=b.net>0?` (${(d/b.net*100).toFixed(1)}%)`:"";
+    return `<tr><td><button class="s" data-p="${ix}" ${ix===CMP?'style="border-color:var(--ac);color:var(--ac)"':""}>${n}</button></td><td class="mu">${k}</td><td class="${cl(d)}">${sg(d)}${p}</td></tr>`}).join("")+"</table>";
+  const k=P3[CMP][1],b=k&&S.snap[k];
+  if(b&&b.cash!==undefined){
+    o+=`<div class="mu" style="margin-top:8px">${P3[CMP][0]}(${k}) 대비 항목별 변화</div>`+["cash","inv","pen","re","etc","debt"].map(c=>{
+      const d=(cur[c]||0)-(b[c]||0),e=c==="debt"?-d:d;
+      return `<div class="it"><span><i style="display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;background:${CAT[c][1]}"></i>${CAT[c][0]}</span><span class="num ${cl(e)}">${sg(d)}</span></div>`}).join("")}
+  else if(b)o+='<div class="mu" style="margin-top:8px">직접 추가한 기록은 순자산만 있어서 항목별 비교는 나오지 않아요.</div>';
+  el.innerHTML=o}
+$("chg").onclick=e=>{const p=e.target.dataset.p;if(p!=null){CMP=+p;change()}};
+$("ph_b").onclick=()=>{const d=$("ph_d").value,v=$("ph_v").value;if(!d||v===""||d>=td())return;S.snap[d]={net:+v*1e4};S.hist[d]=+v*1e4;$("ph_v").value="";save();render()};
 
 $("cat").onchange=()=>{$("ac").value="";$("kd").value=canS($("cat").value)?"stock":"amt";sync()};
 $("kd").onchange=sync;
