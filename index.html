@@ -169,7 +169,7 @@ function rowH(i){let sub="",extra="";
   if(!isS(i)&&i.cost){const g=val(i)-i.cost;sub=` · 원금 ${fmt(i.cost)}`;extra=`<div class="${g>=0?"up":"dn"}" style="font-size:13px">${g>=0?"+":""}${fmt(g)} (${(g/i.cost*100).toFixed(1)}%)</div>`}
   return `<div class="it"><div><b>${esc(i.name)}</b><span class="mu">${sub}</span></div>
   <div class="row"><div class="num">${fmt(val(i))}${extra}</div>
-  ${isS(i)?`<button class="s" data-b="${i.id}">+매수</button>`:canS(i.cat)?`<button class="s" data-n="${i.id}">+납입</button>`:""}<button class="s" data-c="${i.id}">분류</button><button class="s" data-e="${i.id}">수정</button><button class="s" data-d="${i.id}">삭제</button></div></div>`}
+  ${isS(i)?`<button class="s" data-b="${i.id}">+매수</button>`:canS(i.cat)?`<button class="s" data-n="${i.id}">+납입</button>`:""}<button class="s" data-c="${i.id}">이름·분류</button><button class="s" data-e="${i.id}">수정</button><button class="s" data-d="${i.id}">삭제</button></div></div>`}
 function renderList(t,a){
   const closed=new Set(S.closed||[]),opA=new Set(S.openA||[]);let o="";
   ["cash","inv","pen","re","etc","debt"].forEach(c=>{
@@ -197,8 +197,8 @@ function tips(t,a){const L=[];
   L.push("🧾 연금저축·IRP·ISA 등 세제혜택 계좌를 먼저 채우면 같은 수익도 세후로 더 남아요.","🔁 매월 일정 금액을 자동이체로 투자하는 적립식이 타이밍 부담을 줄여줘요.","📅 분기에 한 번 목표 비중으로 리밸런싱하세요.");
   $("tips").innerHTML=L.slice(0,6).map(x=>`<div class="tip">${x}</div>`).join("")}
 function news(){const st=S.items.filter((i,x,r)=>isS(i)&&r.findIndex(j=>isS(j)&&j.name===i.name)===x);if(!st.length)return;
-  $("news").innerHTML=st.map(i=>{const q=encodeURIComponent(i.name+" 주가");
-    return `<div class="it"><b>${esc(i.name)}</b><span class="row"><a target="_blank" rel="noopener" href="https://search.naver.com/search.naver?where=news&sort=1&query=${q}">네이버 뉴스</a><a target="_blank" rel="noopener" href="https://news.google.com/search?hl=ko&gl=KR&ceid=KR:ko&q=${encodeURIComponent(i.name)}">구글 뉴스</a></span></div>`}).join("")}
+  $("news").innerHTML=st.map(i=>{const nn0=i.name.replace(/^\s*(\[[^\]]*\]\s*)+/,""),q=encodeURIComponent(nn0+" 주가");
+    return `<div class="it"><b>${esc(i.name)}</b><span class="row"><a target="_blank" rel="noopener" href="https://search.naver.com/search.naver?where=news&sort=1&query=${q}">네이버 뉴스</a><a target="_blank" rel="noopener" href="https://news.google.com/search?hl=ko&gl=KR&ceid=KR:ko&q=${encodeURIComponent(nn0)}">구글 뉴스</a></span></div>`}).join("")}
 $("addb").onclick=()=>{
   const cat=$("cat").value,isSk=canS(cat)&&$("kd").value==="stock",acct=$("ac").value.trim()||ACC[cat][0][0];
   const raw=$("tk").value.trim(),tk=isSk?(resolve(raw)||raw):"",q=nv("qty")||0,b=nv("buy")||0,vv=$("val").value.replace(/,/g,""),mk0=$("mk").value;
@@ -224,7 +224,11 @@ $("addb").onclick=()=>{
 $("chips").onclick=e=>{if(e.target.dataset.k)pick(e.target.dataset.k)};
 $("list").onclick=e=>{const d=e.target.dataset.d,ed=e.target.dataset.e,bb=e.target.dataset.b,cc=e.target.dataset.c,nn=e.target.dataset.n;
   if(nn){const i=S.items.find(x=>x.id===nn),r=prompt(`${i.name} 추가 매수·납입 금액(원)`,"");const x=r===null?NaN:+r.replace(/,/g,"");if(x>0){i.val=(i.val||0)+x;i.cost=(i.cost||0)+x;save();render()}}
-  if(cc){const i=S.items.find(x=>x.id===cc),n=prompt("중분류(계좌/상품) 이름",i.acct||"");if(n!==null&&n.trim()){i.acct=n.trim();save();render()}}
+  if(cc){const i=S.items.find(x=>x.id===cc);
+    const nm2=prompt("이름(소분류) — 앞에 [펀드], [TDF] 같은 구분을 붙여도 돼요",i.name);
+    if(nm2!==null&&nm2.trim()&&nm2.trim()!==i.name){if(isS(i)&&!i.tk){const k=kOf(i);if(k)i.tk=k}i.name=nm2.trim()}
+    const n=prompt("중분류(계좌/상품) 이름",i.acct||"");if(n!==null&&n.trim())i.acct=n.trim();
+    save();render()}
   if(bb){const i=S.items.find(x=>x.id===bb);$("cat").value=i.cat;$("kd").value="stock";sync();$("ac").value=i.acct||"";pick(kOf(i)||i.name,1)}
   if(d){S.items=S.items.filter(i=>i.id!==d);save();render()}
   if(ed){const i=S.items.find(x=>x.id===ed);
