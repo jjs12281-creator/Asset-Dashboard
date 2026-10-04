@@ -30,6 +30,8 @@ table.pt{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}table
 .gh::before,.ah::before{content:"▸";margin-right:6px;color:var(--mu);display:inline-block;width:12px}
 details[open]>.gh::before,details[open]>.ah::before{content:"▾"}
 .ah{cursor:pointer}
+.sw{position:relative}.sg{position:absolute;z-index:20;left:0;top:100%;min-width:280px;max-width:90vw;background:var(--card);border:1px solid var(--bd);border-radius:8px;max-height:270px;overflow:auto;display:none;box-shadow:0 6px 18px rgba(0,0,0,.15)}
+.sg div{padding:8px 10px;cursor:pointer;font-size:13px;border-top:1px solid var(--bd)}.sg div:first-child{border-top:0}.sg div:hover{background:var(--bg)}
 </style></head><body><main>
 <div class="row sp"><h1>💰 내 자산 대시보드</h1><span class="mu" id="today"></span></div>
 
@@ -61,7 +63,7 @@ details[open]>.gh::before,details[open]>.ah::before{content:"▾"}
     <input id="ac" list="acl" placeholder="중분류 (예: ISA)"><datalist id="acl"></datalist>
     <select id="kd"><option value="stock">종목(수량)</option><option value="amt">금액</option></select>
     <select id="mk"><option value="KR">국내(원)</option><option value="US">해외(달러)</option></select>
-    <input id="tk" list="syms" placeholder="종목 선택(주식)">
+    <div class="sw" id="tkw"><input id="tk" autocomplete="off" placeholder="종목명 또는 코드 검색"><div class="sg" id="sg"></div></div>
     <datalist id="syms"></datalist>
     <input id="nm" placeholder="소분류 (종목·상품명)">
     <input id="qty" type="number" step="any" placeholder="수량 (매도는 -)">
@@ -69,6 +71,7 @@ details[open]>.gh::before,details[open]>.ah::before{content:"▾"}
     <input id="val" type="number" step="any" placeholder="금액(원) / 현재가(자동시세 없을 때)">
     <button class="p" id="addb">추가</button>
   </div>
+  <div id="tkh" class="mu" style="margin-top:6px"></div>
   <div id="helper" class="mu" style="display:none;margin-top:8px;padding:10px;border:1px dashed var(--ac);border-radius:8px"></div>
   <div class="mu" style="margin-top:6px">같은 종목을 다시 추가하면 수량이 합산되고 평균 매수가가 자동 재계산돼요. 해외주식 매수가는 달러로 입력하세요.</div>
 </div>
@@ -120,11 +123,11 @@ const val=i=>{if(!isS(i))return i.val||0;const x=info(i);return (i.qty||0)*x.p*x
 $("today").textContent=new Date().toLocaleDateString("ko-KR",{year:"numeric",month:"long",day:"numeric",weekday:"short"});
 const resolve=t=>{if(!t)return"";if(P.items[t])return t;const u=t.toUpperCase();if(P.items[u])return u;
   const e=Object.entries(P.items),f=e.find(([k,v])=>v.name===t)||e.find(([k,v])=>v.name.replace(/\s/g,"").includes(t.replace(/\s/g,"")));return f?f[0]:""};
-const pick=(k,keep)=>{if(!keep&&!canS($("cat").value))$("cat").value="inv";$("kd").value="stock";sync();if(P.items[k])$("mk").value=P.items[k].cur==="USD"?"US":"KR";$("tk").value=P.items[k]?P.items[k].name:k;$("qty").focus();$("qty").scrollIntoView({block:"center",behavior:"smooth"})};
+const pick=(k,keep)=>{if(!keep&&!canS($("cat").value))$("cat").value="inv";$("kd").value="stock";sync();if(P.items[k])$("mk").value=P.items[k].cur==="USD"?"US":"KR";if(P.items[k])chose({c:k,n:P.items[k].name,cur:P.items[k].cur,reg:1});else $("tk").value=k;$("qty").focus();$("qty").scrollIntoView({block:"center",behavior:"smooth"})};
 function sync(){const c=$("cat").value,s=canS(c),sm=s&&$("kd").value==="stock";
   $("acl").innerHTML=ACC[c].map(a=>`<option value="${a[0]}">`).join("");
   $("kd").style.display=s?"":"none";
-  ["tk","qty","buy","mk","chips","chl"].forEach(x=>$(x).style.display=sm?"":"none");
+  ["tkw","qty","buy","mk","chips","chl","tkh"].forEach(x=>$(x).style.display=sm?"":"none");
   $("val").placeholder=sm?"현재가(자동시세 없을 때)":"금액(원)"}
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
 
@@ -214,7 +217,7 @@ $("addb").onclick=()=>{
     if(q>0&&b)ex.buy=((ex.qty||0)*(ex.buy||0)+q*b)/nq;
     ex.qty=nq;if(!ex.mk)ex.mk=mk;if(vv!=="")ex.val=+vv;if(nq<=0)S.items=S.items.filter(i=>i!==ex);
   }else S.items.push({id:Date.now().toString(36),cat,acct,kind:isSk?"stock":"amt",name,tk,qty:q,buy:b,val:+vv||0,mk});
-  ["nm","tk","qty","buy","val"].forEach(x=>$(x).value="");save();render();
+  ["nm","tk","qty","buy","val"].forEach(x=>$(x).value="");$("tkh").textContent="";nmAuto=false;save();render();
 };
 $("chips").onclick=e=>{if(e.target.dataset.k)pick(e.target.dataset.k)};
 $("list").onclick=e=>{const d=e.target.dataset.d,ed=e.target.dataset.e,bb=e.target.dataset.b,cc=e.target.dataset.c;
@@ -319,6 +322,176 @@ function change(){
   el.innerHTML=o}
 $("chg").onclick=e=>{const p=e.target.dataset.p;if(p!=null){CMP=+p;change()}};
 $("ph_b").onclick=()=>{const d=$("ph_d").value,v=$("ph_v").value;if(!d||v===""||d>=td())return;S.snap[d]={net:+v*1e4};S.hist[d]=+v*1e4;$("ph_v").value="";save();render()};
+
+const CT=`005930.KS|삼성전자|samsung
+000660.KS|SK하이닉스|hynix
+373220.KS|LG에너지솔루션
+207940.KS|삼성바이오로직스
+005380.KS|현대차|hyundai
+000270.KS|기아|kia
+068270.KS|셀트리온
+105560.KS|KB금융
+055550.KS|신한지주
+086790.KS|하나금융지주
+316140.KS|우리금융지주
+005490.KS|POSCO홀딩스
+035420.KS|NAVER|네이버
+035720.KS|카카오|kakao
+006400.KS|삼성SDI
+051910.KS|LG화학
+012330.KS|현대모비스
+028260.KS|삼성물산
+032830.KS|삼성생명
+000810.KS|삼성화재
+012450.KS|한화에어로스페이스
+329180.KS|HD현대중공업
+034020.KS|두산에너빌리티
+259960.KS|크래프톤
+009150.KS|삼성전기
+015760.KS|한국전력
+003670.KS|포스코퓨처엠
+066570.KS|LG전자
+096770.KS|SK이노베이션
+017670.KS|SK텔레콤
+030200.KS|KT
+010130.KS|고려아연
+086280.KS|현대글로비스
+042660.KS|한화오션
+267260.KS|HD현대일렉트릭
+352820.KS|하이브
+323410.KS|카카오뱅크
+018260.KS|삼성에스디에스
+003550.KS|LG
+034730.KS|SK
+047810.KS|한국항공우주
+009830.KS|한화솔루션
+090430.KS|아모레퍼시픽
+247540.KQ|에코프로비엠
+086520.KQ|에코프로
+196170.KQ|알테오젠
+028300.KQ|HLB
+277810.KQ|레인보우로보틱스
+263750.KQ|펄어비스
+058470.KQ|리노공업
+041510.KQ|에스엠
+035900.KQ|JYP Ent.
+069500.KS|KODEX 200
+102110.KS|TIGER 200
+278530.KS|KODEX 200TR
+360750.KS|TIGER 미국S&P500
+360200.KS|ACE 미국S&P500
+433330.KS|SOL 미국S&P500
+379800.KS|KODEX 미국S&P500TR
+133690.KS|TIGER 미국나스닥100
+379810.KS|KODEX 미국나스닥100TR
+381170.KS|TIGER 미국테크TOP10 INDXX
+381180.KS|TIGER 미국필라델피아반도체나스닥
+390390.KS|KODEX 미국반도체MV
+091160.KS|KODEX 반도체
+091170.KS|KODEX 은행
+122630.KS|KODEX 레버리지
+252670.KS|KODEX 200선물인버스2X
+229200.KS|KODEX 코스닥150
+232080.KS|TIGER 코스닥150
+102780.KS|KODEX 삼성그룹
+161510.KS|PLUS 고배당주
+458730.KS|TIGER 미국배당다우존스
+446720.KS|SOL 미국배당다우존스
+441640.KS|KODEX 미국배당프리미엄액티브
+153130.KS|KODEX 단기채권
+357870.KS|TIGER CD금리투자KIS
+AAPL|애플|apple
+MSFT|마이크로소프트|microsoft
+NVDA|엔비디아|nvidia
+GOOGL|알파벳 Class A|google alphabet
+GOOG|알파벳 Class C|google alphabet
+AMZN|아마존|amazon
+META|메타|facebook
+TSLA|테슬라|tesla
+AVGO|브로드컴|broadcom
+BRK-B|버크셔해서웨이 B|berkshire
+JPM|JP모건|jpmorgan
+V|비자|visa
+MA|마스터카드|mastercard
+NFLX|넷플릭스|netflix
+AMD|AMD
+INTC|인텔|intel
+QCOM|퀄컴|qualcomm
+TSM|TSMC|taiwan semiconductor
+ASML|ASML
+COST|코스트코|costco
+WMT|월마트|walmart
+KO|코카콜라|coca cola
+PEP|펩시코|pepsi
+MCD|맥도날드|mcdonald
+DIS|디즈니|disney
+NKE|나이키|nike
+SBUX|스타벅스|starbucks
+PLTR|팔란티어|palantir
+UBER|우버|uber
+ORCL|오라클|oracle
+CRM|세일즈포스|salesforce
+ADBE|어도비|adobe
+MU|마이크론|micron
+LLY|일라이릴리|eli lilly
+UNH|유나이티드헬스|unitedhealth
+JNJ|존슨앤존슨|johnson
+PFE|화이자|pfizer
+XOM|엑슨모빌|exxon
+CVX|셰브론|chevron
+BA|보잉|boeing
+COIN|코인베이스|coinbase
+MSTR|마이크로스트래티지|microstrategy
+SMCI|슈퍼마이크로컴퓨터|super micro
+ARM|ARM홀딩스
+VOO|VOO 뱅가드 S&P500|vanguard sp500
+SPY|SPY SPDR S&P500
+IVV|IVV 아이셰어즈 S&P500
+SPLG|SPLG SPDR 포트폴리오 S&P500
+QQQ|QQQ 인베스코 나스닥100|nasdaq
+QQQM|QQQM 인베스코 나스닥100
+VTI|VTI 뱅가드 미국전체주식
+VT|VT 뱅가드 전세계주식
+VXUS|VXUS 뱅가드 미국외주식
+SCHD|SCHD 슈왑 미국배당|dividend
+VYM|VYM 뱅가드 고배당
+JEPI|JEPI JP모건 에쿼티 프리미엄
+JEPQ|JEPQ JP모건 나스닥 프리미엄
+VUG|VUG 뱅가드 성장주
+DIA|DIA 다우존스
+IWM|IWM 러셀2000
+TQQQ|TQQQ 나스닥100 3배
+SQQQ|SQQQ 나스닥100 인버스3배
+UPRO|UPRO S&P500 3배
+SOXL|SOXL 반도체 3배
+SOXX|SOXX 반도체
+SMH|SMH 반도체
+XLK|XLK 기술주
+XLF|XLF 금융
+XLE|XLE 에너지
+ARKK|ARKK 아크 이노베이션
+TLT|TLT 미국 장기국채 20년+
+BND|BND 미국 종합채권
+GLD|GLD 금
+SLV|SLV 은`.split("\n").map(l=>{const [c,n,a]=l.split("|");return{c,n,a:a||"",cur:/\.K[SQ]$/.test(c)?"KRW":"USD"}});
+let nmAuto=false,SGL=[];
+const nz=s=>String(s).toLowerCase().replace(/\s/g,"");
+function pool(){const reg=Object.entries(P.items).map(([c,v])=>({c,n:v.name,a:"",cur:v.cur,reg:1})),rs=new Set(reg.map(x=>x.c));return reg.concat(CT.filter(x=>!rs.has(x.c)))}
+function findSg(q){q=nz(q);if(!q)return[];
+  const sc=x=>{const c=nz(x.c),n=nz(x.n);return c===q||n===q?0:(c.startsWith(q)||n.startsWith(q))?1:(c+n+nz(x.a)).includes(q)?2:9};
+  return pool().map(x=>[sc(x),x]).filter(a=>a[0]<9).sort((a,b)=>(b[1].reg?1:0)-(a[1].reg?1:0)||a[0]-b[0]).map(a=>a[1]).slice(0,8)}
+function lookup(s){const q=nz(s);if(!q)return null;const p=pool();
+  return p.find(x=>nz(x.c)===q||nz(x.n)===q)||p.find(x=>/^\d{6}$/.test(q)&&nz(x.c).startsWith(q+"."))||null}
+function chose(x){$("tk").value=x.c;$("nm").value=x.n;nmAuto=true;$("mk").value=x.cur==="USD"?"US":"KR";$("sg").style.display="none";
+  $("tkh").textContent=x.reg?`✓ 등록된 종목: ${x.n} (${x.c}) · ${x.cur==="USD"?"달러":"원화"} · 시세 자동 연결`:`ℹ︎ 추천 목록 종목이에요(미등록): ${x.n} (${x.c}). 추가하면 symbols.txt에 넣을 줄을 알려드려요.`}
+$("tk").oninput=()=>{if(nmAuto){$("nm").value="";nmAuto=false}$("tkh").textContent="";
+  SGL=findSg($("tk").value);$("sg").innerHTML=SGL.map(x=>`<div data-c="${esc(x.c)}">${esc(x.n)} <span class="mu">${esc(x.c)} · ${x.reg?"✓등록":"미등록"}</span></div>`).join("");$("sg").style.display=SGL.length?"block":"none"};
+$("tk").onkeydown=e=>{if(e.key==="Enter"&&$("sg").style.display==="block"&&SGL[0]){e.preventDefault();chose(SGL[0])}};
+$("tk").onchange=()=>{const x=lookup($("tk").value);if(x)chose(x)};
+$("tk").onblur=()=>setTimeout(()=>$("sg").style.display="none",150);
+$("sg").onmousedown=e=>{const el=e.target.closest("[data-c]");if(el){e.preventDefault();const x=SGL.find(y=>y.c===el.dataset.c);if(x)chose(x)}};
+$("nm").oninput=()=>{nmAuto=false};
+$("nm").onchange=()=>{const v=$("nm").value.trim();if(v&&!$("tk").value.trim()&&canS($("cat").value)){const x=lookup(v);if(x)chose(x)}};
 
 $("cat").onchange=()=>{$("ac").value="";$("kd").value=canS($("cat").value)?"stock":"amt";sync()};
 $("kd").onchange=sync;
