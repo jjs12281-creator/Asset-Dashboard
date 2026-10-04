@@ -128,7 +128,8 @@ function sync(){const c=$("cat").value,s=canS(c),sm=s&&$("kd").value==="stock";
   $("acl").innerHTML=ACC[c].map(a=>`<option value="${a[0]}">`).join("");
   $("kd").style.display=s?"":"none";
   ["tkw","qty","buy","mk","chips","chl","tkh"].forEach(x=>$(x).style.display=sm?"":"none");
-  $("val").placeholder=sm?"현재가(자동시세 없을 때)":"금액(원)"}
+  const am=s&&!sm;$("buy").style.display=(sm||am)?"":"none";$("buy").placeholder=am?"투자원금(선택)":"매수가(국내 원/해외 달러)";
+  $("val").placeholder=sm?"현재가(자동시세 없을 때)":(am?"현재 평가금액(원)":"금액(원)")}
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
 
 async function init(){
@@ -165,9 +166,10 @@ function rowH(i){let sub="",extra="";
     if(x.prev){const d=(x.p-x.prev)/x.prev*100;sub+=` <span class="${d>=0?"up":"dn"}">(${d>=0?"+":""}${d.toFixed(1)}%)</span>`}
     if(i.buy){const g=(x.p-i.buy)*i.qty*x.f,pc=(x.p-i.buy)/i.buy*100;
       extra=`<div class="${g>=0?"up":"dn"}" style="font-size:13px">${g>=0?"+":""}${fmt(g)} (${pc.toFixed(1)}%)</div>`}}
+  if(!isS(i)&&i.cost){const g=val(i)-i.cost;sub=` · 원금 ${fmt(i.cost)}`;extra=`<div class="${g>=0?"up":"dn"}" style="font-size:13px">${g>=0?"+":""}${fmt(g)} (${(g/i.cost*100).toFixed(1)}%)</div>`}
   return `<div class="it"><div><b>${esc(i.name)}</b><span class="mu">${sub}</span></div>
   <div class="row"><div class="num">${fmt(val(i))}${extra}</div>
-  ${isS(i)?`<button class="s" data-b="${i.id}">+매수</button>`:""}<button class="s" data-c="${i.id}">분류</button><button class="s" data-e="${i.id}">수정</button><button class="s" data-d="${i.id}">삭제</button></div></div>`}
+  ${isS(i)?`<button class="s" data-b="${i.id}">+매수</button>`:canS(i.cat)?`<button class="s" data-n="${i.id}">+납입</button>`:""}<button class="s" data-c="${i.id}">분류</button><button class="s" data-e="${i.id}">수정</button><button class="s" data-d="${i.id}">삭제</button></div></div>`}
 function renderList(t,a){
   const closed=new Set(S.closed||[]),opA=new Set(S.openA||[]);let o="";
   ["cash","inv","pen","re","etc","debt"].forEach(c=>{
@@ -175,7 +177,7 @@ function renderList(t,a){
     o+=`<details data-t="c" data-k="${c}" ${closed.has(c)?"":"open"}><summary class="gh"><span><i style="background:${CAT[c][1]}"></i><b>${CAT[c][0]}</b> <span class="mu">${c!=="debt"&&a?(t[c]/a*100).toFixed(1)+"%":""}</span></span><b>${c==="debt"?"-":""}${fmt(t[c])}</b></summary>`;
     [...new Set(its.map(i=>i.acct||"기타"))].forEach(ac=>{
       const g=its.filter(i=>(i.acct||"기타")===ac),k=c+"|"+ac;let cost=0,gain=0;
-      g.forEach(i=>{if(isS(i)&&i.buy){const x=info(i);cost+=i.buy*i.qty*x.f;gain+=(x.p-i.buy)*i.qty*x.f}});
+      g.forEach(i=>{if(isS(i)&&i.buy){const x=info(i);cost+=i.buy*i.qty*x.f;gain+=(x.p-i.buy)*i.qty*x.f}else if(!isS(i)&&i.cost){cost+=i.cost;gain+=val(i)-i.cost}});
       const gt=cost?` <span class="${gain>=0?"up":"dn"}" style="font-weight:400">${gain>=0?"+":""}${fmt(gain)} (${(gain/cost*100).toFixed(1)}%)</span>`:"";
       o+=`<details data-t="a" data-k="${esc(k)}" ${opA.has(k)?"open":""}><summary class="ah"><span>${esc(ac)} <span class="mu" style="font-weight:400">${g.length}개</span></span><span>${fmt(g.reduce((s,i)=>s+val(i),0))}${gt}</span></summary>${g.map(rowH).join("")}</details>`});
     o+="</details>"});
@@ -216,11 +218,12 @@ $("addb").onclick=()=>{
   if(ex){const nq=(ex.qty||0)+q;
     if(q>0&&b)ex.buy=((ex.qty||0)*(ex.buy||0)+q*b)/nq;
     ex.qty=nq;if(!ex.mk)ex.mk=mk;if(vv!=="")ex.val=+vv;if(nq<=0)S.items=S.items.filter(i=>i!==ex);
-  }else S.items.push({id:Date.now().toString(36),cat,acct,kind:isSk?"stock":"amt",name,tk,qty:q,buy:b,val:+vv||0,mk});
+  }else S.items.push({id:Date.now().toString(36),cat,acct,kind:isSk?"stock":"amt",name,tk,qty:q,buy:isSk?b:0,cost:(!isSk&&canS(cat))?b:0,val:+vv||0,mk});
   ["nm","tk","qty","buy","val"].forEach(x=>$(x).value="");$("tkh").textContent="";nmAuto=false;save();render();
 };
 $("chips").onclick=e=>{if(e.target.dataset.k)pick(e.target.dataset.k)};
-$("list").onclick=e=>{const d=e.target.dataset.d,ed=e.target.dataset.e,bb=e.target.dataset.b,cc=e.target.dataset.c;
+$("list").onclick=e=>{const d=e.target.dataset.d,ed=e.target.dataset.e,bb=e.target.dataset.b,cc=e.target.dataset.c,nn=e.target.dataset.n;
+  if(nn){const i=S.items.find(x=>x.id===nn),r=prompt(`${i.name} 추가 매수·납입 금액(원)`,"");const x=r===null?NaN:+r.replace(/,/g,"");if(x>0){i.val=(i.val||0)+x;i.cost=(i.cost||0)+x;save();render()}}
   if(cc){const i=S.items.find(x=>x.id===cc),n=prompt("중분류(계좌/상품) 이름",i.acct||"");if(n!==null&&n.trim()){i.acct=n.trim();save();render()}}
   if(bb){const i=S.items.find(x=>x.id===bb);$("cat").value=i.cat;$("kd").value="stock";sync();$("ac").value=i.acct||"";pick(kOf(i)||i.name,1)}
   if(d){S.items=S.items.filter(i=>i.id!==d);save();render()}
@@ -228,7 +231,8 @@ $("list").onclick=e=>{const d=e.target.dataset.d,ed=e.target.dataset.e,bb=e.targ
     if(isS(i)){const q=prompt(`${i.name} 수량`,i.qty);if(q!==null&&q!==""&&!isNaN(+q))i.qty=+q;
       const b=prompt(`${i.name} 평균 매수가`,i.buy);if(b!==null&&b!==""&&!isNaN(+b))i.buy=+b;
       if(!P.items[kOf(i)]){const m=prompt("시장 (1=국내 원화, 2=해외 달러)",mkOf(i)==="US"?"2":"1");if(m==="1")i.mk="KR";if(m==="2")i.mk="US";const n=prompt("현재가(수동, "+(mkOf(i)==="US"?"달러":"원")+")",i.val);if(n!==null&&n!==""&&!isNaN(+n))i.val=+n}}
-    else{const n=prompt(`${i.name} 금액(원)`,i.val);if(n!==null&&n!==""&&!isNaN(+n))i.val=+n}
+    else{const n=prompt(`${i.name} ${canS(i.cat)?"평가":""}금액(원)`,i.val);if(n!==null&&n!==""&&!isNaN(+n.replace(/,/g,"")))i.val=+n.replace(/,/g,"");
+      if(canS(i.cat)){const c=prompt("투자원금(원, 모르면 비워두기)",i.cost||"");if(c!==null)i.cost=+c.replace(/,/g,"")||0}}
     save();render()}};
 const nv=id=>{const v=$(id).value.replace(/,/g,"");return v===""?NaN:+v};
 function fmtNum(el){const raw=el.value,pos=el.selectionStart==null?raw.length:el.selectionStart;
