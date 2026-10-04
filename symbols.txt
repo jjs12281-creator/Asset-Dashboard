@@ -11,3 +11,4 @@ AMZN 아마존닷컴
 BA 보잉
 META 메타
 ORCL 오라클
+KRW-BTC 비트코인
