@@ -127,7 +127,11 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
 const kOf=i=>P.items[i.tk]?i.tk:(resolve(i.tk)||resolve(i.name));
 const info=i=>{const q=P.items[kOf(i)];return q?{p:q.price,prev:q.prev,cur:q.cur,f:q.cur==="USD"?P.fx:1,auto:1}:{p:i.val||0,cur:mkOf(i)==="US"?"USD":"KRW",f:mkOf(i)==="US"?P.fx:1}};
 const mkOf=i=>i.mk||(/^\d{6}(\.K[SQ])?$/.test(i.tk||"")?"KR":/^[A-Za-z][A-Za-z.\-]*$/.test(i.tk||"")?"US":"KR");
-const val=i=>{if(!isS(i))return (i.link&&P.re&&P.re[i.link])?P.re[i.link].price:(i.val||0);const x=info(i);return (i.qty||0)*x.p*x.f};
+const amPmt=(a,r)=>{const i=r/1200;return i?a.P*i/(1-(1+i)**-a.N):a.P/a.N};
+const amBal=(a,r)=>{const i=r/1200,w=new Date(),[y,m]=a.start.split("-").map(Number),n=Math.max(0,(w.getFullYear()-y)*12+(w.getMonth()+1-m));
+  if(n>=a.N)return 0;return i?a.P*(1+i)**n-amPmt(a,r)*((1+i)**n-1)/i:a.P*(1-n/a.N)};
+const payOf=i=>i.am?amPmt(i.am,i.rate||0):(i.pay||0);
+const val=i=>{if(i.am)return amBal(i.am,i.rate||0);if(!isS(i))return (i.link&&P.re&&P.re[i.link])?P.re[i.link].price:(i.val||0);const x=info(i);return (i.qty||0)*x.p*x.f};
 $("today").textContent=new Date().toLocaleDateString("ko-KR",{year:"numeric",month:"long",day:"numeric",weekday:"short"});
 const resolve=t=>{if(!t)return"";if(P.items[t])return t;const u=t.toUpperCase();if(P.items[u])return u;
   const e=Object.entries(P.items),f=e.find(([k,v])=>v.name===t)||e.find(([k,v])=>v.name.replace(/\s/g,"").includes(t.replace(/\s/g,"")));return f?f[0]:""};
@@ -175,9 +179,9 @@ function rowH(i){let sub="",extra="";
     if(i.buy){const g=(x.p-i.buy)*i.qty*x.f,pc=(x.p-i.buy)/i.buy*100;
       extra=`<div class="${g>=0?"up":"dn"}" style="font-size:13px">${g>=0?"+":""}${fmt(g)} (${pc.toFixed(1)}%)</div>`}}
   if(!isS(i)&&i.cost){const g=val(i)-i.cost;sub=` · ${i.cat==="re"?"매수가":"원금"} ${fmt(i.cost)}`;extra=`<div class="${g>=0?"up":"dn"}" style="font-size:13px">${g>=0?"+":""}${fmt(g)} (${(g/i.cost*100).toFixed(1)}%)</div>`}
-  if(i.cat==="debt"&&(i.rate||i.pay)){const bal=val(i),r=(i.rate||0)/1200,mi=bal*r;let tx="";
-    if(i.pay>0){if(r>0){if(i.pay>mi){const n=Math.ceil(-Math.log(1-bal*r/i.pay)/Math.log(1+r));tx=` · 완납 약 ${Math.floor(n/12)}년 ${n%12}개월 후`}else tx=" · 월 상환액이 이자보다 적어요"}else tx=` · 완납 약 ${Math.ceil(bal/i.pay)}개월 후`}
-    sub=` · 금리 ${i.rate||0}% · 월 이자 ${fmt(mi)}${i.pay?" · 월 상환 "+fmt(i.pay):""}${tx}`}
+  if(i.cat==="debt"&&(i.rate||payOf(i))){const bal=val(i),r=(i.rate||0)/1200,mi=bal*r,pp=payOf(i);let tx="";
+    if(pp>0){if(r>0){if(pp>mi){const n=Math.ceil(-Math.log(1-bal*r/pp)/Math.log(1+r));tx=` · 완납 약 ${Math.floor(n/12)}년 ${n%12}개월 후`}else tx=" · 월 상환액이 이자보다 적어요"}else tx=` · 완납 약 ${Math.ceil(bal/pp)}개월 후`}
+    sub=` · 금리 ${i.rate||0}% · 월 이자 ${fmt(mi)}${pp?" · 월 상환 "+fmt(pp):""}${tx}${i.am?" · 잔액 자동계산":""}`}
   if(i.link&&P.re&&P.re[i.link]){const r=P.re[i.link];sub=` · 실거래가 자동(최근 ${r.n}건 평균) · 마지막 거래 ${r.date} ${fmt(r.last)}${i.cost?" · 매수가 "+fmt(i.cost):""}`}
   return `<div class="it"><div><b>${esc(i.name)}</b><span class="mu">${sub}</span></div>
   <div class="row"><div class="num">${fmt(val(i))}${extra}</div>
@@ -253,7 +257,12 @@ $("list").onclick=e=>{const d=e.target.dataset.d,ed=e.target.dataset.e,bb=e.targ
     else{if(i.cat==="re"&&P.re&&P.re.home){const c=prompt("실거래가 자동 연결 (1=연결, 0=직접 입력)",i.link?"1":"0");if(c==="1"){i.link="home";const c2=prompt("매수가(원, 비우면 유지)",i.cost||"");if(c2!==null&&c2!=="")i.cost=+c2.replace(/,/g,"")||0;save();render();return}if(c==="0")i.link=""}
       const n=prompt(`${i.name} ${canS(i.cat)?"평가":""}금액(원)`,i.val);if(n!==null&&n!==""&&!isNaN(+n.replace(/,/g,"")))i.val=+n.replace(/,/g,"");
       if(canS(i.cat)||i.cat==="re"){const c=prompt(i.cat==="re"?"매수가(원, 모르면 비워두기)":"투자원금(원, 모르면 비워두기)",i.cost||"");if(c!==null)i.cost=+c.replace(/,/g,"")||0}
-      if(i.cat==="debt"){const r2=prompt("금리(연 %, 비우면 유지)",i.rate||"");if(r2!==null&&r2!=="")i.rate=+r2;const p2=prompt("월 상환액(원, 비우면 유지)",i.pay||"");if(p2!==null&&p2!=="")i.pay=+p2.replace(/,/g,"")||0}}
+      if(i.cat==="debt"){const r2=prompt("금리(연 %, 비우면 유지)",i.rate||"");if(r2!==null&&r2!=="")i.rate=+r2;const p2=prompt("월 상환액(원, 비우면 유지)",i.pay||"");if(p2!==null&&p2!=="")i.pay=+p2.replace(/,/g,"")||0;
+        const am=prompt("원리금균등상환 잔액 자동계산 (1=사용, 0=사용 안 함)",i.am?"1":"0");
+        if(am==="1"){const P0=prompt("최초 대출 원금(원)",i.am?i.am.P:""),st=prompt("대출 시작월 (예: 2023-05)",i.am?i.am.start:""),N0=prompt("총 상환 개월수 (예: 360)",i.am?i.am.N:"");
+          const Pn=+String(P0||"").replace(/,/g,""),Nn=+N0;
+          if(Pn>0&&Nn>0&&/^\d{4}-\d{2}$/.test(st||""))i.am={P:Pn,start:st,N:Nn};else alert("입력을 확인해 주세요: 원금, 2023-05 형식의 시작월, 총 개월수")}
+        else if(am==="0")delete i.am}}
     save();render()}};
 const nv=id=>{const v=$(id).value.replace(/,/g,"");return v===""?NaN:+v};
 function fmtNum(el){const raw=el.value,pos=el.selectionStart==null?raw.length:el.selectionStart;
@@ -536,7 +545,7 @@ function aiSummary(){const{t,a,net}=totals(),q=$("aiQ").value.trim()||"내 자�
   const L=["[내 자산 현황 — "+td()+" 기준]",`순자산 ${won(net)} (총자산 ${won(a)}, 부채 ${won(t.debt)})`];
   ["cash","inv","pen","re","etc"].forEach(c=>{if(!t[c])return;L.push(`- ${CAT[c][0]}: ${won(t[c])} (${a?(t[c]/a*100).toFixed(1):0}%)`);
     [...new Set(S.items.filter(i=>i.cat===c).map(i=>i.acct||"기타"))].forEach(ac=>L.push(`    · ${ac}: ${won(S.items.filter(i=>i.cat===c&&(i.acct||"기타")===ac).reduce((s,i)=>s+val(i),0))}`))});
-  S.items.filter(i=>i.cat==="debt").forEach(i=>L.push(`- 대출(${i.acct||"기타"}): 잔액 ${won(val(i))}${i.rate?`, 금리 ${i.rate}%`:""}${i.pay?`, 월 상환 ${won(i.pay)}`:""}`));
+  S.items.filter(i=>i.cat==="debt").forEach(i=>L.push(`- 대출(${i.acct||"기타"}): 잔액 ${won(val(i))}${i.rate?`, 금리 ${i.rate}%`:""}${payOf(i)?`, 월 상환 ${won(payOf(i))}`:""}`));
   if(S.set.m)L.push(`월 저축 가능액 ${won(S.set.m)}, 기대수익률 연 ${S.set.r}%`);
   S.goals.forEach(g=>L.push(`목표: ${g.name} ${won(g.target)} (${g.date})`));
   const p=S.pp;if(p.age)L.push(`연금 설정: 현재 ${p.age}세, 납입 종료 ${p.ret}세, 개인연금 개시 ${p.start}세, 월 납입 ${won((p.c||0)*1e4)}, 국민연금 월 ${won((p.nps||0)*1e4)}(${p.npsAge}세 개시), 희망 월 생활비 ${won((p.need||0)*1e4)}`);
