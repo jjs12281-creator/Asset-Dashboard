@@ -47,7 +47,7 @@ details[open]>.gh::before,details[open]>.ah::before{content:"▾"}
 <div class="card"><h2>📊 자산 변화</h2>
   <div id="chg"></div>
   <details style="margin-top:8px"><summary class="mu" style="cursor:pointer">과거 기록 직접 추가 (비교 기준용)</summary>
-    <div class="add"><input id="ph_d" type="date"><input id="ph_v" type="number" placeholder="그날 순자산(만원)"><button id="ph_b">추가</button></div>
+    <div class="add"><input id="ph_d" type="date"><input id="ph_v" type="text" inputmode="decimal" class="nf" placeholder="그날 순자산(만원)"><button id="ph_b">추가</button></div>
     <div class="mu">예: 지난달 말일의 순자산을 증권앱·통장 잔액으로 계산해 넣으면 바로 전월말 대비가 나와요.</div></details>
   <div class="mu" style="margin-top:6px">기록은 대시보드를 열거나 수정할 때마다 오늘 값으로 저장돼요. 증감에는 새로 넣은 돈(저축·납입)과 평가손익이 함께 들어 있어요.</div>
 </div>
@@ -66,9 +66,9 @@ details[open]>.gh::before,details[open]>.ah::before{content:"▾"}
     <div class="sw" id="tkw"><input id="tk" autocomplete="off" placeholder="종목명 또는 코드 검색"><div class="sg" id="sg"></div></div>
     <datalist id="syms"></datalist>
     <input id="nm" placeholder="소분류 (종목·상품명)">
-    <input id="qty" type="number" step="any" placeholder="수량 (매도는 -)">
-    <input id="buy" type="number" step="any" placeholder="매수가(국내 원/해외 달러)">
-    <input id="val" type="number" step="any" placeholder="금액(원) / 현재가(자동시세 없을 때)">
+    <input id="qty" type="text" inputmode="decimal" class="nf" placeholder="수량 (매도는 -)">
+    <input id="buy" type="text" inputmode="decimal" class="nf" placeholder="매수가(국내 원/해외 달러)">
+    <input id="val" type="text" inputmode="decimal" class="nf" placeholder="금액(원) / 현재가(자동시세 없을 때)">
     <button class="p" id="addb">추가</button>
   </div>
   <div id="tkh" class="mu" style="margin-top:6px"></div>
@@ -79,13 +79,13 @@ details[open]>.gh::before,details[open]>.ah::before{content:"▾"}
 <div class="card"><h2>🎯 내 목표 & 맞춤 플랜</h2>
   <div class="mu">목표에 쓸 자산은 <b>예금·현금 + 주식·ETF</b>로 계산해요(부동산·기타자산 제외).</div>
   <div class="add">
-    <input id="gm" type="number" placeholder="월 저축 가능액(만원)">
+    <input id="gm" type="text" inputmode="decimal" class="nf" placeholder="월 저축 가능액(만원)">
     <input id="gr" type="number" step="0.1" placeholder="기대수익률 연 %" value="3">
   </div>
   <div id="goals"></div>
   <div class="add">
     <input id="gn" placeholder="목표 (예: 내집마련)">
-    <input id="gt" type="number" placeholder="목표금액(만원)">
+    <input id="gt" type="text" inputmode="decimal" class="nf" placeholder="목표금액(만원)">
     <input id="gd" type="month" title="목표 시점">
     <button class="p" id="gadd">목표 추가</button>
   </div>
@@ -139,7 +139,7 @@ async function init(){
   $("syms").innerHTML=Object.entries(P.items).map(([k,v])=>`<option value="${esc(v.name)}">${k}</option>`).join("");
   $("chips").innerHTML=Object.entries(P.items).map(([k,v])=>`<button class="s" data-k="${k}">${esc(v.name)}</button>`).join("")||'<span class="mu">symbols.txt에 종목을 추가하면 여기에 나타나요.</span>';
   $("pinfo").textContent=P.updated?`시세 기준일 ${P.updated} · 환율 ${P.fx}원/$ (매일 자동 갱신)`:"시세 파일(prices.json)이 아직 없어요. Actions 탭에서 먼저 한 번 실행하세요.";
-  $("gm").value=S.set.m?S.set.m/1e4:"";$("gr").value=S.set.r;
+  $("gm").value=S.set.m?(S.set.m/1e4).toLocaleString("ko-KR"):"";$("gr").value=S.set.r;
   fillPP();sync();render();
 }
 function totals(){const t={cash:0,inv:0,pen:0,re:0,etc:0,debt:0};S.items.forEach(i=>{if(i.cat in t)t[i.cat]+=val(i)});t.stock=t.inv;
@@ -199,7 +199,7 @@ function news(){const st=S.items.filter((i,x,r)=>isS(i)&&r.findIndex(j=>isS(j)&&
     return `<div class="it"><b>${esc(i.name)}</b><span class="row"><a target="_blank" rel="noopener" href="https://search.naver.com/search.naver?where=news&sort=1&query=${q}">네이버 뉴스</a><a target="_blank" rel="noopener" href="https://news.google.com/search?hl=ko&gl=KR&ceid=KR:ko&q=${encodeURIComponent(i.name)}">구글 뉴스</a></span></div>`}).join("")}
 $("addb").onclick=()=>{
   const cat=$("cat").value,isSk=canS(cat)&&$("kd").value==="stock",acct=$("ac").value.trim()||ACC[cat][0][0];
-  const raw=$("tk").value.trim(),tk=isSk?(resolve(raw)||raw):"",q=+$("qty").value||0,b=+$("buy").value||0,vv=$("val").value,mk0=$("mk").value;
+  const raw=$("tk").value.trim(),tk=isSk?(resolve(raw)||raw):"",q=nv("qty")||0,b=nv("buy")||0,vv=$("val").value.replace(/,/g,""),mk0=$("mk").value;
   const known=isSk&&P.items[tk],name=$("nm").value.trim()||(known?P.items[tk].name:raw);
   if(!name)return;
   if(!isSk&&vv==="")return;
@@ -230,9 +230,18 @@ $("list").onclick=e=>{const d=e.target.dataset.d,ed=e.target.dataset.e,bb=e.targ
       if(!P.items[kOf(i)]){const m=prompt("시장 (1=국내 원화, 2=해외 달러)",mkOf(i)==="US"?"2":"1");if(m==="1")i.mk="KR";if(m==="2")i.mk="US";const n=prompt("현재가(수동, "+(mkOf(i)==="US"?"달러":"원")+")",i.val);if(n!==null&&n!==""&&!isNaN(+n))i.val=+n}}
     else{const n=prompt(`${i.name} 금액(원)`,i.val);if(n!==null&&n!==""&&!isNaN(+n))i.val=+n}
     save();render()}};
-const gset=()=>{S.set={m:(+$("gm").value||0)*1e4,r:$("gr").value===""?3:+$("gr").value};save();render()};
+const nv=id=>{const v=$(id).value.replace(/,/g,"");return v===""?NaN:+v};
+function fmtNum(el){const raw=el.value,pos=el.selectionStart==null?raw.length:el.selectionStart;
+  let s=raw.replace(/[^\d.\-]/g,"");const neg=s.startsWith("-");s=s.replace(/-/g,"");
+  const p=s.split("."),ip=p[0].replace(/\B(?=(\d{3})+(?!\d))/g,","),f=(neg?"-":"")+ip+(p.length>1?"."+p.slice(1).join(""):"");
+  const before=raw.slice(0,pos).replace(/[^\d.]/g,"").length;el.value=f;
+  let c=0,i=0;for(;i<f.length&&c<before;i++){if(/[\d.]/.test(f[i]))c++}
+  try{el.setSelectionRange(i,i)}catch(e){}}
+document.addEventListener("input",e=>{if(e.target.classList&&e.target.classList.contains("nf"))fmtNum(e.target)});
+
+const gset=()=>{S.set={m:(nv("gm")||0)*1e4,r:$("gr").value===""?3:+$("gr").value};save();render()};
 $("gm").onchange=$("gr").onchange=gset;
-$("gadd").onclick=()=>{const n=$("gn").value.trim(),t=(+$("gt").value||0)*1e4,d=$("gd").value;if(!n||!t||!d)return;
+$("gadd").onclick=()=>{const n=$("gn").value.trim(),t=(nv("gt")||0)*1e4,d=$("gd").value;if(!n||!t||!d)return;
   S.goals.push({id:Date.now().toString(36),name:n,target:t,date:d});["gn","gt","gd"].forEach(x=>$(x).value="");save();render()};
 $("goals").onclick=e=>{const d=e.target.dataset.gd;if(d){S.goals=S.goals.filter(g=>g.id!==d);save();render()}};
 function goals(t){
@@ -271,9 +280,9 @@ function goals(t){
 const PF=[["age","현재 나이","나이"],["ret","납입 종료 나이","나이"],["start","개인연금 개시 나이","나이"],["end","수령 종료 나이(기대)","나이"],
  ["c","월 납입액(만원)","IRP·연금저축 등"],["r","기대수익률 연 %","%"],["pi","물가상승률 연 %","%"],
  ["nps","국민연금 월 예상액(만원)","공단 조회값"],["npsAge","국민연금 개시 나이","나이"],["need","희망 월 생활비(만원)","오늘 가치"]];
-$("pf").innerHTML=PF.map(([k,l,ph])=>`<label>${l}<input id="pp_${k}" type="number" step="any" placeholder="${ph}"></label>`).join("");
-PF.forEach(([k])=>{$("pp_"+k).onchange=()=>{const v=$("pp_"+k).value;S.pp[k]=v===""?(k==="age"?"":0):+v;save();render()}});
-function fillPP(){PF.forEach(([k])=>{const v=S.pp[k];$("pp_"+k).value=v===""||v==null?"":v})}
+$("pf").innerHTML=PF.map(([k,l,ph])=>`<label>${l}<input id="pp_${k}" ${["c","nps","need"].includes(k)?'type="text" inputmode="decimal" class="nf"':'type="number" step="any"'} placeholder="${ph}"></label>`).join("");
+PF.forEach(([k])=>{$("pp_"+k).onchange=()=>{const v=$("pp_"+k).value.replace(/,/g,"");S.pp[k]=v===""?(k==="age"?"":0):+v;save();render()}});
+function fillPP(){PF.forEach(([k])=>{const v=S.pp[k];$("pp_"+k).value=v===""||v==null?"":(["c","nps","need"].includes(k)?Number(v).toLocaleString("ko-KR"):v)})}
 function pension(t){
   const p=S.pp,el=$("pres"),age=+p.age;
   const grp=S.items.filter(i=>i.cat==="pen"),P0=t.pen;
@@ -321,7 +330,7 @@ function change(){
   else if(b)o+='<div class="mu" style="margin-top:8px">직접 추가한 기록은 순자산만 있어서 항목별 비교는 나오지 않아요.</div>';
   el.innerHTML=o}
 $("chg").onclick=e=>{const p=e.target.dataset.p;if(p!=null){CMP=+p;change()}};
-$("ph_b").onclick=()=>{const d=$("ph_d").value,v=$("ph_v").value;if(!d||v===""||d>=td())return;S.snap[d]={net:+v*1e4};S.hist[d]=+v*1e4;$("ph_v").value="";save();render()};
+$("ph_b").onclick=()=>{const d=$("ph_d").value,v=$("ph_v").value.replace(/,/g,"");if(!d||v===""||d>=td())return;S.snap[d]={net:+v*1e4};S.hist[d]=+v*1e4;$("ph_v").value="";save();render()};
 
 const CT=`005930.KS|삼성전자|samsung
 000660.KS|SK하이닉스|hynix
