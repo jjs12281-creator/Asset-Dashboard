@@ -68,23 +68,30 @@ def fetch_home(old_home):
     name = os.environ.get("APT_NAME", "").strip(); dong = os.environ.get("APT_DONG", "").strip()
     try: area = float(os.environ.get("APT_AREA", "").strip())
     except ValueError: area = 0
-    if not (key and lawd and name and area): return old_home
+    miss = [n for n, v in (("MOLIT_KEY", key), ("APT_LAWD", lawd), ("APT_NAME", name), ("APT_AREA", area)) if not v]
+    if miss:
+        print("실거래가 건너뜀 - 비어 있는 Secrets:", ", ".join(miss)); return old_home
     today = datetime.date.today()
     ch = (old_home or {}).get("checked")
     if ch and (today - datetime.date.fromisoformat(ch)).days < 7: return old_home   # 주 1회만 조회
-    norm = lambda t: re.sub(r"\s|단지", "", t)
+    norm = lambda t: re.sub(r"\s|단지|아파트", "", t)
     nn, deals, (y, m) = norm(name), [], (today.year, today.month)
+    stat = {"조회월": 0, "전체거래": 0, "면적일치": 0, "단지명일치": 0}
     for _ in range(24):
         try: rows = apt_deals(key, lawd, f"{y}{m:02d}")
         except Exception as e:
             print("실거래가 조회 실패:", f"{y}{m:02d}", e)
             if not deals: return old_home
             break
+        stat["조회월"] += 1; stat["전체거래"] += len(rows)
         for it in rows:
             try: ar = float(it.get("excluUseAr", "0"))
             except ValueError: continue
             a = norm(it.get("aptNm", ""))
-            if abs(ar - area) > 0.3 or not a or not (nn in a or a in nn): continue
+            if abs(ar - area) > 0.3: continue
+            stat["면적일치"] += 1
+            if not a or not (nn in a or (a in nn and len(a) >= len(nn) - 1)): continue
+            stat["단지명일치"] += 1
             if dong and dong not in it.get("umdNm", ""): continue
             if it.get("cdealType", "").strip().upper() == "O": continue          # 취소된 거래 제외
             try: d = datetime.date(int(it["dealYear"]), int(it["dealMonth"]), int(it["dealDay"])); amt = int(it["dealAmount"].replace(",", "")) * 10000
@@ -94,7 +101,7 @@ def fetch_home(old_home):
         m -= 1
         if m == 0: y, m = y - 1, 12
     if not deals:
-        print("최근 24개월 내 일치하는 거래가 없습니다."); return old_home
+        print("최근 24개월 내 일치하는 거래가 없습니다.", stat); return old_home
     deals.sort(reverse=True); top = deals[:3]
     print("실거래가 일치 거래", len(deals), "건, 최근", top[0][0])
     return {"price": round(sum(a for _, a in top) / len(top)), "last": top[0][1], "date": top[0][0].isoformat(),
