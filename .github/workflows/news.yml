@@ -1,0 +1,32 @@
+name: update-news
+on:
+  schedule:
+    - cron: "30 22 * * 0-4"   # 한국시간 평일 07:30
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: update-prices
+  cancel-in-progress: false
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install cryptography
+      - run: python fetch_news.py
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GEMINI_MODEL: ${{ secrets.GEMINI_MODEL }}
+          CLAUDE_MODEL: ${{ secrets.CLAUDE_MODEL }}
+          NEWS_PASS: ${{ secrets.NEWS_PASS }}
+          APT_NAME: ${{ secrets.APT_NAME }}
+          APT_REGION: ${{ secrets.APT_REGION }}
+      - run: |
+          git config user.name "news-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add news.json
+          git diff --staged --quiet || (git commit -m "update news" && git pull --rebase && git push)
