@@ -77,35 +77,27 @@ details[open]>.gh::before,details[open]>.ah::before{content:"▾"}
   <div class="mu" style="margin-top:6px">같은 종목을 다시 추가하면 수량이 합산되고 평균 매수가가 자동 재계산돼요. 해외주식 매수가는 달러로 입력하세요.</div>
 </div>
 
-<div class="card"><h2>🎯 내 목표 & 맞춤 플랜</h2>
-  <div class="mu">목표에 쓸 자산은 <b>예금·현금 + 주식·ETF</b>로 계산해요(부동산·기타자산 제외).</div>
-  <div class="add">
-    <input id="gm" type="text" inputmode="decimal" class="nf" placeholder="월 저축 가능액(만원)">
-    <input id="gr" type="number" step="0.1" placeholder="기대수익률 연 %" value="3">
-  </div>
-  <div id="goals"></div>
-  <div class="add">
-    <input id="gn" placeholder="목표 (예: 내집마련)">
-    <input id="gt" type="text" inputmode="decimal" class="nf" placeholder="목표금액(만원)">
-    <input id="gd" type="month" title="목표 시점">
-    <button class="p" id="gadd">목표 추가</button>
-  </div>
-  <div class="mu" style="margin-top:6px">예: 내집마련, 목표금액 30000(=3억원), 목표시점 3년 뒤. 수익률은 가정일 뿐 보장되지 않으며, 일반적인 참고용 계산이에요.</div>
-</div>
-<div class="card"><h2>🧓 노후·연금 플랜</h2>
-  <div class="mu">연금·보험 대분류에 입력한 자산(IRP·연금저축·퇴직연금·변액보험 등)을 합산해서, 개시 나이별 예상 월 수령액을 <b>오늘 가치 기준</b>으로 계산해요.</div>
-  <div class="fg" id="pf"></div>
-  <div class="mu" style="margin-top:6px">국민연금 예상 월액과 개시 나이는 국민연금공단 '내 연금 알아보기'에서 본인 가입이력 기준으로 조회해 입력하세요. 수익률·물가는 가정이며 보장되지 않아요.</div>
-  <div id="pres"></div>
+<div class="card"><h2>⚖️ 리밸런싱 검토</h2>
+  <div class="mu">주식·ETF(모든 계좌 합산)의 현재 비중과 내가 정한 목표 비중을 비교해서, 얼마를 사고팔면 되는지 계산해요.</div>
+  <div class="add"><input id="rbCash" class="nf" type="text" inputmode="decimal" placeholder="신규 투입금(원)"><input id="rbTol" type="number" step="any" placeholder="허용 오차 ±%p" value="5">
+    <label class="mu" style="display:flex;align-items:center;gap:6px"><input id="rbNo" type="checkbox" style="width:auto">매도 없이 투입금으로만</label></div>
+  <div id="rbc"></div>
+  <div class="row" style="margin-top:8px"><button class="s" id="rbEq">균등 비중으로 채우기</button><button class="s" id="rbCur">현재 비중으로 초기화</button><button class="s" id="rbAI">🤖 AI 검토 요청문 복사</button><button class="s" id="rbCl">Claude 열기</button><button class="s" id="rbGe">Gemini 열기</button></div>
+  <div class="mu" style="margin-top:6px">대시보드는 목표 비중에 맞춘 계산과 쏠림 점검까지만 해요. 어떤 자산을 새로 담을지는 AI 검토 요청문을 Claude·Gemini에 붙여넣어 의견을 들어보세요. 세금·수수료·거래 제한은 반영되지 않아요.</div>
 </div>
 <div class="card"><h2>💡 재무설계 팁</h2><div id="tips"></div></div>
-<div class="card"><h2>📰 보유 종목 뉴스</h2><div id="news"><span class="mu">주식을 추가하면 뉴스 링크가 나타나요.</span></div></div>
+<div class="card"><h2>📰 뉴스 브리핑</h2><div id="nmeta" class="mu"></div><div id="news"></div></div>
 <div class="card"><h2>🤖 AI 재무상담</h2>
   <div class="mu">내 자산 요약(종목명·계좌명·대출명 제외)을 복사해서 Claude나 Gemini 대화창에 붙여넣으면 맞춤 상담을 받을 수 있어요.</div>
   <div class="add"><input id="aiQ" placeholder="물어볼 내용 (예: 3년 내 내집마련 가능할까?)" style="grid-column:1/-1"></div>
   <div class="row" style="margin-top:8px"><button class="p" id="aiCopy">📋 요약 복사</button><button id="aiClaude">Claude 열기</button><button id="aiGem">Gemini 열기</button></div>
   <textarea id="aiTxt" rows="7" style="width:100%;margin-top:8px;font:13px/1.5 inherit;background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:8px;padding:8px" placeholder="복사 버튼을 누르면 여기에 요약이 만들어져요. 필요하면 수정해서 사용하세요."></textarea>
   <div class="mu">복사한 내용에는 금액이 들어가요. 공유 화면에서 붙여넣기 전에 한 번 확인하세요.</div>
+</div>
+<div class="card"><h2>💾 데이터 백업·이전</h2>
+  <div class="mu">입력한 자산 정보는 이 기기의 브라우저에만 저장돼요. 파일로 저장해 두면 다른 PC·폰으로 옮기거나 복구할 수 있어요.</div>
+  <div class="row" style="margin-top:8px"><button class="p" id="bkEx">내보내기 (파일 저장)</button><button id="bkIm">가져오기</button><input type="file" id="bkFile" accept=".json,application/json" style="display:none"></div>
+  <div class="mu" style="margin-top:6px">백업 파일에는 모든 금액과 보유 내역이 들어 있어요. 클라우드나 메신저에 올릴 때는 본인만 볼 수 있는 곳에 보관하세요.</div>
 </div>
 <div class="mu" style="text-align:center">내 보유 정보는 이 기기의 브라우저에만 저장됩니다. 참고용이며 투자 권유가 아닙니다.</div>
 </main>
@@ -119,8 +111,7 @@ etc:[["자동차","amt"],["귀금속·기타","amt"]],
 debt:[["주택담보대출","amt"],["전세대출","amt"],["신용대출","amt"],["기타 대출","amt"]]};
 const canS=c=>c==="inv"||c==="pen",isS=i=>i.kind==="stock"||(!i.kind&&i.cat==="stock");
 const $=id=>document.getElementById(id),KEY="asset-dash-gh-v1";
-const DEFP={age:"",ret:60,start:60,end:90,c:0,r:4,pi:2.5,nps:0,npsAge:65,need:0};
-let S={items:[],hist:{},goals:[],set:{m:0,r:3},pp:{...DEFP},snap:{}},P={items:{},fx:1400,updated:""};
+let S={items:[],hist:{},snap:{},rb:{targets:{},cash:0,tol:5}},NEWS=null,NPRIV=null,P={items:{},fx:1400,updated:""};
 const won=n=>Math.round(n).toLocaleString("ko-KR")+"원";
 const fmt=n=>{const a=Math.abs(n);return (n<0?"-":"")+(a>=1e8?(a/1e8).toFixed(2)+"억원":a>=1e4?Math.round(a/1e4).toLocaleString("ko-KR")+"만원":Math.round(a)+"원")};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -145,15 +136,17 @@ function sync(){const c=$("cat").value,s=canS(c),sm=s&&$("kd").value==="stock";
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
 
 async function init(){
-  try{const l=localStorage.getItem(KEY);if(l)S=Object.assign({items:[],hist:{},goals:[],set:{m:0,r:3}},JSON.parse(l))}catch(e){}
-  S.pp=Object.assign({...DEFP},S.pp||{});S.snap=S.snap||{};
+  try{const l=localStorage.getItem(KEY);if(l)S=Object.assign({items:[],hist:{},snap:{}},JSON.parse(l))}catch(e){}
+  S.snap=S.snap||{};S.rb=Object.assign({targets:{},cash:0,tol:5},S.rb||{});
   S.items.forEach(i=>{if(!i.kind){i.kind=i.cat==="stock"?"stock":"amt";if(i.cat==="stock")i.cat="inv"}if(!i.acct)i.acct=ACC[i.cat]?ACC[i.cat][0][0]:"기타"});
   try{P=await (await fetch("prices.json?"+Date.now())).json()}catch(e){}
   $("syms").innerHTML=Object.entries(P.items).map(([k,v])=>`<option value="${esc(v.name)}">${k}</option>`).join("");
   $("chips").innerHTML=Object.entries(P.items).map(([k,v])=>`<button class="s" data-k="${k}">${esc(v.name)}</button>`).join("")||'<span class="mu">symbols.txt에 종목을 추가하면 여기에 나타나요.</span>';
   $("pinfo").textContent=P.updated?`시세 기준일 ${P.updated} · 환율 ${P.fx}원/$ (매일 자동 갱신)`:"시세 파일(prices.json)이 아직 없어요. Actions 탭에서 먼저 한 번 실행하세요.";
-  $("gm").value=S.set.m?(S.set.m/1e4).toLocaleString("ko-KR"):"";$("gr").value=S.set.r;
-  fillPP();sync();render();
+  try{NEWS=await (await fetch("news.json?"+Date.now())).json()}catch(e){}
+  const pw=localStorage.getItem("news-pass");if(NEWS&&NEWS.private&&pw){try{NPRIV=JSON.parse(await decrypt(NEWS.private,pw))}catch(e){}}
+  $("rbCash").value=S.rb.cash?S.rb.cash.toLocaleString("ko-KR"):"";$("rbTol").value=S.rb.tol;$("rbNo").checked=!!S.rb.nosell;
+  sync();render();
 }
 function totals(){const t={cash:0,inv:0,pen:0,re:0,etc:0,debt:0};S.items.forEach(i=>{if(i.cat in t)t[i.cat]+=val(i)});t.stock=t.inv;
   const a=t.cash+t.inv+t.pen+t.re+t.etc;return{t,a,net:a-t.debt}}
@@ -170,7 +163,7 @@ function render(){
     $("spark").innerHTML=`<polyline fill="none" stroke="#2f6fed" stroke-width="2.5" points="${vs.map((v,i)=>`${i/(vs.length-1)*396+2},${54-(v-mn)/r*48}`).join(" ")}"/>`;
     const d=vs[vs.length-1]-vs[0];$("sparkcap").textContent=`${ks[0]} 이후 ${d>=0?"+":""}${fmt(d)}`}
   else{$("spark").innerHTML="";$("sparkcap").textContent="매일 열어볼수록 순자산 추이가 쌓여요."}
-  tips(t,a);news();goals(t);pension(t);change();
+  tips(t,a);news();change();rebal();
 }
 function rowH(i){let sub="",extra="";
   if(isS(i)){const x=info(i),u=x.cur==="USD"?"$":"원";
@@ -215,9 +208,27 @@ function tips(t,a){const L=[];
     if(t.debt/a>.4)L.push("💳 부채비율이 40%를 넘어요. 고금리 대출부터 상환 우선순위를 정해 보세요.");}
   L.push("🧾 연금저축·IRP·ISA 등 세제혜택 계좌를 먼저 채우면 같은 수익도 세후로 더 남아요.","🔁 매월 일정 금액을 자동이체로 투자하는 적립식이 타이밍 부담을 줄여줘요.","📅 분기에 한 번 목표 비중으로 리밸런싱하세요.");
   $("tips").innerHTML=L.slice(0,6).map(x=>`<div class="tip">${x}</div>`).join("")}
-function news(){const st=S.items.filter((i,x,r)=>isS(i)&&r.findIndex(j=>isS(j)&&j.name===i.name)===x);if(!st.length)return;
-  $("news").innerHTML=st.map(i=>{const nn0=i.name.replace(/^\s*(\[[^\]]*\]\s*)+/,""),q=encodeURIComponent(nn0+" 주가");
-    return `<div class="it"><b>${esc(i.name)}</b><span class="row"><a target="_blank" rel="noopener" href="https://search.naver.com/search.naver?where=news&sort=1&query=${q}">네이버 뉴스</a><a target="_blank" rel="noopener" href="https://news.google.com/search?hl=ko&gl=KR&ceid=KR:ko&q=${encodeURIComponent(nn0)}">구글 뉴스</a></span></div>`}).join("")}
+const MOOD={"긍정":"🟢 긍정","부정":"🔴 부정","중립":"⚪ 중립"};
+const ulh=a=>a&&a.length?`<ul style="margin:2px 0 2px 18px;padding:0;font-size:13px">${a.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:"";
+const lkh=ls=>(ls||[]).slice(0,3).map(l=>`<div class="mu" style="font-size:12px">· <a target="_blank" rel="noopener" href="${esc(l.url)}">${esc(l.title)}</a> ${esc(l.date||"")}</div>`).join("");
+const nblock=(t,n)=>`<div class="tip"><b>${esc(t)}</b> <span class="mu">${MOOD[n.mood]||"▫︎ 정보 부족"}</span>${n.summary?`<div style="margin-top:4px">${esc(n.summary)}</div>`:""}${n.pos&&n.pos.length?`<div class="mu" style="margin-top:4px">긍정 요인</div>${ulh(n.pos)}`:""}${n.neg&&n.neg.length?`<div class="mu">부정 요인·리스크</div>${ulh(n.neg)}`:""}${n.watch&&n.watch.length?`<div class="mu">확인할 점</div>${ulh(n.watch)}`:""}${n.points&&n.points.length?ulh(n.points):""}${lkh(n.links)}</div>`;
+async function decrypt(b,pw){const e=new TextEncoder(),d=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0)),
+  km=await crypto.subtle.importKey("raw",e.encode(pw),"PBKDF2",false,["deriveKey"]),
+  key=await crypto.subtle.deriveKey({name:"PBKDF2",salt:d(b.salt),iterations:b.iter,hash:"SHA-256"},km,{name:"AES-GCM",length:256},false,["decrypt"]);
+  return new TextDecoder().decode(await crypto.subtle.decrypt({name:"AES-GCM",iv:d(b.iv)},key,d(b.ct)))}
+function news(){
+  $("nmeta").textContent=NEWS?`${NEWS.updated} 기준 · ${NEWS.ai?"AI가 뉴스 헤드라인을 요약한 내용이에요. 투자 권유가 아니며 틀릴 수 있어요.":"AI 키가 없어 요약 없이 헤드라인만 보여줘요."}`:"news.json이 아직 없어요. Actions의 update-news를 먼저 실행하세요.";
+  let o='<div class="mu" style="margin-top:6px">보유 종목</div>';const H=holdings();
+  o+=H.length?H.map(x=>{const n=NEWS&&NEWS.stocks&&NEWS.stocks[x.k];if(n)return nblock(x.name,n);
+    const q=encodeURIComponent(x.name+" 주가");return `<div class="it"><b>${esc(x.name)}</b><span class="row"><a target="_blank" rel="noopener" href="https://search.naver.com/search.naver?where=news&sort=1&query=${q}">네이버 뉴스</a></span></div>`}).join(""):'<div class="mu">주식·ETF를 추가하면 나타나요.</div>';
+  o+='<div class="mu" style="margin-top:10px">부동산</div>';
+  if(NEWS&&NEWS.market)o+=nblock("부동산 시장 동향",NEWS.market);
+  if(NPRIV&&NPRIV.home)o+=nblock("내 부동산 관련",NPRIV.home);
+  else if(NEWS&&NEWS.private)o+='<button class="s" id="unlock">🔒 내 부동산 뉴스 열기 (비밀번호)</button>';
+  $("news").innerHTML=o}
+$("news").onclick=async e=>{if(e.target.id!=="unlock")return;const pw=prompt("뉴스 비밀번호 (Secrets의 NEWS_PASS)");if(!pw)return;
+  try{NPRIV=JSON.parse(await decrypt(NEWS.private,pw));localStorage.setItem("news-pass",pw);news()}catch(x){alert("비밀번호가 맞지 않아요.")}};
+function holdings(){const m={};S.items.filter(isS).forEach(i=>{const k=kOf(i)||i.tk||i.name,x=info(i),o=m[k]||(m[k]={k,name:i.name.replace(/^\s*(\[[^\]]*\]\s*)+/,""),v:0,p:x.p,f:x.f,cur:x.cur});o.v+=val(i)});return Object.values(m).sort((a,b)=>b.v-a.v)}
 $("addb").onclick=()=>{
   const cat=$("cat").value,isSk=canS(cat)&&$("kd").value==="stock",acct=$("ac").value.trim()||ACC[cat][0][0];
   const raw=$("tk").value.trim(),tk=isSk?(resolve(raw)||raw):"",q=nv("qty")||0,b=nv("buy")||0,vv=$("val").value.replace(/,/g,""),mk0=$("mk").value;
@@ -272,76 +283,6 @@ function fmtNum(el){const raw=el.value,pos=el.selectionStart==null?raw.length:el
   let c=0,i=0;for(;i<f.length&&c<before;i++){if(/[\d.]/.test(f[i]))c++}
   try{el.setSelectionRange(i,i)}catch(e){}}
 document.addEventListener("input",e=>{if(e.target.classList&&e.target.classList.contains("nf"))fmtNum(e.target)});
-
-const gset=()=>{S.set={m:(nv("gm")||0)*1e4,r:$("gr").value===""?3:+$("gr").value};save();render()};
-$("gm").onchange=$("gr").onchange=gset;
-$("gadd").onclick=()=>{const n=$("gn").value.trim(),t=(nv("gt")||0)*1e4,d=$("gd").value;if(!n||!t||!d)return;
-  S.goals.push({id:Date.now().toString(36),name:n,target:t,date:d});["gn","gt","gd"].forEach(x=>$(x).value="");save();render()};
-$("goals").onclick=e=>{const d=e.target.dataset.gd;if(d){S.goals=S.goals.filter(g=>g.id!==d);save();render()}};
-function goals(t){
-  const fin=t.cash+t.stock,m=S.set.m||0,r=S.set.r??3,i=r/1200,now=new Date();
-  const af=n=>i?((1+i)**n-1)/i:n,fv=n=>fin*(1+i)**n;
-  if(!S.goals.length){$("goals").innerHTML='<div class="mu" style="padding:10px 0">아직 목표가 없어요. 아래에서 추가해 보세요.</div>';return}
-  const multi=S.goals.length>1;
-  $("goals").innerHTML=S.goals.map(g=>{
-    const [y,mo]=g.date.split("-").map(Number),n=(y-now.getFullYear())*12+(mo-(now.getMonth()+1));
-    const head=`<div class="row sp"><b>${esc(g.name)}</b><span class="mu">${g.date}${n>0?` (${n}개월 남음)`:""} <button class="s" data-gd="${g.id}">삭제</button></span></div>`;
-    if(n<=0)return `<div class="tip">${head}<div class="mu">목표 시점이 지났어요. 시점을 새로 설정해 주세요.</div></div>`;
-    const reach=fv(n)+m*af(n),need=Math.max(0,(g.target-fv(n))/af(n)),pct=Math.min(100,fin/g.target*100),ok=reach>=g.target;
-    const L=[];
-    if(!m)L.push("💬 월 저축 가능액을 입력하면 달성 예측이 정확해져요.");
-    else if(!ok){const diff=need-m;L.push(`📌 월 저축을 약 ${fmt(diff)} 늘리면 목표 시점에 달성할 수 있어요.`);
-      let k=n;while(k<600&&fv(k)+m*af(k)<g.target)k++;
-      if(k<600)L.push(`⏳ 현재 저축액을 유지한다면 목표 시점을 약 ${k-n}개월 늦추면 달성 가능해요.`)}
-    else L.push("✅ 현재 속도를 유지하면 달성 가능해요. 목표 시점 가까이엔 변동성이 큰 자산 비중을 줄이는 걸 고려하세요.");
-    if(n<=36&&fin>0&&t.stock/fin>.4)L.push(`⚠️ 목표가 3년 이내인데 주식·ETF 비중이 ${(t.stock/fin*100).toFixed(0)}%예요. 하락장에 시점이 겹치면 원금이 모자랄 수 있어, 목표 몫은 예적금·CMA·단기채 같은 안정 자산으로 옮기는 걸 고려하세요.`);
-    if(n>60)L.push("📈 5년 이상 남았다면 분산된 장기 투자(적립식)를 병행할 여유가 있어요. 단, 수익률은 보장되지 않아요.");
-    if(n<=36)L.push("🧮 기간이 짧을수록 수익률 가정을 보수적으로(예적금 수준) 두는 게 안전해요.");
-    if(/집|주택|아파트|전세|청약/.test(g.name)){
-      L.push("🏠 집값 전액보다 대출을 함께 쓰는 경우가 많으니, 목표금액을 '필요 자기자본(집값−대출)'으로 잡으면 현실적이에요. 대출 한도(LTV·DSR)와 정책대출 조건은 수시로 바뀌니 은행·금융당국 공식 안내로 꼭 확인하세요.");
-      L.push("🧾 취득세·중개수수료·이사비 등 부대비용이 집값의 수 % 수준으로 더 들 수 있어 목표금액에 포함해 두세요.");
-      L.push("📝 청약통장 보유·납입 여부를 점검하세요(자격은 지역·시기에 따라 달라요).");
-      if(t.debt>0)L.push("💳 기존 부채가 있으면 대출 한도에 영향을 줄 수 있어, 상환 계획을 함께 세우세요.")}
-    if(multi)L.push("ℹ️ 목표가 여러 개면 같은 자산을 중복해서 쓰고 있어요. 목표별로 자금을 나눠 계산해 보세요.");
-    return `<div class="tip">${head}
-      <div class="mu">목표 ${fmt(g.target)} · 현재 가용자산 ${fmt(fin)} (${pct.toFixed(0)}%)</div>
-      <div class="bar" style="height:8px;margin:6px 0"><div style="width:${pct}%;background:#2f6fed"></div></div>
-      <div style="color:${ok?"#2e9e5b":"#e5484d"}">${m?`현재 속도 기준 ${n}개월 뒤 예상 ${fmt(reach)} — ${ok?"목표 달성 가능":`${fmt(g.target-reach)} 부족`}`:`필요한 월 저축액(수익률 ${r}% 가정): 약 ${fmt(need)}`}</div>
-      ${m&&!ok?`<div class="mu">목표까지 필요한 월 저축액: 약 ${fmt(need)}</div>`:""}
-      ${L.map(x=>`<div class="mu" style="margin-top:4px">${x}</div>`).join("")}</div>`}).join("");
-}
-
-const PF=[["age","현재 나이","나이"],["ret","납입 종료 나이","나이"],["start","개인연금 개시 나이","나이"],["end","수령 종료 나이(기대)","나이"],
- ["c","월 납입액(만원)","IRP·연금저축 등"],["r","기대수익률 연 %","%"],["pi","물가상승률 연 %","%"],
- ["nps","국민연금 월 예상액(만원)","공단 조회값"],["npsAge","국민연금 개시 나이","나이"],["need","희망 월 생활비(만원)","오늘 가치"]];
-$("pf").innerHTML=PF.map(([k,l,ph])=>`<label>${l}<input id="pp_${k}" ${["c","nps","need"].includes(k)?'type="text" inputmode="decimal" class="nf"':'type="number" step="any"'} placeholder="${ph}"></label>`).join("");
-PF.forEach(([k])=>{$("pp_"+k).onchange=()=>{const v=$("pp_"+k).value.replace(/,/g,"");S.pp[k]=v===""?(k==="age"?"":0):+v;save();render()}});
-function fillPP(){PF.forEach(([k])=>{const v=S.pp[k];$("pp_"+k).value=v===""||v==null?"":(["c","nps","need"].includes(k)?Number(v).toLocaleString("ko-KR"):v)})}
-function pension(t){
-  const p=S.pp,el=$("pres"),age=+p.age;
-  const grp=S.items.filter(i=>i.cat==="pen"),P0=t.pen;
-  const br=[...new Set(grp.map(i=>i.acct))].map(ac=>`${esc(ac)} ${fmt(grp.filter(i=>i.acct===ac).reduce((s,i)=>s+val(i),0))}`).join(" · ");
-  const head=`<div class="tip"><b>현재 연금성 자산 ${fmt(P0)}</b><div class="mu">${br||"연금·보험 대분류에 IRP·연금저축 등을 먼저 입력해 주세요."}</div></div>`;
-  if(!age){el.innerHTML=head+'<div class="mu" style="padding:8px 0">현재 나이를 입력하면 예상 수령액이 계산돼요.</div>';return}
-  const rr=(1+p.r/100)/(1+p.pi/100)-1,i=Math.pow(1+rr,1/12)-1,c=(p.c||0)*1e4;
-  const af=n=>i?((1+i)**n-1)/i:n,gf=n=>(1+i)**n,pay=(F,M)=>M<=0?0:(i?F*i/(1-(1+i)**-M):F/M);
-  const calc=sa=>{const n2=Math.max(0,(sa-age)*12),n1=Math.min(n2,Math.max(0,(p.ret-age)*12)),fv=(P0*gf(n1)+c*af(n1))*gf(n2-n1);return{fv,n1,n2,m:pay(fv,(p.end-sa)*12)}};
-  if(p.end<=p.start){el.innerHTML=head+'<div class="mu">수령 종료 나이가 개시 나이보다 커야 해요.</div>';return}
-  const r=calc(p.start),nps=(p.nps||0)*1e4,need=(p.need||0)*1e4,a1=Math.min(p.start,p.npsAge),a2=Math.max(p.start,p.npsAge);
-  const seg=[];
-  if(nps&&a1<a2)seg.push([a1,a2-1,p.start<p.npsAge?r.m:nps,p.start<p.npsAge?"개인연금만":"국민연금만"]);
-  seg.push([nps?a2:p.start,p.end,r.m+nps,nps?"개인연금 + 국민연금":"개인연금"]);
-  let o=head+`<div class="tip"><b>${p.start}세 개시 기준 (오늘 가치, 세전)</b>
-    <div class="mu">${p.start}세 시점 예상 적립액 ${fmt(r.fv)} → ${p.end}세까지 개인연금 월 약 <b>${fmt(r.m)}</b></div>`
-    +seg.map(([x,y,m,l])=>`<div style="margin-top:4px">${x}세 ~ ${y}세: 월 <b>${fmt(m)}</b> <span class="mu">(${l})</span></div>`).join("");
-  const tot=r.m+nps;
-  if(need){const ok=tot>=need;
-    o+=`<div style="margin-top:6px;color:${ok?"#2e9e5b":"#e5484d"}">희망 생활비 ${fmt(need)} 대비 충족률 ${(tot/need*100).toFixed(0)}% (${ok?"충족":`월 ${fmt(need-tot)} 부족`})</div>`;
-    if(!ok){const FVn=(need-tot)*(i?(1-(1+i)**-((p.end-p.start)*12))/i:(p.end-p.start)*12),den=af(r.n1)*gf(r.n2-r.n1);
-      o+=den>0?`<div class="mu">부족분을 개인연금으로 채우려면 월 납입을 약 ${fmt(FVn/den)} 더 늘려야 해요(납입 종료 시점까지, 현재 월 납입액에 더해서).</div>`:'<div class="mu">납입 기간이 남아 있지 않아 납입으로는 보완이 어려워요. 개시 나이를 늦추거나 다른 자산을 함께 고려하세요.</div>'}}
-  o+='</div><div class="tip"><b>개시 나이별 개인연금 월 수령액</b><table class="pt"><tr><th>개시 나이</th><th>적립액</th><th>월 수령</th></tr>'+[55,60,65,70].filter(x=>x<p.end).map(x=>{const q=calc(x);return `<tr><td>${x}세</td><td>${fmt(q.fv)}</td><td>${fmt(q.m)}</td></tr>`}).join("")+'</table></div>';
-  o+='<div class="tip mu">ⓘ 모든 금액은 오늘 가치 기준(물가 반영)이고 세전이에요. 연금소득세·건강보험료, 퇴직연금 DB의 지급 방식, 변액보험·연금보험의 상품별 지급 조건은 반영되지 않았어요. 국민연금은 수령을 늦추면 금액이 늘어나는 연기연금 제도가 있고, 연금계좌 세제혜택·수령 요건은 바뀔 수 있으니 공단·금융당국의 최신 안내를 확인하세요.</div>';
-  el.innerHTML=o}
 
 let CMP=1;
 const pad=n=>String(n).padStart(2,"0"),ds=d=>d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate()),td=()=>ds(new Date());
@@ -541,18 +482,60 @@ $("sg").onmousedown=e=>{const el=e.target.closest("[data-c]");if(el){e.preventDe
 $("nm").oninput=()=>{nmAuto=false};
 $("nm").onchange=()=>{const v=$("nm").value.trim();if(v&&!$("tk").value.trim()&&canS($("cat").value)){const x=lookup(v);if(x)chose(x)}};
 
-function aiSummary(){const{t,a,net}=totals(),q=$("aiQ").value.trim()||"내 자산 구성과 목표를 바탕으로 개선점과 우선순위를 알려줘.";
+function aiSummary(){const{t,a,net}=totals(),q=$("aiQ").value.trim()||"내 자산 구성을 바탕으로 개선점과 우선순위를 알려줘.";
   const L=["[내 자산 현황 — "+td()+" 기준]",`순자산 ${won(net)} (총자산 ${won(a)}, 부채 ${won(t.debt)})`];
   ["cash","inv","pen","re","etc"].forEach(c=>{if(!t[c])return;L.push(`- ${CAT[c][0]}: ${won(t[c])} (${a?(t[c]/a*100).toFixed(1):0}%)`);
     [...new Set(S.items.filter(i=>i.cat===c).map(i=>i.acct||"기타"))].forEach(ac=>L.push(`    · ${ac}: ${won(S.items.filter(i=>i.cat===c&&(i.acct||"기타")===ac).reduce((s,i)=>s+val(i),0))}`))});
   S.items.filter(i=>i.cat==="debt").forEach(i=>L.push(`- 대출(${i.acct||"기타"}): 잔액 ${won(val(i))}${i.rate?`, 금리 ${i.rate}%`:""}${payOf(i)?`, 월 상환 ${won(payOf(i))}`:""}`));
-  if(S.set.m)L.push(`월 저축 가능액 ${won(S.set.m)}, 기대수익률 연 ${S.set.r}%`);
-  S.goals.forEach(g=>L.push(`목표: ${g.name} ${won(g.target)} (${g.date})`));
-  const p=S.pp;if(p.age)L.push(`연금 설정: 현재 ${p.age}세, 납입 종료 ${p.ret}세, 개인연금 개시 ${p.start}세, 월 납입 ${won((p.c||0)*1e4)}, 국민연금 월 ${won((p.nps||0)*1e4)}(${p.npsAge}세 개시), 희망 월 생활비 ${won((p.need||0)*1e4)}`);
   L.push("","[질문]",q,"※ 투자 권유가 아닌 일반적인 조언으로, 전제와 한계를 함께 설명해줘.");return L.join("\n")}
 $("aiCopy").onclick=async()=>{const s=aiSummary();$("aiTxt").value=s;try{await navigator.clipboard.writeText(s);$("aiCopy").textContent="복사됨 ✓"}catch(e){$("aiTxt").select();$("aiCopy").textContent="아래 내용을 직접 복사하세요"}setTimeout(()=>$("aiCopy").textContent="📋 요약 복사",2000)};
 $("aiClaude").onclick=()=>{if(!$("aiTxt").value)$("aiTxt").value=aiSummary();window.open("https://claude.ai/new","_blank","noopener")};
 $("aiGem").onclick=()=>{if(!$("aiTxt").value)$("aiTxt").value=aiSummary();window.open("https://gemini.google.com/app","_blank","noopener")};
+
+$("bkEx").onclick=()=>{const b=new Blob([JSON.stringify(S)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="asset-dashboard-backup-"+td()+".json";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
+$("bkIm").onclick=()=>$("bkFile").click();
+$("bkFile").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();
+  r.onload=()=>{try{const o=JSON.parse(r.result);if(!Array.isArray(o.items))throw 0;
+    if(!confirm("이 기기의 현재 데이터를 백업 파일 내용으로 바꿉니다. 계속할까요?"))return;
+    S=Object.assign({items:[],hist:{},snap:{}},o);S.snap=S.snap||{};S.rb=Object.assign({targets:{},cash:0,tol:5},S.rb||{});
+    S.items.forEach(i=>{if(!i.kind){i.kind=i.cat==="stock"?"stock":"amt";if(i.cat==="stock")i.cat="inv"}if(!i.acct)i.acct=ACC[i.cat]?ACC[i.cat][0][0]:"기타"});
+    save();$("rbCash").value=S.rb.cash?S.rb.cash.toLocaleString("ko-KR"):"";$("rbTol").value=S.rb.tol;$("rbNo").checked=!!S.rb.nosell;sync();render();alert("가져오기가 끝났어요.")}
+    catch(x){alert("올바른 백업 파일이 아니에요.")}};
+  r.readAsText(f);e.target.value=""};
+
+function rbCalc(){const H=holdings(),R=S.rb,tot=H.reduce((s,x)=>s+x.v,0),cash=R.cash||0,T=tot+cash;
+  H.forEach(x=>{x.cp=tot?x.v/tot*100:0;x.set=R.targets[x.k]!=null;x.tg=x.set?R.targets[x.k]:x.cp;x.d=T*x.tg/100-x.v});
+  if(R.nosell){const sh=H.map(x=>Math.max(0,x.d)),ss=sh.reduce((a,b)=>a+b,0),k=ss>cash&&ss>0?cash/ss:1;H.forEach((x,i)=>x.d=sh[i]*k)}
+  return{H,tot,cash,T,R}}
+function rebal(){
+  const el=$("rbc"),{H,tot,cash,R}=rbCalc();
+  if(!H.length){el.innerHTML='<div class="mu" style="padding:8px 0">주식·ETF를 입력하면 검토가 나와요.</div>';return}
+  const anySet=H.some(x=>x.set),sum=H.reduce((s,x)=>s+x.tg,0),out=anySet?H.filter(x=>Math.abs(x.cp-x.tg)>R.tol).length:0;
+  const usd=H.filter(x=>x.cur==="USD").reduce((s,x)=>s+x.v,0),top=H[0];
+  let o=`<div class="mu">주식·ETF 평가액 ${fmt(tot)}${cash?` + 신규 투입금 ${fmt(cash)}`:""}</div>`;
+  o+=!anySet?'<div style="margin:6px 0">목표 비중을 입력하면 조정 금액이 계산돼요. (아래 칸에 직접 입력하거나 버튼으로 채우세요)</div>'
+    :out?`<div style="margin:6px 0;color:#e5484d">⚠️ 목표 대비 허용 오차(±${R.tol}%p)를 벗어난 종목이 ${out}개예요. 리밸런싱을 검토할 시점이에요.</div>`
+    :'<div style="margin:6px 0;color:#2e9e5b">✅ 모든 종목이 허용 오차 안에 있어요.</div>';
+  if(anySet&&Math.abs(sum-100)>0.5)o+=`<div class="mu" style="color:#e5484d">목표 비중 합계가 ${sum.toFixed(1)}%예요. 100%가 되도록 맞춰 주세요.</div>`;
+  if(R.nosell&&!cash)o+='<div class="mu" style="color:#e5484d">매도 없이 맞추려면 신규 투입금을 입력하세요.</div>';
+  o+='<table class="pt"><tr><th>종목</th><th>현재</th><th>목표%</th><th>조정</th></tr>'+H.map(x=>{
+    const u=x.p*x.f,n=u?x.d/u:0,ns=Math.abs(n)>=10?Math.round(Math.abs(n)):Math.abs(n).toFixed(2),big=Math.abs(x.d)>=1;
+    return `<tr><td>${esc(x.name)}</td><td>${x.cp.toFixed(1)}%</td><td><input class="rbt nf" data-k="${esc(x.k)}" type="text" inputmode="decimal" style="width:64px;padding:3px 5px" placeholder="${x.cp.toFixed(1)}" value="${x.set?x.tg:""}"></td>
+    <td class="${x.d>=0?"up":"dn"}">${big?`${x.d>=0?"+":"-"}${fmt(Math.abs(x.d))} ${x.d>=0?"매수":"매도"}<div class="mu" style="font-size:11px">약 ${ns}${/^KRW-/.test(x.k)?"개":"주"}</div>`:"—"}</td></tr>`}).join("")+'</table>';
+  o+=`<div class="mu" style="margin-top:6px">구성: 원화 자산 ${tot?((tot-usd)/tot*100).toFixed(0):0}% · 달러 자산 ${tot?(usd/tot*100).toFixed(0):0}%${top&&tot&&top.v/tot>.3?` · ⚠️ ${esc(top.name)} 비중이 ${(top.v/tot*100).toFixed(0)}%로 한 종목에 쏠려 있어요`:""}</div>`;
+  el.innerHTML=o}
+$("rbc").onchange=e=>{const k=e.target.dataset&&e.target.dataset.k;if(k==null)return;const v=e.target.value.replace(/,/g,"");if(v==="")delete S.rb.targets[k];else S.rb.targets[k]=+v;save();rebal()};
+$("rbCash").onchange=()=>{S.rb.cash=nv("rbCash")||0;save();rebal()};
+$("rbTol").onchange=()=>{S.rb.tol=+$("rbTol").value||5;save();rebal()};
+$("rbNo").onchange=()=>{S.rb.nosell=$("rbNo").checked;save();rebal()};
+$("rbEq").onclick=()=>{const H=holdings();H.forEach(x=>S.rb.targets[x.k]=+(100/H.length).toFixed(1));save();rebal()};
+$("rbCur").onclick=()=>{const{H}=rbCalc();S.rb.targets={};H.forEach(x=>S.rb.targets[x.k]=+x.cp.toFixed(1));save();rebal()};
+function rbPrompt(){const{H,tot,cash,R}=rbCalc(),L=["[내 주식·ETF 포트폴리오 — "+td()+" 기준]",`평가액 ${won(tot)}${cash?`, 신규 투입 예정 ${won(cash)}`:""}, 허용 오차 ±${R.tol}%p`];
+  H.forEach(x=>{const n=NEWS&&NEWS.stocks&&NEWS.stocks[x.k];L.push(`- ${x.name}: 현재 ${x.cp.toFixed(1)}% (${won(x.v)}), 목표 ${x.set?x.tg+"%":"미설정"}${n&&n.summary?` / 최근 뉴스 분위기 ${n.mood}: ${n.summary}`:""}`)});
+  L.push("","[요청]","1) 리밸런싱이 필요한지와 이유","2) 종목별로 비중을 늘릴지·유지할지·줄일지와 근거","3) 비중을 늘릴 만한 신규 투자 후보 자산군·섹터와 고르는 기준(개별 종목은 예시로만, 단정하지 말고 근거와 리스크를 함께)","4) 세금·수수료·환율 등 고려할 점","※ 투자 권유가 아닌 정보 제공으로 설명하고, 부족한 전제는 질문해줘.");return L.join("\n")}
+$("rbAI").onclick=async()=>{const s=rbPrompt();try{await navigator.clipboard.writeText(s);$("rbAI").textContent="복사됨 ✓"}catch(e){prompt("아래 내용을 복사하세요",s)}setTimeout(()=>$("rbAI").textContent="🤖 AI 검토 요청문 복사",2000)};
+$("rbCl").onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText(rbPrompt()).catch(()=>0);window.open("https://claude.ai/new","_blank","noopener")};
+$("rbGe").onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText(rbPrompt()).catch(()=>0);window.open("https://gemini.google.com/app","_blank","noopener")};
 
 $("cat").onchange=()=>{$("ac").value="";$("kd").value=canS($("cat").value)?"stock":"amt";sync()};
 $("kd").onchange=sync;
