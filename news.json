@@ -1,0 +1,526 @@
+{
+ "updated": "2026-10-10 16:54",
+ "ai": false,
+ "stocks": {
+  "000660.KS": {
+   "name": "SK하이닉스",
+   "links": [
+    {
+     "title": "삼전닉스 대신 방산·반도체 테마형으로…변화하는 레버리지 ETF 판도 - 매일경제 마켓",
+     "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE1nZHdXWHFJNFhQTjFQSWc1dlpLbTRMbFBCejdmUmk1c3U0TVRJbVE0VTdqeTNsdnFoRDlTbEl0bkZBcHJud1gtZU0yU0Z3Z0Y4SGc?oc=5",
+     "source": "매일경제 마켓",
+     "date": "2026-10-10"
+    },
+    {
+     "title": "10월 2주차 SK하이닉스 주가 하락 마감 - TopStarNews",
+     "url": "https://news.google.com/rss/articles/CBMickFVX3lxTFBZYkZRYW9xYmxTamJOd0owcnRwSVFpUFYtRnMwYWNreTlyMnRka0I3NlIzVG00VUtSSTJHSC1pQXpNaThubHNaR1lZWk1mX0paa3p4YXhEc01yUTlhQXFzMXBudElET3dtUGpfVEY0X2wtZw?oc=5",
+     "source": "TopStarNews",
+     "date": "2026-10-10"
+    },
+    {
+     "title": "오늘 SK하이닉스 ADR 주식 하락하는 이유는? - Investing.com 한국어",
+     "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE1la2UxSlhmQjhTcmxENkNFb3pQWmRyOFU4cUtnTGRmX2lzRnFKaUVKU1pRMlpobXRnU2ZBTm1xV0dBNk1ZdVV1MS1WLUo5TS10WWYyTFJaaWNIa205UTk4ZHZkRkJGeTRIeTYyQXltZ1A2OHBOMEJF?oc=5",
+     "source": "Investing.com 한국어",
+     "date": "2026-10-07"
+    },
+    {
+     "title": "삼전 살까, SK하닉 살까…여의도 전설은 ‘이 종목’ 찍었다 - 중앙일보",
+     "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1md3RBaUJ4QkoyLVFsTEhBWFRFbzBnQkd2Y3hfY0Vlb1h4bkNPWWFNWXRUUXBkLWl2MnpWTWpKQzkwVndlRHp2V2FTWHh4bzVDc1ZwejNB?oc=5",
+     "source": "중앙일보",
+     "date": "2026-10-08"
+    },
+    {
+     "title": "결국 목표가 ‘380만원’까지 나왔다… “SK하이닉스, 이제 시작이다” - 쿠키뉴스",
+     "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTFBmRk5iSUV4QjdtZ25VVkhNZjlvWlBGQTNGb1B6NERwV1ZqZmhZLWRwUEV1MzAycGNidDd0R09QcnVDWlRfbEpVd1Njazd1ZkdIcTd3MGtISURTOTZXVDZ6a1ptZw?oc=5",
+     "source": "쿠키뉴스",
+     "date": "2026-10-09"
+    },
+    {
+     "title": "ASML 10월 14일 실적발표 : 삼성전자 주가 끌어올릴까? 향후 전망 - 네이버 프리미엄콘텐츠",
+     "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxPd2ozZVZGRWlwQXNOa2FxOGpjaXI2Wjc1TGkzVy11azctakMtS2JVYVpQMko3aVY1RFFSTzBnSHlNWmVYd0c0eEt4Qm0yVjhWZ3k5TzJrR21LWldxZW11dlZEeDd3Wll0SU11WF9qWjNxdmkzNjlkbDFweDYydnU3RDRfSQ?oc=5",
+     "source": "네이버 프리미엄콘텐츠",
+     "date": "2026-10-10"
+    }
+   ]
+  },
+  "005930.KS": {
+   "name": "삼성전자",
+   "links": [
+    {
+     "title": "삼성전자 실적이 쏘아올릴 반도체株…'50만 전자·328만 닉스' 현실될까 - 더구루",
+     "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE9OcTJ4T24xZ0gxOW5tVDJGbkc5MW5JYTB6Z24wSUpBeTZmRmc4Smx6Q0hTUGVLLS1kTzhNMnhrdmdRTkxtTHl5d3dLekoyMi1GcWN3aXA5VERad0NZMWc?oc=5",
+     "source": "더구루",
+     "date": "2026-10-09"
+    },
+    {
+     "title": "ASML 10월 14일 실적발표 : 삼성전자 주가 끌어올릴까? 향후 전망 - 네이버 프리미엄콘텐츠",
+     "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxPd2ozZVZGRWlwQXNOa2FxOGpjaXI2Wjc1TGkzVy11azctakMtS2JVYVpQMko3aVY1RFFSTzBnSHlNWmVYd0c0eEt4Qm0yVjhWZ3k5TzJrR21LWldxZW11dlZEeDd3Wll0SU11WF9qWjNxdmkzNjlkbDFweDYydnU3RDRfSQ?oc=5",
+     "source": "네이버 프리미엄콘텐츠",
+     "date": "2026-10-10"
+    },
+    {
+     "title": "‘악! 내 주식 왜 이래’…107조 벌고도 주가 하락한 삼성전자, 왜? - 문화일보",
+     "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE0xOE5oeEtRQVVHRE5BdkYwZXJxdjZIS19hNmFrQTJXaEhuZWljTTZzLU1YWEJBRnZEMi04OVR2LU03SVBmSTUtbVZram84Wkc2?oc=5",
+     "source": "문화일보",
+     "date": "2026-10-08"
+    },
+    {
+     "title": "영업익 100조 찍고도 주가 하락…증권가는 “삼성전자 더 사라” - 매일경제",
+     "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE9XdnFDUlkzQ1hsQUJYVjV2cXBDZWF3WElmV0FKSU9ROXY5bTA2VVlJYlBaOEV3MTRoTTZCWjVRdFdIZ2JDWFpEWk53WXBZazkxRENnNg?oc=5",
+     "source": "매일경제",
+     "date": "2026-10-09"
+    },
+    {
+     "title": "\"지상 최대 영업이익\" 삼성전자, 주가는 왜 못 오르나 [비즈니스 포커스] - 한경매거진&북",
+     "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE1yTjNJQ3owS1lWX25wMTVlbVREWHpsV3RIMWN6V1FyQ0poaU9ldGlkSDhVR1BnZThjRTBRRV9wdXJoTHNNVHBiZE00SnBfd2l5R0xENTN2UWQybmYtTnJHNnB2cTZ5eFE?oc=5",
+     "source": "한경매거진&북",
+     "date": "2026-10-09"
+    },
+    {
+     "title": "삼성전자 주가, 오늘 왜 하락하나? - Investing.com 한국어",
+     "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE9LT3RURXJKeFZsMUZKRVRVZ1MzYWVtWmgyNDc0djNVcHFERHB0SE96SWRZVldHU1VEUTFKMW5jbEdacVFpVUh6NmdSYk5lUTluSzNvWGswQkpVQ01lQUwwaEZTM0VOMFdEY1JoQjdhLXl4NHFiTXpB?oc=5",
+     "source": "Investing.com 한국어",
+     "date": "2026-10-08"
+    }
+   ]
+  },
+  "NVDA": {
+   "name": "엔비디아",
+   "links": [
+    {
+     "title": "엔비디아, 오픈AI 매출 우려 지속에 주가 약보합 - 마켓인",
+     "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE0xZW1VVEIyb3ZWVnBLTEFFNXhkSGxJd21jRkNtR3hxX3FCWTF6U1ZuNjNmem9JUURLQ1c0Y1BCLUd4NGN2MWlHTUhyOXB0QzNIVWRaaUNTV3JuTVp3VVExTE5zTjNScVVrVWtkSXFnQlNHYjA?oc=5",
+     "source": "마켓인",
+     "date": "2026-10-09"
+    },
+    {
+     "title": "엔비디아 주가 전망: 장중 2% 가까이 상승하며 3일 연속 하락세 마감, 새로운 랠리 시작되나? - TradingKey",
+     "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxOREFGV3VsaldtTVFEaFEtUDU5THdySVdiS0Z0b0dFdDAwQld1bGRZTTJFSEtueWxodWZsRnhqNVFLWUkwZFlkYmN6Vl9hcTRZc2NPRTAwUTFXLXItMVpFdlktbXZaUC05YUtad3dJYVlObk8ycW95dldNMzZqNTl5b1JCOVFzTnBXSVJtREZwU2gtLThJdXJLSkNReDVuQUxYbDlCaDdNQVEzRlMweUR2TnA5R24tYjlVM1E?oc=5",
+     "source": "TradingKey",
+     "date": "2026-10-08"
+    },
+    {
+     "title": "엔비디아(NVDA)는 여전히 저평가다. 계속 보유하는 이유. - 네이버 프리미엄콘텐츠",
+     "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPa3RZZ2lnMXYxZlRGQTROa2VQUDdtU2t2MFExUGZaN2V4VGI5T1llT1FPZjdqVFU1bllmekFiVWNkZzgwR2ZNaFBVN205T1JLT01meEZobjRDTndYOHpDc1ZmVUJhZkltTk9yX3huemtuVG9PUUdPcWdNdlhIMW0yMnhzbjA4ajQ3QVZR?oc=5",
+     "source": "네이버 프리미엄콘텐츠",
+     "date": "2026-10-09"
+    },
+    {
+     "title": "시큐리타이즈, 솔라나서 엔비디아·테슬라 토큰화 주식 출시 - 블루밍비트",
+     "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE9SV2kxVXE4ZEVIUDJQS0FUbkZSZGJLWmt2aG5FbDV2aGN0aE1GNmpUYkExdWQtU2tNVFlPbEQ2WE9yc3ZlQVI1N3lOdkIySEoy?oc=5",
+     "source": "블루밍비트",
+     "date": "2026-10-08"
+    },
+    {
+     "title": "엔비디아(NVDA) 주가, 사상 최대 규모의 자사주 매입 계획에도 불구하고 24% 저평가되었을 가능성 - Simply Wall Street",
+     "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxNa1BRcU9lNkRMS3doVWFja0MzSXVPR3BXSGZTRWF1WHVnUk9JY1loZy1ib3ZzeW9QaXpPSllQcjVUa1lERUtyUXJpelBnS3dJWW9VeUpLeXQzZzNvRjlTd2E2V01haGVWanI1d1UzLUd5cF8wbUI4eGdCZ0QyeFFienAwbUhfa1djcjl6US12N2pCZU5OdEtfY0hn0gGaAUFVX3lxTE1rUFFxT2U2RExLd2hVYWNrQzNJdU9HcFdIZlNFYXVYdWdST0ljWWhnLWJvdnN5b1Bpek9KWVByNVRrWURFS3JRcml6UGdLd0lZb1V5Skt5dDNnM29GOVN3YTZXTWFoZVZqcjV3VTMtR3lwXzBtQjh4Z0JnRDJ4UWJ6cDBtSF9rV2NyOXpRLXY3akJlTk50S19jSGc?oc=5",
+     "source": "Simply Wall Street",
+     "date": "2026-10-09"
+    },
+    {
+     "title": "삼성전자 주가 '엔비디아 대비 저평가' 장기간 지속 전망, 돈 버는 만큼 나갈 곳 많다 - 비즈니스포스트",
+     "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE15MVI0VFM2WU4tNDhPaHV5V2pYSkl1TEpDbkM1LVFQTk9tRlpYN2RzUmliOWMxY29QTU1jaUpEQ0xDbm51U0hISnQyQm1nS3lxT3hSRFJibGNqMjJCUEpDX1Z2SVB0MGFSREVNRVYzd3ZTMzA?oc=5",
+     "source": "비즈니스포스트",
+     "date": "2026-10-08"
+    }
+   ]
+  },
+  "TSLA": {
+   "name": "테슬라",
+   "links": [
+    {
+     "title": "테슬라 주가, 오늘 급등하는 이유는? - Investing.com 한국어",
+     "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE0xUmVUZndlZFJZc2taYndzeGFmLTkwT0Jwc3dtSGt6MFl0TTFpQkl5TXRxVkllWVZ4R2Fqd0tRTno4TVpXRnNJaHhOa2pxVEd0bDFiSHZhWFdPUkRqRUJkN0tzQm9nbzkxd2lWWWppcjgzOVZDR18w?oc=5",
+     "source": "Investing.com 한국어",
+     "date": "2026-10-09"
+    },
+    {
+     "title": "테슬라, 유럽서 FSD 명칭 '주행 보조'로 변경…독일 규제당국 지적 수용 - 마켓인",
+     "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5NTENkQjd3elpoSTZYS01rT1V3a0xaQTBEZlM5amhfM3pZVlFYejFuMjJiUWloTWRZUkdwNGloYWljVlVjSi04OWRHc0ZVZVpwX3ZwQlBVa01rbzlsY0x3aHh3VFNBMnFoRVRQVkpmd0NIMFE?oc=5",
+     "source": "마켓인",
+     "date": "2026-10-09"
+    },
+    {
+     "title": "테슬라 주가 2030년 532달러까지 오르나 - 코인리더스",
+     "url": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE9hVzc5MjM5YnhkSnlOanVwdVc2dU1CWW03S091WmpLd1EydEhXSjhTQjJub3pRdC1TbVlLQTE5UVJpSjJzYlhFYkd3?oc=5",
+     "source": "코인리더스",
+     "date": "2026-10-09"
+    },
+    {
+     "title": "테슬라 주가 전망: 상하이 공장 9월 인도량 전월 대비 10.7% 증가, 주가 7월 말 이후 최고치 경신; 랠리는 계속될 수 있을까? - TradingKey",
+     "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxQZHh2XzZLWTYtQ2Q2Smw5UXNEbndFOGVWMDNoWUk0bnJ0TU1lbDQ0THgwYTJVQ0s0RUNLejM0aWlPQlc2QUgtSmlMX3ZXd04tN0ktSldSWUQ1Zm83Q2dYOWRqMkZoMm9iNThjcURFc1JaRWY4bEt5bU1Xb3l2eHY3Q0dRVWROb3g5eDFtM3M1MWRRLUtKWW5pb3o1YU9xNUJMenNpU19IWjl2amxWaFhoTjg5dTZlRldDU0pscHdGTzhHWkxJV1VVZQ?oc=5",
+     "source": "TradingKey",
+     "date": "2026-10-08"
+    },
+    {
+     "title": "댄 아이브스 “테슬라는 ‘피지컬 AI’ 종목”···로보택시가 주가 500달러 전망 좌우 - Benzinga",
+     "url": "https://news.google.com/rss/articles/CBMimwJBVV95cUxON2sxWXRwazdFdjN1N1lrejRkVHNmSWZEbHEzRFFaR3pKQjQ2Zmx1NHdpTWF1VDJJbDJlQlpaNk44LS0weXM1WjZLQnliZXhRY0I0X3BCV1Q5RjlRN2ZybnhYMnlYMzYzeW8zZmhRUS1jdm9qMjJUZm1QSFNOamVnVVJmeDM2UFBhY1FmN3VuSGZhd1VnYl9RVkJpazlINWVEbzJDczVXMnZBZ2VnMTRJdkhsWGFHbUxTdW5PZFhPb2NZQll6bFcwWDZ5Y0hXeUtIM2NOWEJkMks2UlNBTVZkYmw1ZWtFU0xDcDdRTlhFVkhRNjVPZmw1SlFOREJCdTJ0MXJKdEg1LVl2YmNNLTlYQ2VjQmVSY0dHejFj?oc=5",
+     "source": "Benzinga",
+     "date": "2026-10-10"
+    },
+    {
+     "title": "시큐리타이즈, 솔라나서 엔비디아·테슬라 토큰화 주식 출시 - 블루밍비트",
+     "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE9SV2kxVXE4ZEVIUDJQS0FUbkZSZGJLWmt2aG5FbDV2aGN0aE1GNmpUYkExdWQtU2tNVFlPbEQ2WE9yc3ZlQVI1N3lOdkIySEoy?oc=5",
+     "source": "블루밍비트",
+     "date": "2026-10-08"
+    }
+   ]
+  },
+  "GOOGL": {
+   "name": "알파벳 Class A",
+   "links": [
+    {
+     "title": "구글 주가, 350.50달러 0.81% 상승 마감 - TopStarNews",
+     "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE11N3dxc2FJUzNvaUYwUngxbXFTczhSUVcxeHRjSEF5NEJhdDdHT21lZWlXQTBxNHp2NHQxanVLM3dOaXNhbXd3eTRZdnlWOGNCdmVzajJ3elVDQjhYaGtXVVhHXzk4QVdLX040M3lvSnd3Zw?oc=5",
+     "source": "TopStarNews",
+     "date": "2026-10-08"
+    },
+    {
+     "title": "뉴욕증시 다우지수 '상승'..홈디포·애플·소비주 '활짝', 엔비디아 '뚝' - 초이스경제",
+     "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTFAwNDBfZ3ZXZjRleHVnbUVnMnN2RmEtaU01Y3F5LXlhc3c0eHU0TXdkWTZuaG9DUDg3YzUzamlFZnc1SU02aGREX1VOb3FQd0hXNWNoWWd6SDRid2VWQ2RKdEVwa2lUR3JmRTRUMFN5M3d5NDDSAXNBVV95cUxQMDQwX2d2V2Y0ZXh1Z21FZzJzdkZhLWlNNWNxeS15YXN3NHh1NE13ZFk2bmhvQ1A4N2M1M2ppRWZ3NUlNNmhkRF9VTm9xUHdIVzVjaFlnekg0YndlVkNkSnRFcGtpVEdyZkU0VDBTeTN3eTQw?oc=5",
+     "source": "초이스경제",
+     "date": "2026-10-09"
+    }
+   ]
+  },
+  "MSFT": {
+   "name": "마이크로소프트",
+   "links": [
+    {
+     "title": "JR 시티즌스, 하이브리드 인텔리전스 추진에 마이크로소프트 투자의견 재확인 - Investing.com 한국어",
+     "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE8tNDJVV2VFNlRVdUtGWW9KYWRMRW9SdkVrYzBMaERqTWt3NkROU3JkQjd0bl9CTDBlaG1yX1N4VjRfcTZnNHZWMjZ5Q3dYd0pZV1NsVUZVM083TlN3WW1KOVJtdHRwS2swSU13R2ZXckZFcjNi?oc=5",
+     "source": "Investing.com 한국어",
+     "date": "2026-10-09"
+    },
+    {
+     "title": "Microsoft and Adobe Face a Green Card Sponsorship Freeze: What Investors Should Watch - TIKR.com",
+     "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxOZDQ5TzNQSzF2Wi00NlFUR2MzSzQ3cXM1X3JYRWVOX3dPT2ViWXF3X081Q3F5UVFLYWdQOFBnQU9SNG5WdEppdEtLT0UtcEExWFVOLTJ5Vlh3dUQ3bVNTb081NS1RU0t4cHNsUXFjbTlDaVJNc29OV1dpeG1IbHBHVU1vNzJGcFhfVEc0VVZvU3Q3VmxRY1BqV2FkT2xwQlp2TVdNb0ZvTVR4YUttZUxtQWZmQmhObVFP?oc=5",
+     "source": "TIKR.com",
+     "date": "2026-10-09"
+    },
+    {
+     "title": "[뉴욕증시] 오픈AI 매출에 아마존 3.29% 반등…반도체는 하락 - 자본시장뉴스",
+     "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE9yV3FkMHRJYzhiWmZyWi1kVjduMC02RUk5ejNrNGc2MUdvZzFOUEE4QmwydEs3ZHhrTkkwcE1sUGdUNFItR1NRRTFrMjZFamN4TURHRm9DaVhkUnZ6a3FtOGV2dFRIR3c?oc=5",
+     "source": "자본시장뉴스",
+     "date": "2026-10-09"
+    },
+    {
+     "title": "나스닥 0.64%↑...소프트웨어주, 팔로알토·클라우드스트라이크·마이크로소프트·아마존 강세 - 생생비즈플러스",
+     "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE4yTmlHdk1uczZQMXkyTmgwOTViaG5pMi1NbjEtSzRjU09HeFoxU0lxaUFqNE5oNjZXS3EwbmZRN2dxWmpfS3hzanlRc3Rvc1FMUGNDRUlneFJpeWphR0J0WV9ydTAtbnpWRzVCNA?oc=5",
+     "source": "생생비즈플러스",
+     "date": "2026-10-10"
+    },
+    {
+     "title": "[美특징주]'사상 최고치 눈 앞' 마이크로소프트, 추가랠리 가능…변동성 확대는 '경계&... - 이데일리",
+     "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxObUhlbi1qMmNja3F3N0hiMU0tZkpRSmNhRTFhanFPWVV2LTBsSFZEZ0tFOHBLeTc4UDUzUGZBOTVXNnRDczV2aXVvZ3EtQm5EQXIwaGQ0cnhmS1NLQThIMkNtRkxfcnFKbmE1bEdrREpFZ191TW1SRlM2cjRmcVZLdw?oc=5",
+     "source": "이데일리",
+     "date": "2026-10-08"
+    },
+    {
+     "title": "Yorkville Ives, 마이크로소프트 주식에 ’시장수익률 상회’ 의견 제시 - Investing.com 한국어",
+     "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE5vWWVRV25HMU85VGZNbmdTNElOV21vWVh0ZVZMNkU4YjdhVXh3S1VaN1o4NWNuNXcwMEQ1RHd1QU80VHlWWWRuY3Y4U2NKT05XSFlTM3pWTTVaanBSNzBBSmRKeXFWR0prY0xWaEoycF92QWlz?oc=5",
+     "source": "Investing.com 한국어",
+     "date": "2026-10-07"
+    }
+   ]
+  },
+  "APPL": {
+   "name": "애플",
+   "links": [
+    {
+     "title": "애플 주가는 오늘 왜 하락하고 있을까? - Investing.com 한국어",
+     "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTFBBblJ4U0xJZXI3all6elcwVXlYOE9SaE1hRFBMYXZlcVpPMnNTT2NzbWtvZHFydGFYcmhGQlVfbkViN2RCekRrNWt3UzNNVWFBdGs5VFJiVm8wckdIVXpNMkw2VFZhbUxqWm5uWXdVQ0RnZnlNMlpn?oc=5",
+     "source": "Investing.com 한국어",
+     "date": "2026-10-09"
+    },
+    {
+     "title": "\"애플, 아이폰18 프로 주문 감축\"…주가 하락 - 파이낸셜뉴스",
+     "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE4xcHB4dUU4VzRqSGphSGNLX3YyaTJUUkNEREVFTW1iUGhHVkxWRVV6SUdZeklCQ0twSV8xazNHSDRseHhkN1J0RWRvOHloU1Y5U0FSaklkMjE0UQ?oc=5",
+     "source": "파이낸셜뉴스",
+     "date": "2026-10-09"
+    },
+    {
+     "title": "애플 주가 급락…아이폰18 부품 주문 축소 보도가 투자심리 압박 - 코인리더스",
+     "url": "https://news.google.com/rss/articles/CBMiSkFVX3lxTFB0RVBsZ1BxWERzMGh5S1ZZa3BKajl0Y21sdFl5UXprSEd0enZEX1JOd3hwMzU5OWY3bHA2RHRIaEY3c0JDaXpDZTJ3?oc=5",
+     "source": "코인리더스",
+     "date": "2026-10-09"
+    },
+    {
+     "title": "뉴욕증시 흔든 5대 변수…오픈AI 매출 논란부터 애플 감산까지 [박신영의 개장전 요것만] - 한국경제",
+     "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE1GU3RmT0ZNZ3VSTEpZMVJoUF9YVGFUNkZxYm5HTGNEbkxab2JnbW84NXNSTEJXaXZLeTJWc0JiVklxbEwyWk4xYS1IUm03SlhERklIMXdseVZTUQ?oc=5",
+     "source": "한국경제",
+     "date": "2026-10-09"
+    },
+    {
+     "title": "Apple Reportedly Cuts iPhone 18 Pro Orders by 15%: Price Problem or Timing Problem? - TIKR.com",
+     "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxObTFTajE1aE9qejU5RlVSblZTdjlaN05iVUREMUwyenhWZnRnZHE2aTNOOFc2UWJwMjJrLVFVYWVVQTNoVjFNbUkxZFg4UXBrZjlzb0gwdkktaWRvTFlNY0k5cVQ4V0k5cVZKdkpsS2licUFBTTVWb21kcUYyeHZhMDJ1NzRONVJObklWUVA0TENyaDNWdkk2ZHFPTHNUOFEwMkJGbUlheDlEcVQ1c3c?oc=5",
+     "source": "TIKR.com",
+     "date": "2026-10-09"
+    },
+    {
+     "title": "[TODAY애플]아이폰18 프로 수요 부진에 부품 주문 축소…주가↓ - 이데일리",
+     "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxQa0RMeS1OMFJTcWhCS1VWWmViUUY2SmFFemNIa25GRF85dElTeWlxTG12TGowcUVXTWwycGN3Zkl0T3BlNkJYYW9kRFVvY19QTUd0ZVpVWkU2VHR4X0FYTkJLWEVhSGlhR1hpaW5RXy10aU1qWWdlMFBzZTFHMWVsQw?oc=5",
+     "source": "이데일리",
+     "date": "2026-10-09"
+    }
+   ]
+  },
+  "AMZN": {
+   "name": "아마존닷컴",
+   "links": [
+    {
+     "title": "현금흐름 기준으로 볼 때 아마존(AMZN) 주가는 여전히 저평가된 것으로 보인다 - Simply Wall Street",
+     "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxOUTB1bWU0MkEzcVlWbGUwMWFqaTRTTjMzUWNRbkdSdTNjTkV6VjVxZTFwUy1YZlNDMm1tVkI0Um5mUWRpSXdhUTIzS1VfaHpWaUVacGNzLTBIb092MzNMSW1pX09mOFlfUm1vZE1WZWRQalVuSGQzTUQ2NElGZWtBaUNhZHRqWDN1dElVdnRBUF9hVnPSAZMBQVVfeXFMTlEwdW1lNDJBM3FZVmxlMDFhamk0U04zM1FjUW5HUnUzY05FelY1cWUxcFMtWGZTQzJtbVZCNFJuZlFkaUl3YVEyM0tVX2h6VmlFWnBjcy0wSG9PdjMzTEltaV9PZjhZX1Jtb2RNVmVkUGpVbkhkM01ENjRJRmVrQWlDYWR0algzdXRJVXZ0QVBfYVZz?oc=5",
+     "source": "Simply Wall Street",
+     "date": "2026-10-08"
+    },
+    {
+     "title": "[美증시 특징주] 아마존, 오랜만에 급등…분석기관 호평에 실적 기대감 만발 - 미디어펜",
+     "url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE5ibmpCZWJqTHVoeFNadTRfVEFBLVphcXBTbnlfdklSanhJX0dSd1pqNElLampkczdBOUtjSnRUM3FacTB0Nk44Ri1qSUJMMVVmYWRhN1hGeE3SAVhBVV95cUxOYm5qQmViakx1aHhTWnU0X1RBQS1aYXFwU255X3ZJUmp4SV9HUndaajRJS2pqZHM3QTlLY0p0VDNxWnEwdDZOOEYtaklCTDFVZmFkYTdYRnhN?oc=5",
+     "source": "미디어펜",
+     "date": "2026-10-09"
+    },
+    {
+     "title": "Yorkville Ives, 아마존 주식 커버리지 개시... \"AI 성장세 주목\" - Investing.com 한국어",
+     "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTFAzam03eVIxMEI4Y3U4R2diZVQyN0h3cEtJWXBJa1pMMF9DaTZnQXJoQWV0b3hVVWJRM3V5WWF2R0t5REtucXZPeWFvbGJiUEM4VDRDMkJoSmtFT1pxWDhzRmswcWxvNGJ3QldOSGRXQ0NRM3dR?oc=5",
+     "source": "Investing.com 한국어",
+     "date": "2026-10-07"
+    },
+    {
+     "title": "Amazon.com(AMZN) 뉴욕 창고 파업 직면, 저평가 매력은 여전한가? - Simply Wall Street",
+     "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxPMXJ3MFBaalVOU1hzZkwtQjIyb01vNFpFMVR0TjhmWUFZb1dncWFPZHVIcGduLUUzSUZRZmZJdW92N2ZjZUx6VnJUbTZZRXhXY2VPNWNQc1BISWtSSUR5Y0RiaTdMckNjZmprZXZfeG9mTGRKdlVsMGdFRnU4emQ3c2VsQjlqRUtqVDliWW9Ebm1LNEnSAZMBQVVfeXFMTzFydzBQWmpVTlNYc2ZMLUIyMm9NbzRaRTFUdE44ZllBWW9XZ3FhT2R1SHBnbi1FM0lGUWZmSXVvdjdmY2VMelZyVG02WUV4V2NlTzVjUHNQSElrUklEeWNEYmk3THJDY2Zqa2V2X3hvZkxkSnZVbDBnRUZ1OHpkN3NlbEI5akVLalQ5YllvRG5tSzRJ?oc=5",
+     "source": "Simply Wall Street",
+     "date": "2026-10-08"
+    },
+    {
+     "title": "Amazon’s Thane Data Center Fight: A $8.3 Billion Plan Inside a $173 Billion Capex Budget - TIKR.com",
+     "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNMTNjZmROZUh0NVNkbXBIT1d5SUJEdmVlMENfbFMycjNSc09VODRrLUJMdEo5ZHd1MTkyX285YUFwZy1yaGdZOXhpQkZHbTN5ajNyQTR3c3F2dDluVGoyWjVqbFBGUENZZnZ1ZW9TRy15REs1dER5NmIzX0ljNzhtTXBMT0JrT2V3cXBmcTQ4YUpOWkgwandLelRXdEJDbmtxMXBGRnp2NGRXUlN5SGdnNEtqTlA?oc=5",
+     "source": "TIKR.com",
+     "date": "2026-10-10"
+    },
+    {
+     "title": "Telsey, Prime 이벤트 후 Amazon 주식 ’시장수익률 상회’ 유지 - Investing.com 한국어",
+     "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE5QTjA2TU92MXVnNXh6ck55anljQjRYMHBTalI2eWdVN3lWUEZkNy1TeHhQU1FFRWR4bjVCaDk1cDR0cUpkUGk0bU5VdHJ2cDR6aFE1WG9LSnZNNEFaQ1ZFMGFfU04xbjdlZGxSVDdfX0g3Y294?oc=5",
+     "source": "Investing.com 한국어",
+     "date": "2026-10-09"
+    }
+   ]
+  },
+  "BA": {
+   "name": "보잉",
+   "links": [
+    {
+     "title": "[美특징주]보잉, '매력적 진입 시점' 바클레이즈 의견에 상승 - 이데일리",
+     "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxOLUlVQWJNNFNtbFdEbldPWmYwd1dVNzhNREs5TFBUUHFpRTlzOUVHdVJTR04zMXFJZTljX2NERVFVeXBsejN6aERKRmoyb0JxUzdGX0tQRnM3MGQwd2ZwX1hOSjJSOGJuckpld1FkT1NqYWRUWUFnN0t6YjZmb0lRTg?oc=5",
+     "source": "이데일리",
+     "date": "2026-10-09"
+    },
+    {
+     "title": "SOL/USD (솔라나 → 미국 달러) 기술 및 기본 분석과 예측 - LiteFinance",
+     "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE9iRWNBV2t0NFk0U3VtT1psanA1WXJiSGdxaVVseFBJTXo1bW5rTXU3cFQxR3Faa1NSbVFWQzY3U2xxUnhfY2JuUnViTk5lZ2tsU241Y1hpQXV3S3ZjdmFmTjlKS2stVUR0T19wSmJn?oc=5",
+     "source": "LiteFinance",
+     "date": "2026-10-09"
+    },
+    {
+     "title": "유안타증권 \"한국항공우주산업 목표주가 하향, 글로벌 항공우주 기업들 가치 하락 반영\" - 비즈니스포스트",
+     "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9PQ05sOHlCMjg1LS1FTXVRSXJ3Y2s2bjFRRjEwT244VzFQbWExUTBxdlpoZkNFY2RaWGU0ZjByeDhXTkswMGJWSUJVTWxiWl8tMWxsSEdQUHRQbjA1VTBUcmlac0JWRlBDNzdJWHkxVDhNNFk?oc=5",
+     "source": "비즈니스포스트",
+     "date": "2026-10-08"
+    },
+    {
+     "title": "델타항공, 실적 부진에 주가 하락 - 데일리바이트(DAILY BYTE)",
+     "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxNMkZuZmtKdm1VT2JicXJFTndKV1Vtbkh6azBqZmVJc1BsU0ZCV2h3RklMVDFyTG9kTEpidXUtUF8zR2J5SnZKY0lpU0xUU2VESlNETzRPeHZucW9OQjNXY2xXTk12ZnhoSzR0NkJsdkFxdEhrSUFYNjRGUnUtRnJMbTVjVVVueUNKZ3plS0JxWFRjZw?oc=5",
+     "source": "데일리바이트(DAILY BYTE)",
+     "date": "2026-10-09"
+    },
+    {
+     "title": "댄 슬롯 플레이 중 열 수 있는 정보 창 - Calgary Roughnecks",
+     "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxOMUZMX3hZVXB5M25jakFVb1dPTE9CNGpCQkpHWEI2YUN4dHUteUtTY2R4MEl4aE83akV5Z3UxcmZCZmh6NEcxNTdBOVV5c2x2NmstR1BTaXVRVXF6YXVBSlFmd0l1Z0lubFFib0tZSHJQQ1BkM3ZtX1htRlNMOTk4dEdYQW1FbkhtZnJWaWR1ay1oWER3ZEtDbHhFQnhUd21yQk5wOURn?oc=5",
+     "source": "Calgary Roughnecks",
+     "date": "2026-10-09"
+    }
+   ]
+  },
+  "META": {
+   "name": "메타",
+   "links": [
+    {
+     "title": "Meta Bans ByteDance Advertisements Across Platforms in Major Escalation - TIKR.com",
+     "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPUFgzN3AyU25BNW1sRUZGUUI5a1RXQUpZamVaQW9Xd2hWYTUxVnk2MVdpTTBpc1Jqd2dkbWFwUVpQNDA3RGVfS3YwdzJzb2tsUkxJMXQyNjBRODNsQUI0U2owUk1MWmFvdjBKNGdyTno3VVVVSC1aUFcyejFHUWMzWHlEYU8?oc=5",
+     "source": "TIKR.com",
+     "date": "2026-10-09"
+    },
+    {
+     "title": "여러 조건을 동시에 충족해야 하나요? 파워볼엔트리 주식 - Calgary Roughnecks",
+     "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxNMWhwYmJBRFZoVlBjRVhhcE9nZmJES2J3QzB3cEZxRG0tQWVzd3ZyTkRVb0tXQUhrZFhLRGV4cGluUmZvNnByUm1DR2R6OWZsT3dZekxFSHB1akxVQlZ0VUVfYVlwUXFjUnhjWjFRZlRtbUsxbHVITG50d1k1Qk5LMTlzT0Q5S3c3SGNiM1lqSGVzbWFWYkJwU3BjQk9Pb2c?oc=5",
+     "source": "Calgary Roughnecks",
+     "date": "2026-10-09"
+    },
+    {
+     "title": "트럼프, 메타에 최대 2,500만 달러 투자 및 스페이스X 투자 공개 - Investing.com 한국어",
+     "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBVel9DT1ZnUnlQQkowV3dSdmFqdTZiQ3ZobWxDM25CMUw1Yk5VWVJFeXVyb0FPU0tMMC1KLXU0dTFILXA1TTJ1MEp4X0tJeE1tYURKOWtHRTBiSTNTRElYMGVWZ2xjMXJUWFR6MjJTWlE?oc=5",
+     "source": "Investing.com 한국어",
+     "date": "2026-10-08"
+    },
+    {
+     "title": "고금리 누가 이길까…메타 '골든크로스'에 마이크론 목표가 3000달러 [박신영의 개장전 요것만] - 한국경제",
+     "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE9CWVJmZ0VVVFNBR0dSNUdDN1h0VWlEc1RPODdnLU1BbVNIUmZ1REE2MW12TzF6X09aSGFSVm8xdUZKcG83b3JFV3lPZ295YWJ1QzVSZTZZZ3RFdw?oc=5",
+     "source": "한국경제",
+     "date": "2026-10-07"
+    },
+    {
+     "title": "메타 COO 하비에르 올리반, 115만 달러 규모 주식 매각 - Investing.com 한국어",
+     "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTFBsMEdjaHZNbFV0T08xc3hXZkFaWTkxTWxaRWd2SFNMbUdDcm5odjZWWnNtcHRpV081TEt4U1BqcEZOZnFmckRBOVh0eUdjT2Y5MldpN0M0S2FRVXNyUEJ5NVZ5SEdnNXB3Sl95LXBPZWlOX21fRjdGMF9SUQ?oc=5",
+     "source": "Investing.com 한국어",
+     "date": "2026-10-08"
+    },
+    {
+     "title": "특수 기능이 반복되는 조건은? 드라마 토토사이트 세부 규칙 - Calgary Roughnecks",
+     "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxPTzQ2R1NSczIxZTJLZFY4NWZWOU54cXMwR2w1dTB0TmZwbGdXOFZKeUtLVHNtYU5QUGxsNk1lMk1PUDA0Ym1JR0d5NzlzNzhKdzFBRG5ucndHQjl6VjVWNXF4RHdVMUdxV2U3T1phNWxXX0JpcjlidHBQMTcyOVRfRFh6UlM5ckhaT1pvQnNickRaMWtuYmFVcE12V3A?oc=5",
+     "source": "Calgary Roughnecks",
+     "date": "2026-10-08"
+    }
+   ]
+  },
+  "ORCL": {
+   "name": "오라클",
+   "links": [
+    {
+     "title": "오라클 주가 전망: AI 데이터센터 지연으로 부채 부담 가중, ORCL이 직면한 리스크는 무엇인가? - TradingKey",
+     "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxQZk81NURsVU8zT2R3N2ZXczVScmFqRFJEUmhSNlRWVEhWNEtJZmwxdWx1M0ZLS29QY0s5UW5TNVFoLU5GenhGYlNOaW0tVmFvN1JiaU1XMDlBRHdaT3c2b0JjWlNXLUJyRkdvNVkzZTJxODd2ZV9meGwySTdmd0dkWFF6NTZzWEo0M1lQaWh6Uk15S0RHemxXZkNrWHZfd3AtNFJDa1g3WlJNV1k2aEx3NllnVUZqNUNrSjFPMlpMZDBqMmp5VjYyXzJseG9hM0xpLUJtb3Jn?oc=5",
+     "source": "TradingKey",
+     "date": "2026-10-09"
+    },
+    {
+     "title": "부의 초읽기 : 나의 관점 - 네이버 프리미엄콘텐츠",
+     "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE45akxVX1ZjTk55ejBNWTNrdWtaNUZKM2FaaE0tWF9DZ1BZN1ZTcjZrdlhqR2prWDhlZkhqNTJhcnNweGxqUjdtRDgxbW9YTmt3dFJ2ckJHQ3dKNTJ0TXdNYTdyWQ?oc=5",
+     "source": "네이버 프리미엄콘텐츠",
+     "date": "2026-10-09"
+    },
+    {
+     "title": "[美증시 특징주] 오라클 급락에서 급등 반전…오픈AI 매출 논란 '해소' - 미디어펜",
+     "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE52RnF1NTRmN1J5MXJIVTVNek9vSURjSS03a1UxTVJWekhmaEppOUxRRlhjek5yN0oyTUpjZDNCdlBPQ2xZaXVHVWFkVmFNbWc2N0hRcdIBWEFVX3lxTE1NdXk2bHlyYlhTb1M1ZkNIWnRwVXJDVzhQTHpleXBoazdLTjFYLUMxVFp6RzVnVVRYcktKQWRZWUZoQ0ZuYlFFQnpldERTajd6SkZlTktsd20?oc=5",
+     "source": "미디어펜",
+     "date": "2026-10-09"
+    },
+    {
+     "title": "오라클, AI 칩 사려다 ‘빚더미 덫’…오픈AI 쇼크 겹쳐 주가 5.4% 급락 - 글로벌이코노믹",
+     "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQbjlOb3piQ1RNWnpBdjZvcWd5d1g5RjZfVTJvWG9uVTg4RUx5aHgyYUR4RFJxQ1RUWEFlaktxRmljQ0JQcWhPY3FVbUhBRG1DYTQtdnBvTnVzbGlTaGlyNGdYT1MxLXN2R3M5ZkpMa01FT3kybWlMTER1X244RzJyM2NDdWJrY2RN?oc=5",
+     "source": "글로벌이코노믹",
+     "date": "2026-10-08"
+    },
+    {
+     "title": "오라클 주가 5%대 급락…오픈AI 매출 우려에 AI 인프라 투자 부담 부각 - 제민일보",
+     "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFBzSnhvSlJ3b3B5RmNTaVNDcVlVLWlGaENpWlc5elJkUWlWdWNkZVd1bHJCaGV6amhmOUZiR1J5RjZjRkk2Z25NZjlqVlVDQ2cwMXlEa3NEQVA0WkZITFowMTNJTG1sUVk?oc=5",
+     "source": "제민일보",
+     "date": "2026-10-09"
+    },
+    {
+     "title": "오라클, AI 신제품 발표에 주가 5% 급등 - 데일리바이트(DAILY BYTE)",
+     "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxQNDcxbGZWMFlRMkVhMGJ6TUVCX2dCNXhsSG04dTcyT1NQSUlsMnRiVEZneml3SWN4UUdTYjMwT0xCRF95V0JzR1N3YmpJaWY4aUMzQTZxNlRrU3BPN3FNOXFTTjBRMnZtaUFzTkNqRy05TlhnbVl1MmFQM3AtUkxRMEhyRUlpcVZjQk16QWwtTGhjUEE?oc=5",
+     "source": "데일리바이트(DAILY BYTE)",
+     "date": "2026-10-09"
+    }
+   ]
+  },
+  "KRW-BTC": {
+   "name": "비트코인",
+   "links": [
+    {
+     "title": "'비트코인 알못'도 이 개념 잡히면 대화가 된다···입문 전 알아야 할 필수 단어들[뉴스뷰] - 경향신문",
+     "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5RbWZqU0tpRW41Qm1QTzNwUWU5dEJJVEdrdGlEU0tKS0NQcE1Fblo3emRfUnBUc013bjBnWGFmbF9xTGhGRlNIOVBLaVdwakcwYm5lUG8zcTlTZw?oc=5",
+     "source": "경향신문",
+     "date": "2026-10-10"
+    },
+    {
+     "title": "美 비트코인 현물 ETF, 2113만달러 순유입 - 블루밍비트",
+     "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE5SR2k2TjJhTzJaTHBhWTV0REg5NWFXbnVmak4ya3RpZDFuX0VTNC1uZzlNZ3BkVWc4WHM1RTdYUnJIOTlnWDBkbzV1MHNMaFJw?oc=5",
+     "source": "블루밍비트",
+     "date": "2026-10-10"
+    },
+    {
+     "title": "비트코인의 변동성 하락은 월가 모델들이 간과할 수 있는 리스크를 내포하고 있다 - CoinDesk",
+     "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxPaTh6eHcwRERlbzVnOGQ5NXl0akxhZ0R1anVkZ196NjFZVHFxNk5Va0dHc3BLeXRfRkxPdTBETGdZNHFMS3JUOUJDRGM3NG9OOWlaVEMtQmdwRnFyeDFKZmJET01Qb2dUZkRVV3RVT0w5REVwdGtCYVhuYVhET2lWNjY0WGhzQkxvaVNpSlNSRGZ5SDRaUDVTQnBaM1lST1FqYnZ6WGJMYU9fa1FYN3puRGs0VGZjNUhfRmtibG5kdlZ4N3YySVhjdENROHV3ckVx?oc=5",
+     "source": "CoinDesk",
+     "date": "2026-10-10"
+    },
+    {
+     "title": "비트코인 레버리지 4% 급증…’10월 대청산’ 악몽 재현될까 By Bloomingbit - Investing.com 한국어",
+     "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9IR1dRbERzb1huUVRPY2NEUlNKOXdnczhKc2NzeUhsdmxnSm84eTdRM0RWamMwamtPZTllMnRob3ZQLXBRSFZIa1FyN2tDTVNadlF3MFoyMlVrblhRY240SWFINV9kc2JORWlrdUp4amZ6OTA?oc=5",
+     "source": "Investing.com 한국어",
+     "date": "2026-10-09"
+    },
+    {
+     "title": "[주간코인뉴스] 비트코인 4주 횡보 아래로 이탈…한때 8만581달러 - 자본시장뉴스",
+     "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFBORGpNTWFJRm1LSE8xRTUyZEx1RGdxQnFsUnBKcldWbWJfeTR5VTZaMlQzbjlJQ193VUI1ZExxZndlTWM2LXYwU3dEM1F3VGxKc3ZKNGRpcUdWb015OFFuYXNadG1BbGc?oc=5",
+     "source": "자본시장뉴스",
+     "date": "2026-10-10"
+    },
+    {
+     "title": "미국 비트코인 현물 ETF, 하루새 2110만달러 순유입 - 디지털애셋",
+     "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE5RY0hoRUVfU1FZdmpYMGlmYkhwbWFuQTVKSmNlbVA1LVR5MERNOXhQQWNPTWxhUGZrRzVHUkE5Y0sxS0dBVWt4Ynk2cl9KNzBGbDdzb1pjQzlMNGNCd21ISW8ySXVjSGxpSk5UQkptZF9SZw?oc=5",
+     "source": "디지털애셋",
+     "date": "2026-10-10"
+    }
+   ]
+  }
+ },
+ "market": {
+  "links": [
+   {
+    "title": "'똘똘한 한 채' 대신 '똘똘한 처분'…서울 매물 증가세 확산 - 연합인포맥스",
+    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBXdzlRRW5LdzZKdUI4TTRDYWE0b01zSXNKMlExMWNQX05faVVPUVFmWHJUSThRS3c5emthbHd4RGhlUzFaYk1HY1pINkFsU2VJRVNJVzJ6REptLXU2WFpNMHpNNmV1YXdHZThjTnhXQnQ?oc=5",
+    "source": "연합인포맥스",
+    "date": "2026-10-09"
+   },
+   {
+    "title": "대구 아파트 매매 거래량 두 달 연속 감소 - KBS 뉴스",
+    "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE43ZWtnak5XWHVHdjRhWGZveHNJNXBGQXFjQ3pZZGItRzFpd0R4UkZtM2pnWU52R3I0cTY2N09ENEM4dUpCeXg4Q29xb05IQVFGZzc3cmRPTmZDTWlIbGhac0EySUozUQ?oc=5",
+    "source": "KBS 뉴스",
+    "date": "2026-10-09"
+   },
+   {
+    "title": "서울 매매가 87주째 뜀박질·임대차 ‘월세 과반’ 전환…정부 공급 속도전 속 경매 대어 낙찰 [오늘 아침 한국시티 핫이슈] - 시티타임스 CityTimes",
+    "url": "https://news.google.com/rss/articles/CBMickFVX3lxTFBqNER1RFBwWFluMEJOUUpYTm9ZYlJHX2V3RUl4VUgwVWN0S3BuOENES1dweThqbkdNcWFxdnpleU4xN1VxanBxMkEtZVFuV1ZHWnp6TmVFMTBPSG1QOHFSY0xtZjYwbmNTTEFQREZUaFU3d9IBckFVX3lxTFBqNER1RFBwWFluMEJOUUpYTm9ZYlJHX2V3RUl4VUgwVWN0S3BuOENES1dweThqbkdNcWFxdnpleU4xN1VxanBxMkEtZVFuV1ZHWnp6TmVFMTBPSG1QOHFSY0xtZjYwbmNTTEFQREZUaFU3dw?oc=5",
+    "source": "시티타임스 CityTimes",
+    "date": "2026-10-10"
+   },
+   {
+    "title": "대구 아파트값 보합·경북 하락…수도권 상승세 속 \"대구경북 부동산시장 회복 더뎌\" - 웹플러스뉴스",
+    "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE9OeXNyY1FuVU1OOEtYbUhyd2FUN3ZGZFo4SnB5U0tXSnJZWTVWR2R5VzhDcnV0cF9KOGctaGZ5el9JaTJxeGU1WlJwQVpvUHUzdFRyOXBobXN0ZlZpTDJoak4yM2FGbEloU1NV?oc=5",
+    "source": "웹플러스뉴스",
+    "date": "2026-10-08"
+   },
+   {
+    "title": "\"매물 7.7만건 쌓였는데 살 사람은 없다\"…'멈춰선' 서울 부동산 시장 - 머니투데이 - 머니투데이",
+    "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE8tbm1nNVlzMEZ3OXV0ZEpDbzQ4dGdSdEFzMjhrTldkam00bkFqTXhxc3QwRklnaEcySnppc00wNmdzRFVMMVFLM0R0QkQyV25GTTl1Ty1vTG9fMm5nTW5UR05TenJrcGU1Q0HSAW9BVV95cUxNY1Z0dWJrdGtidERBaEwyTGtnZVdWWDE5ZkhTV0o3ZllDX3liT0Z0MmI2Skh3ZVY4aF9Ld2FGcmhZcTJkci1pQmdlOU9ITUo1Ul9hbWxtQjVOVVpRa2IwZ004WThnN0xTQkVpdnJwdVk?oc=5",
+    "source": "머니투데이",
+    "date": "2026-10-07"
+   },
+   {
+    "title": "\"미국 국채금리 사상 최고치\"…미국 국채금리 급등이 바꿀 경제 흐름 - 뉴시스",
+    "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE1BcUUzbngzbFpHMUsyTkNhaW9wMndwaU1malI1YnZKWnVsMmtTOWVZai1rY0ZTNktmcTZaSVE3RkNZSzVGRTdhSW1LODhaX18xYkIzYWVFWHdFVll1YnFJMtIBeEFVX3lxTFBVX3NtTkxBTmo2RXNWRzVDdG5JMlVoajY1Y0g4UFR4ek41NVg4UEUtT3puVE1GQWVHNTlvSXNZLW81RzIwOEpqMmhveXJLOGYwUm80T0k1aHRERk5MVjQ2aWlGTk15VEVoNFhHNWx2RWhCUml2UkVhcA?oc=5",
+    "source": "뉴시스",
+    "date": "2026-10-10"
+   },
+   {
+    "title": "서울 집값, ‘강남 하락=안정’ 아니었다…외곽·전월세로 번진 상승세 - https://www.seoulilbo.co.kr/",
+    "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE5teElxZ2g5ajlKLTYyRE43SWpvenExXzJyWEd5Q09vMW9GTTIyc3E1WUJSenZZNDJFM0ZxeFU5VUQtcHRiTWx2U1FqMUU1ZDVaME5tSUNKcXgzQUxvbl9kbUhwSXJ0cGVySjB2UE1R?oc=5",
+    "source": "https://www.seoulilbo.co.kr/",
+    "date": "2026-10-09"
+   },
+   {
+    "title": "서울 분양가 상승, 집값 내려가기 어렵다[손바닥부동산] - 이데일리",
+    "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxNcEgxSlNkQllRRmlCcUMtUzdNTW4xLXZWX0o5aWZJSkVnc0dvdEhDRy1uSk9iamtwaDJrR1dubFdjemViVU5MbkdNQ2tjRzRmc25YUExEdFhyV2FCLWZoR09UN1NSblROZGllUkJJUEU3dWJlXzd4UUVrZzlZeG01MQ?oc=5",
+    "source": "이데일리",
+    "date": "2026-10-09"
+   }
+  ]
+ },
+ "private": {
+  "salt": "fzx9fs0okrp88huGWazacg==",
+  "iv": "/88m3MDF0cFG3OHi",
+  "iter": 200000,
+  "ct": "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"
+ }
+}
