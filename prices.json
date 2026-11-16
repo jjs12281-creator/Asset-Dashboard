@@ -1,81 +1,81 @@
 {
- "updated": "2026-11-13",
- "fx": 1337.78,
+ "updated": "2026-11-16",
+ "fx": 1334.38,
  "items": {
   "000660.KS": {
    "name": "SK하이닉스",
-   "price": 1254000.0,
-   "prev": 1277000.0,
+   "price": 1151000.0,
+   "prev": 1216000.0,
    "cur": "KRW"
   },
   "005930.KS": {
    "name": "삼성전자",
-   "price": 208000.0,
+   "price": 199200.0,
    "prev": 206000.0,
    "cur": "KRW"
   },
   "NVDA": {
    "name": "엔비디아",
-   "price": 160.18,
+   "price": 162.85,
    "prev": 166.19,
    "cur": "USD"
   },
   "TSLA": {
    "name": "테슬라",
-   "price": 388.39,
+   "price": 390.22,
    "prev": 397.45,
    "cur": "USD"
   },
   "GOOGL": {
    "name": "알파벳 Class A",
-   "price": 295.08,
+   "price": 295.77,
    "prev": 298.7,
    "cur": "USD"
   },
   "MSFT": {
    "name": "마이크로소프트",
-   "price": 521.76,
+   "price": 523.88,
    "prev": 523.0,
    "cur": "USD"
   },
   "AMZN": {
    "name": "아마존닷컴",
-   "price": 265.54,
+   "price": 266.66,
    "prev": 267.44,
    "cur": "USD"
   },
   "BA": {
    "name": "보잉",
-   "price": 170.83,
+   "price": 171.5,
    "prev": 171.55,
    "cur": "USD"
   },
   "META": {
    "name": "메타",
-   "price": 627.54,
+   "price": 641.69,
    "prev": 623.61,
    "cur": "USD"
   },
   "ORCL": {
    "name": "오라클",
-   "price": 123.425,
+   "price": 125.35,
    "prev": 127.11,
    "cur": "USD"
   },
   "KRW-BTC": {
    "name": "비트코인",
-   "price": 93147000.0,
-   "prev": 96590000.0,
+   "price": 88999000.0,
+   "prev": 89949000.0,
    "cur": "KRW"
   }
  },
  "re": {
   "home": {
-   "price": 351000000,
+   "price": 335333333,
    "last": 381000000,
    "date": "2026-10-23",
    "n": 3,
-   "checked": "2026-11-09"
+   "checked": "2026-11-16"
   }
  }
 }
